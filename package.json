@@ -1,0 +1,19 @@
+{
+  "name": "vue-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "doc": "jsdoc -c jsdoc.json",
+    "rundoc": "jsdoc -c jsdoc.json && cd docs & http-server -d docs -p 1000 -c-1 -o"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "docdash": "^1.0.2",
+    "jsdoc": "^3.5.5"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
