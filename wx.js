@@ -91,9 +91,9 @@ export const checkUpdate = () => {
   })
 }
 /**
- * @description 检查用户授权状态，UserInfo除外，将拿到的权限放在authSetting 中
+ * @description 检查用户授权状态，未授权弹出授权，(userInfo除外)，将拿到的权限放在authSetting 中
  * @function
- * @param {string} argSet 要检查的权限
+ * @param {string} argSet 要检查的权限,userInfo时：已授权会返回userInfo数据
  * @returns {promise}
  */
 export const checkSetting = argSet => {
@@ -116,7 +116,18 @@ export const checkSetting = argSet => {
             }
           })
         } else {
-          return resolve(res)
+          if (argSet === 'userInfo') {
+            wx.getUserInfo({
+              success: res => {
+                return resolve(res)
+              },
+              fail: err => {
+                return reject(err)
+              }
+            })
+          } else {
+            return resolve(res)
+          }
         }
       },
       fail(err) {
@@ -303,41 +314,6 @@ export const getCurrentPageUrl = argWithParams => {
 
 /**
  * @function
- * @description 判断微信授权登录状态，设置code
- * @returns {promise}
- */
-export const needLogin = () => {
-  return new Promise(function(resolve, reject) {
-    let login = () => {
-      return wx.login({
-        timeout: 5000,
-        success: function(rs) {
-          console.info('login code:', rs.code)
-          wx.setStorageSync('code', rs.code)
-          return resolve(rs)
-        },
-        fail: function(err) {
-          toast('请检查网络')
-          return resolve(err)
-        }
-      })
-    }
-    wx.checkSession({
-      timeout: 5000,
-      success: rs => {
-        // session_key 未过期，并且在本生命周期一直有效
-        return reject(rs)
-      },
-      fail: err => {
-        console.log(err)
-        return login()
-      }
-    })
-  })
-}
-
-/**
- * @function
  * @description 获取微信登录code
  * @returns {promise}
  */
@@ -356,4 +332,34 @@ export const login = () => {
       }
     })
   })
+}
+/**
+ * @function
+ * @description 获取用户信息
+ * @param {object} argData 用户数据（点按钮授权时传入）
+ * @returns {promise}
+ */
+export async function getUserInfo(argData) {
+  L.loading(1)
+  const _login = await login().catch(err => {
+    console.log(err)
+    L.loading()
+  })
+  const setUserInfo = argData => {
+    L.loading()
+    return argData
+  }
+  if (argData) {
+    if (argData.target) {
+      argData.target.code = _login.code
+    }
+    return setUserInfo(argData.target)
+  } else {
+    const _checkSetting = await checkSetting('userInfo').catch(err => {
+      console.log('未授权', err)
+      L.loading()
+    })
+    _checkSetting.code = _login.code
+    return setUserInfo(_checkSetting)
+  }
 }

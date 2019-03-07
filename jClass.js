@@ -121,8 +121,10 @@ export class Loading {
       this.requestNum++
     } else {
       this.requestNum--
+      if (this.requestNum < 0) {
+        this.requestNum = 0
+      }
     }
-    console.info('当前请求数', this.requestNum)
     if (!this.requestNum) {
       clearTimeout(this.timmer)
       setTimeout(() => {
