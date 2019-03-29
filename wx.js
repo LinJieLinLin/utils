@@ -291,7 +291,7 @@ export const toPage = (argPage, argParams = {}, argType) => {
  * @function
  * @description 当前页面数据obj
  */
-export const getCurrentPages = () => {
+export const getCurrentPage = () => {
   var pages = getCurrentPages()
   return pages[pages.length - 1]
 }
@@ -302,8 +302,7 @@ export const getCurrentPages = () => {
  * @param {boolean} argWithParams 是否附带参数
  */
 export const getCurrentPageUrl = argWithParams => {
-  var pages = getCurrentPages()
-  var currentPage = pages[pages.length - 1]
+  var currentPage = getCurrentPage()
   var url = currentPage.route
   var options = currentPage.options
   if (argWithParams) {
