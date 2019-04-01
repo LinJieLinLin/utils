@@ -48,7 +48,7 @@ export const setRequest = (argRequest, argResponse) => {
  * @returns {promise}
  */
 export const request = argOption => {
-  argOption.params = interceptors.request(argOption.params)
+  argOption = interceptors.request(argOption)
   return new Promise((resolve, reject) => {
     let config = {
       url: argOption.url,
