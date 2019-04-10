@@ -144,7 +144,7 @@ export const checkSetting = argSet => {
  * @param {boolean} argAltitude 是否高精度
  * @returns {promise}
  */
-export const getLocation = (argType = 'wgs84', argAltitude = false) => {
+export const getLocation = (argType = 'gcj02', argAltitude = false) => {
   let location = () => {
     return new Promise(function(resolve, reject) {
       wx.getLocation({
