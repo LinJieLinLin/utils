@@ -511,3 +511,11 @@ export const setCookie = (argName, argValue, argTime = 24) => {
 export const delCookie = argName => {
   setCookie(argName, '', -1)
 }
+/**
+ * @function
+ * @description setTimeout promise版
+ * @param  {number} ms 时间，毫秒
+ */
+export const sleep = ms => {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
