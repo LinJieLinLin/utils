@@ -1,10 +1,25 @@
 import fly from 'flyio'
 import { Loading } from './jClass'
-import { Indicator, Toast } from 'mint-ui'
+import { Toast } from 'vant'
 const suCode = ',0,'
 fly.config.timeout = process.env.VUE_APP_TIMEOUT || 10000
 fly.config.baseURL = process.env.BASE_URL
-let L = new Loading(Indicator.open, Indicator.close)
+
+const showLoading = () => {
+  Toast.loading({
+    // 持续展示 toast
+    duration: 0,
+    // 禁用背景点击
+    forbidClick: true
+    // 背景
+    // mask: true,
+    // loadingType: 'spinner'
+  })
+}
+const hideLoading = () => {
+  Toast.clear()
+}
+let L = new Loading(showLoading, hideLoading)
 // 添加请求拦截器
 fly.interceptors.request.use(request => {
   L.loading(1)

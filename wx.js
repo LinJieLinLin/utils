@@ -55,8 +55,16 @@ export const request = argOption => {
       method: argOption.method || 'GET',
       data: argOption.params,
       success(res) {
-        interceptors.response(res)
-        return resolve(res)
+        res = interceptors.response(res)
+        // 响应拦截里执行其它异步请求
+        if (res && res.cb) {
+          return res.cb(resolve, reject)
+        }
+        if (res.reject) {
+          return reject(res)
+        } else {
+          return resolve(res)
+        }
       },
       fail(err) {
         interceptors.response(err)
