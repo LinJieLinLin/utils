@@ -519,3 +519,15 @@ export const delCookie = argName => {
 export const sleep = ms => {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
+/**
+ * @function
+ * @description 获取随机数,含最大值，含最小值
+ * @param  {number} min 最小值
+ * @param  {number} max 最大值
+ */
+export const randomInt = (min = 0, max) => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  // 含最大值，含最小值
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}

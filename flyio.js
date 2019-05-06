@@ -17,7 +17,7 @@ const showLoading = () => {
   })
 }
 const hideLoading = () => {
-  Toast.clear()
+  Toast.clear('clearAll')
 }
 let L = new Loading(showLoading, hideLoading)
 // 添加请求拦截器
