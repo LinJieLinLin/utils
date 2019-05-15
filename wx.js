@@ -1,4 +1,5 @@
 import { Loading } from './jClass'
+import { sleep } from './j'
 let L = new Loading(() => {
   wx.showLoading({})
 }, wx.hideLoading)
@@ -175,7 +176,8 @@ export const getLocation = (argType = 'gcj02', argAltitude = false) => {
       return re
     } catch (err) {
       if (err.errMsg) {
-        wx.showToast({
+        wx.show
+        ({
           title: '您已拒绝地理位置授权,可以在设置中重新打开',
           icon: 'none'
         })
@@ -205,12 +207,23 @@ export const scrollTop = (scrollTop = 0, duration = 0) => {
  * @function
  * @param {string} argTitle title
  * @param {object} argOption toast 的option
+ * @returns {promise}
  */
 export const toast = (argTitle, argOption = { icon: 'none' }) => {
-  Object.assign(argOption, {
-    title: argTitle
+  return new Promise(function(resolve, reject) {
+    Object.assign(argOption, {
+      title: argTitle,
+      success: () => {
+        sleep(argOption.duration || 1500).then(res => {
+          return resolve()
+        })
+      },
+      fail: err => {
+        return reject(err)
+      }
+    })
+    return wx.showToast(argOption)
   })
-  wx.showToast(argOption)
 }
 
 /**
