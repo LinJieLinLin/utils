@@ -56,13 +56,12 @@ export const request = argOption => {
       method: argOption.method || 'GET',
       data: argOption.params,
       success(res) {
-        res = interceptors.response(res)
-        // 响应拦截里执行其它异步请求
+        res = interceptors.response(res, resolve, reject)
         if (res && res.cb) {
           return res.cb(resolve, reject)
         }
-        if (res.reject) {
-          return reject(res)
+        if (res && res.reject) {
+          return reject(res.data || res)
         } else {
           return resolve(res)
         }
