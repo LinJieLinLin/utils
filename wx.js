@@ -175,8 +175,7 @@ export const getLocation = (argType = 'gcj02', argAltitude = false) => {
       return re
     } catch (err) {
       if (err.errMsg) {
-        wx.show
-        ({
+        wx.show({
           title: '您已拒绝地理位置授权,可以在设置中重新打开',
           icon: 'none'
         })
@@ -381,4 +380,25 @@ export async function getUserInfo(argData) {
     _checkSetting.code = _login.code
     return setUserInfo(_checkSetting)
   }
+}
+
+/**
+ * @function
+ * @description 选择图片
+ * @param {object} argOptions 选择图片的配置
+ * @returns {promise}
+ */
+export const chooseImage = argOptions => {
+  return new Promise(function(resolve, reject) {
+    let options = {
+      success: rs => {
+        return resolve(rs)
+      },
+      fail: err => {
+        toast('请检查网络')
+        return reject(err)
+      }
+    }
+    wx.chooseImage(Object.assign(options, argOptions))
+  })
 }
