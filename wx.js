@@ -402,3 +402,23 @@ export const chooseImage = argOptions => {
     wx.chooseImage(Object.assign(options, argOptions))
   })
 }
+/**
+ * @function
+ * @description wx api转Promise
+ * @param {object} argApi 需要转promise的API名称
+ * @param {object} argOptions api对应的配置，除了success和fail
+ * @returns {promise}
+ */
+export const P = (argApi, argOptions) => {
+  return new Promise(function(resolve, reject) {
+    if (!argApi && argOptions.success) {
+      return argOptions.success(resolve, reject)
+    }
+    let options = {
+      success: resolve,
+      fail: reject
+    }
+    Object.assign(options, argOptions)
+    wx[argApi](options)
+  })
+}
