@@ -241,7 +241,7 @@ export const rmbPrice = (argData, argRate = 1) => {
  * @description 日期格式化显示
  * @function
  * @param  {number} date 时间对象\时间戳，默认当前时间
- * @param  {string} fmt 格式化符串，默认'YYYY-MM-DD HH:mm:ss'
+ * @param  {string} fmt 格式化符串，默认'YYYY-MM-DD HH:mm:ss' E为星期数，EEE:星期一 q为季度，S为毫秒数
  * @param  {string} emptyTip date为false时，默认''
  * @returns {string}
  */
@@ -307,7 +307,7 @@ export const formatTime = (
 }
 
 /**
- * @description 日期格式化友好显示 刚刚 x分钟前 ...
+ * @description 日期格式化友好显示 刚刚 x分钟前 ...，超过一个月的按 fmt来格式化
  * @function
  * @param  {number} date 时间对象\时间戳，默认当前时间
  * @param  {string} fmt 格式化符串，默认'YYYY-MM-DD HH:mm:ss'

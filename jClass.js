@@ -25,6 +25,7 @@ export class Counter {
    */
   setCount(argCount = 60) {
     this.count = argCount
+    return this
   }
   /**
    * @function
@@ -33,6 +34,7 @@ export class Counter {
    */
   setMaxCount(argCount = 60) {
     this.maxCount = argCount
+    return this
   }
   /**
    * @function
@@ -58,6 +60,7 @@ export class Counter {
         this.stop()
       }
     }, 1000)
+    return this
   }
   /**
    * @function
@@ -67,6 +70,7 @@ export class Counter {
     if (this.timer) {
       clearInterval(this.timer)
     }
+    return this
   }
 }
 /**
