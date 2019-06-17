@@ -531,3 +531,74 @@ export const randomInt = (min = 0, max) => {
   // 含最大值，含最小值
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
+
+/**
+ * @function
+ * @description 判断是否是JSON
+ * @param  {any} argData 最小值
+ * @returns {boolean}
+ */
+export const isJson = argData => {
+  try {
+    if (typeof JSON.parse(argData || '') === 'object') {
+      return true
+    }
+  } catch (e) {}
+  return false
+}
+/** 检测浏览器状态，系统状态
+ * {
+ * ua: ua,
+ * platform: 平台,
+ * isMobile: 移动端,
+ * isWin: winPC端,
+ * isIphone: iphone,
+ * isIpad: ipad,
+ * isMac: mac,
+ * isAppleMobile: 苹果移动端webview
+ * isSafari: Safari浏览器,
+ * isIos: Ios平台,
+ * isAndroid: android平台,
+ * isIE: 显示8 9 10, true为11以上
+ * ...
+ * }
+ */
+export const getSystemInfo = () => {
+  let info = {}
+  if (typeof window === 'undefined') {
+    if (typeof wx === 'object' && safeData(wx, 'getSystemInfoSync')) {
+      info = wx.getSystemInfoSync()
+      info.platform = info.platform.toLowerCase()
+      info.isIos = info.platform === 'ios'
+      info.isAndroid = info.platform === 'android'
+      return info
+    }
+  }
+  let ua = navigator.userAgent.toLowerCase()
+  let platform = navigator.platform.toLowerCase()
+  info = {
+    ua: ua,
+    platform: platform,
+    isMobile: ua.match(/mobile/) && true,
+    isWin: platform.match('win') && true,
+    isIphone: ua.match(/iphone/) && true,
+    isIpad: ua.match(/ipad/) && true,
+    isMac: platform.match('mac') && true,
+    isIos: platform.match('ios') && true,
+    isAndroid: platform.match('android') && true,
+    isSafari: ua.indexOf('safari') > -1 && ua.indexOf('chrome') < 1,
+    isIE: !!window.ActiveXObject || 'ActiveXObject' in window
+  }
+  if (info.ua.match('msie')) {
+    let IE = info.ua.match(/msie\s([0-9]*)/)
+    if (IE.length >= 2) {
+      info.isIe = IE[1]
+    }
+  }
+  info.isAppleMobile =
+    info.isMobile &&
+    ua.toLowerCase().indexOf('applewebkit') &&
+    ua.indexOf('chrome') < 1
+  info = Object.assign(navigator, info)
+  return info
+}
