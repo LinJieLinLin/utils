@@ -546,8 +546,10 @@ export const isJson = argData => {
   } catch (e) {}
   return false
 }
-/** 检测浏览器状态，系统状态
- * {
+/**
+ * @function
+ * @description 检测浏览器状态，系统状态 *
+ * @returns {object} {
  * ua: ua,
  * platform: 平台,
  * isMobile: 移动端,
