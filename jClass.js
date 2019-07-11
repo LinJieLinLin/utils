@@ -143,3 +143,60 @@ export class Loading {
     }
   }
 }
+/**
+ * @class
+ * @classdesc 函数抖动
+ * .debounce(回调函数,等待时间,...回调函数的参数)
+ */
+export class Debounce {
+  timer = null
+  dbTime = 0
+  constructor() {
+    this.dbTime = Date.now()
+  }
+  debounce(argFn, argWait = 500) {
+    if (typeof argFn !== 'function') {
+      argFn = () => {
+        return this
+      }
+    }
+    if (argWait - (Date.now() - this.dbTime) <= 0) {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        let [, , ...args] = [...arguments]
+        return argFn(...args)
+      }, argWait)
+    }
+  }
+}
+/**
+ * @class
+ * @classdesc 函数节流
+ * .throttle(回调函数,等待时间,...回调函数的参数)
+ */
+export class Throttle {
+  trTime = 0
+  constructor() {
+    this.trTime = Date.now()
+  }
+  /**
+   * @function
+   * @description 函数节流，在每个等待时间都会触发一次
+   * @param  {function} argFn 回调函数
+   * @param  {number} argWait 等待时间,默认1秒
+   * @param  {any} ...arg 回调函数的参数
+   * @returns {function}
+   */
+  throttle(argFn, argWait = 1000) {
+    if (typeof argFn !== 'function') {
+      argFn = () => {
+        return this
+      }
+    }
+    if (argWait - (Date.now() - this.trTime) <= 0) {
+      this.trTime = Date.now()
+      let [, , ...args] = [...arguments]
+      return argFn(...args)
+    }
+  }
+}
