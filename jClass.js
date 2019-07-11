@@ -154,6 +154,14 @@ export class Debounce {
   constructor() {
     this.dbTime = Date.now()
   }
+  /**
+   * @function
+   * @description 函数抖动，在等待n毫秒无点击后触发
+   * @param  {function} argFn 回调函数
+   * @param  {number} argWait 等待时间,默认0.5秒
+   * @param  {any} ...arg 回调函数的参数
+   * @returns {function}
+   */
   debounce(argFn, argWait = 500) {
     if (typeof argFn !== 'function') {
       argFn = () => {
