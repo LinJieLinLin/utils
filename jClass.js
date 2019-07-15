@@ -189,9 +189,9 @@ export class Throttle {
   }
   /**
    * @function
-   * @description 函数节流，在每个等待时间都会触发一次
+   * @description 函数节流，触发一次后，再间隔n毫秒后才会被触发
    * @param  {function} argFn 回调函数
-   * @param  {number} argWait 等待时间,默认1秒
+   * @param  {number} argWait 等待时间,默认1000毫秒
    * @param  {any} ...arg 回调函数的参数
    * @returns {function}
    */

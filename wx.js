@@ -402,6 +402,79 @@ export const chooseImage = argOptions => {
     wx.chooseImage(Object.assign(options, argOptions))
   })
 }
+
+/**
+ * @function
+ * @description 下载图片到手机
+ * @param {object} argImgList 图片url,数组或字符串
+ * @param {object} argIsLocal 是否是本地临时文件路径或永久文件路径
+ * @returns {promise} 出错时无promise
+ */
+export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
+  let isAuth = true
+  let res = null
+  if (argImgList && typeof argImgList === 'string') {
+    argImgList = [argImgList]
+  }
+  if (!argImgList.length) {
+    console.log('参数有误！')
+    return
+  }
+  L.loading(1)
+  await checkSetting('writePhotosAlbum').catch(err => {
+    console.error(err)
+    isAuth = false
+    L.loading()
+  })
+  // 拒绝授权处理
+  if (!isAuth) {
+    res = await P('showModal', {
+      title: '提示',
+      content: '需要您授权保存相册',
+      showCancel: false,
+      async success() {
+        let res = await P('openSetting')
+        if (res.authSetting['scope.writePhotosAlbum']) {
+          wx.showModal({
+            title: '提示',
+            content: '已获得权限，请重新操作！',
+            showCancel: false
+          })
+          return true
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: '未获得权限，将无法保存到相册哦~',
+            showCancel: false
+          })
+          return false
+        }
+      }
+    })
+  }
+  for (const img of argImgList) {
+    let tempFilePath = img
+    if (!argIsLocal) {
+      res = await P('downloadFile', { url: img })
+      tempFilePath = res.tempFilePath
+    }
+    let saveFail = false
+    await P('saveImageToPhotosAlbum', {
+      filePath: tempFilePath
+    }).catch(err => {
+      saveFail = true
+      console.error(err)
+    })
+    if (saveFail) {
+      L.loading()
+      toast('保存到相册失败，请重试！')
+      return
+    }
+  }
+  L.loading()
+  await toast('下载完成！')
+}
+
 /**
  * @function
  * @description wx api转Promise
