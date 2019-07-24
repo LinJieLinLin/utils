@@ -1,8 +1,9 @@
-import { Loading } from './jClass'
+import { Loading, Throttle } from './jClass'
 import { sleep } from './j'
 let L = new Loading(() => {
   wx.showLoading({})
 }, wx.hideLoading)
+let throttle = new Throttle()
 /**
  * @module
  * @author linj
@@ -264,46 +265,49 @@ export const setUrlParams = (argParams, noMark) => {
  * @param  {string} argType 跳转类型 switchTab reload redirectTo reLaunch navigateTo
  */
 export const toPage = (argPage, argParams = {}, argType) => {
-  console.log('page:', argPage, setUrlParams(argParams))
-  if (!argPage || argPage === 'back') {
-    wx.navigateBack({
-      delta: argType || 1
-    })
-    return
-  }
-  if (argPage === 'index') {
-    wx.reLaunch({
-      url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
-    })
-    return
-  }
-  switch (argType) {
-    case 'switchTab':
-      wx.switchTab({
-        url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+  let toPageFn = () => {
+    console.log('page:', argPage, setUrlParams(argParams))
+    if (!argPage || argPage === 'back') {
+      wx.navigateBack({
+        delta: argType || 1
       })
-      break
-    case 'reload':
+      return
+    }
+    if (argPage === 'index') {
       wx.reLaunch({
         url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
       })
-      break
-    case 'redirectTo':
-      wx.redirectTo({
-        url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
-      })
-      break
-    case 'reLaunch':
-      wx.reLaunch({
-        url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
-      })
-      break
-    default:
-      wx.navigateTo({
-        url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
-      })
-      break
+      return
+    }
+    switch (argType) {
+      case 'switchTab':
+        wx.switchTab({
+          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+        })
+        break
+      case 'reload':
+        wx.reLaunch({
+          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+        })
+        break
+      case 'redirectTo':
+        wx.redirectTo({
+          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+        })
+        break
+      case 'reLaunch':
+        wx.reLaunch({
+          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+        })
+        break
+      default:
+        wx.navigateTo({
+          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+        })
+        break
+    }
   }
+  throttle.throttle(toPageFn)
 }
 
 /**

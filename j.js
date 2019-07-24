@@ -573,6 +573,7 @@ export const getSystemInfo = () => {
       info.platform = info.platform.toLowerCase()
       info.isIos = info.platform === 'ios'
       info.isAndroid = info.platform === 'android'
+      info.iosVersion = info.isIos && info.system.match(/\d./)[0]
       return info
     }
   }

@@ -184,6 +184,7 @@ export class Debounce {
  */
 export class Throttle {
   trTime = 0
+  clickTime = 0
   constructor() {
     this.trTime = Date.now()
   }
@@ -203,8 +204,17 @@ export class Throttle {
     }
     if (argWait - (Date.now() - this.trTime) <= 0) {
       this.trTime = Date.now()
+      this.clickTime = 0
       let [, , ...args] = [...arguments]
+      setTimeout(() => {
+        if (this.clickTime > 0) {
+          this.trTime = 0
+          this.clickTime = 0
+        }
+      }, argWait)
       return argFn(...args)
+    } else {
+      this.clickTime++
     }
   }
 }
