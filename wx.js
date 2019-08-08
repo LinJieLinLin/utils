@@ -481,6 +481,60 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
 
 /**
  * @function
+ * @description 上传图片，返回临时图片路径
+ * @param {object} argOptions 选择图片chooseImage配置
+ * @param {object} argQuality 压缩质量默认80
+ * @param {object} argMb 超过多少M压缩，默认1M(仅支持jpg)
+ * @returns {promise} 返回临时图片路径[{tempFilePath:'临时路径',size: '不压缩时返回'}]
+ */
+export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
+  let err = ''
+  let res = await P('chooseImage', {
+    count: argOptions.count || 9,
+    sizeType: argOptions.sizeType || ['original', 'compressed'],
+    sourceType: argOptions.sourceType || ['album', 'camera']
+  }).catch(error => {
+    // console.error(error)
+    err = error
+  })
+  if (!res) {
+    return new Promise((resolve, reject) => {
+      reject(err)
+    })
+  }
+  // 按需压缩
+  const tempFiles = res.tempFiles
+  let compressImage = async argData => {
+    if (argData.path.match('jpg') && argData.size > argMb * 1024 * 1024) {
+      console.log('未压缩前：', argData)
+      return P('compressImage', {
+        src: argData.path,
+        quality: argQuality
+      })
+    } else {
+      return new Promise(resolve => {
+        resolve({ tempFilePath: argData.path, size: argData.size })
+      })
+    }
+  }
+  let tempFilePathsFn = tempFiles.map(compressImage)
+  let tempFilePaths = []
+  tempFilePaths = await Promise.all(tempFilePathsFn).catch(error => {
+    // console.error(error)
+    err = error
+  })
+  if (!tempFilePaths) {
+    return new Promise((resolve, reject) => {
+      reject(err)
+    })
+  }
+  return new Promise(resolve => {
+    return resolve(tempFilePaths)
+  })
+}
+
+/**
+ * @function
  * @description wx api转Promise
  * @param {object} argApi 需要转promise的API名称
  * @param {object} argOptions api对应的配置，除了success和fail
