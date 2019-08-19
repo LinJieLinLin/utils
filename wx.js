@@ -1,9 +1,23 @@
+/* eslint-disable no-constant-condition,no-undef */
 import { Loading, Throttle } from './jClass'
 import { sleep } from './j'
+
+let app = {}
+if (typeof uni !== 'undefined') {
+  app = uni
+} else if (typeof taro !== 'undefined') {
+  app = taro
+} else if (typeof wx !== 'undefined') {
+  app = wx
+}
+
+// 初始化loading
 let L = new Loading(() => {
-  wx.showLoading({})
-}, wx.hideLoading)
+  app.showLoading({})
+}, app.hideLoading)
+
 let throttle = new Throttle()
+
 /**
  * @module
  * @author linj
@@ -73,7 +87,7 @@ export const request = argOption => {
       }
     }
     Object.assign(config, argOption.config)
-    wx.request(config)
+    app.request(config)
   })
 }
 /**
@@ -82,12 +96,12 @@ export const request = argOption => {
  */
 export const checkUpdate = () => {
   console.log('检查更新，有更新会提示更新')
-  if (!wx.getUpdateManager) {
+  if (!app.getUpdateManager) {
     return
   }
-  const updateManager = wx.getUpdateManager()
+  const updateManager = app.getUpdateManager()
   updateManager.onUpdateReady(function() {
-    wx.showModal({
+    app.showModal({
       title: '更新提示',
       content: '新版本已经准备好，是否重启应用？',
       success: function(res) {
@@ -106,16 +120,16 @@ export const checkUpdate = () => {
  * @returns {promise}
  */
 export const checkSetting = argSet => {
-  wx.removeStorage({ key: 'authSetting' })
+  app.removeStorage({ key: 'authSetting' })
   return new Promise(function(resolve, reject) {
-    wx.getSetting({
+    app.getSetting({
       success(res) {
-        wx.setStorageSync('authSetting', res.authSetting)
+        app.setStorageSync('authSetting', res.authSetting)
         if (!res.authSetting['scope.' + argSet]) {
           if (argSet === 'userInfo') {
             return reject(new Error('未授权用户信息'))
           }
-          wx.authorize({
+          app.authorize({
             scope: 'scope.' + argSet,
             success(rs) {
               return resolve(rs)
@@ -126,7 +140,7 @@ export const checkSetting = argSet => {
           })
         } else {
           if (argSet === 'userInfo') {
-            wx.getUserInfo({
+            app.getUserInfo({
               success: res => {
                 return resolve(res)
               },
@@ -156,7 +170,7 @@ export const checkSetting = argSet => {
 export const getLocation = (argType = 'gcj02', argAltitude = false) => {
   let location = () => {
     return new Promise(function(resolve, reject) {
-      wx.getLocation({
+      app.getLocation({
         altitude: argAltitude,
         type: argType,
         success: res => {
@@ -176,7 +190,7 @@ export const getLocation = (argType = 'gcj02', argAltitude = false) => {
       return re
     } catch (err) {
       if (err.errMsg) {
-        wx.show({
+        app.show({
           title: '您已拒绝地理位置授权,可以在设置中重新打开',
           icon: 'none'
         })
@@ -195,7 +209,7 @@ export const getLocation = (argType = 'gcj02', argAltitude = false) => {
  * @returns {promise}
  */
 export const scrollTop = (scrollTop = 0, duration = 0) => {
-  wx.pageScrollTo({
+  app.pageScrollTo({
     scrollTop: scrollTop,
     duration: duration
   })
@@ -221,7 +235,7 @@ export const toast = (argTitle, argOption = { icon: 'none' }) => {
         return reject(err)
       }
     })
-    return wx.showToast(argOption)
+    return app.showToast(argOption)
   })
 }
 
@@ -231,7 +245,7 @@ export const toast = (argTitle, argOption = { icon: 'none' }) => {
  * @param  {} argTitle 标题
  */
 export const setTitle = argTitle => {
-  wx.setNavigationBarTitle({
+  app.setNavigationBarTitle({
     title: argTitle
   })
 }
@@ -268,40 +282,40 @@ export const toPage = (argPage, argParams = {}, argType) => {
   let toPageFn = () => {
     console.log('page:', argPage, setUrlParams(argParams))
     if (!argPage || argPage === 'back') {
-      wx.navigateBack({
+      app.navigateBack({
         delta: argType || 1
       })
       return
     }
     if (argPage === 'index') {
-      wx.reLaunch({
+      app.reLaunch({
         url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
       })
       return
     }
     switch (argType) {
       case 'switchTab':
-        wx.switchTab({
+        app.switchTab({
           url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
         })
         break
       case 'reload':
-        wx.reLaunch({
+        app.reLaunch({
           url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
         })
         break
       case 'redirectTo':
-        wx.redirectTo({
+        app.redirectTo({
           url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
         })
         break
       case 'reLaunch':
-        wx.reLaunch({
+        app.reLaunch({
           url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
         })
         break
       default:
-        wx.navigateTo({
+        app.navigateTo({
           url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
         })
         break
@@ -341,10 +355,10 @@ export const getCurrentPageUrl = argWithParams => {
  */
 export const login = () => {
   return new Promise(function(resolve, reject) {
-    wx.login({
+    app.login({
       timeout: 5000,
       success: function(rs) {
-        wx.setStorageSync('code', rs.code)
+        app.setStorageSync('code', rs.code)
         console.info('login info:', rs)
         return resolve(rs)
       },
@@ -403,7 +417,7 @@ export const chooseImage = argOptions => {
         return reject(err)
       }
     }
-    wx.chooseImage(Object.assign(options, argOptions))
+    app.chooseImage(Object.assign(options, argOptions))
   })
 }
 
@@ -439,14 +453,14 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
       async success() {
         let res = await P('openSetting')
         if (res.authSetting['scope.writePhotosAlbum']) {
-          wx.showModal({
+          app.showModal({
             title: '提示',
             content: '已获得权限，请重新操作！',
             showCancel: false
           })
           return true
         } else {
-          wx.showModal({
+          app.showModal({
             title: '提示',
             content: '未获得权限，将无法保存到相册哦~',
             showCancel: false
