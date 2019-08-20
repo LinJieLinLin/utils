@@ -329,8 +329,8 @@ export const toPage = (argPage, argParams = {}, argType) => {
  * @description 当前页面数据obj
  */
 export const getCurrentPage = () => {
-  var pages = getCurrentPages()
-  return pages[pages.length - 1]
+  var pages = getCurrentPages() || []
+  return pages[pages.length - 1] || {}
 }
 
 /**
