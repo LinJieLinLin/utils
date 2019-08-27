@@ -1,21 +1,24 @@
 /* eslint-disable no-constant-condition,no-undef */
 import { Loading, Throttle } from './jClass'
-import { sleep } from './j'
-
+import { sleep, safeData, isJson } from './j'
+let frame = ''
 let app = {}
 if (typeof uni !== 'undefined') {
   app = uni
+  frame = 'uni'
 } else if (typeof taro !== 'undefined') {
   app = taro
+  frame = 'taro'
 } else if (typeof wx !== 'undefined') {
   app = wx
+  frame = 'wx'
 }
 
 // 初始化loading
 let L = new Loading(() => {
   app.showLoading({})
 }, app.hideLoading)
-
+// 函数节流
 let throttle = new Throttle()
 
 /**
@@ -216,26 +219,30 @@ export const scrollTop = (scrollTop = 0, duration = 0) => {
 }
 
 /**
- * @description toast默认为文字提示
+ * @description toast默认为文字提示,默认推迟320ms显示
  * @function
  * @param {string} argTitle title
  * @param {object} argOption toast 的option
  * @returns {promise}
  */
-export const toast = (argTitle, argOption = { icon: 'none' }) => {
-  return new Promise(function(resolve, reject) {
+export const toast = (argTitle, argOption = { icon: 'none', delay: 320 }) => {
+  return new Promise(async function(resolve, reject) {
     Object.assign(argOption, {
       title: argTitle,
-      success: () => {
-        sleep(argOption.duration || 1500).then(res => {
-          return resolve()
-        })
+      success: async () => {
+        await sleep(argOption.duration || 1500)
+        return resolve()
       },
       fail: err => {
         return reject(err)
       }
     })
-    return app.showToast(argOption)
+    if (argOption.delay) {
+      await sleep(argOption.delay)
+      return app.showToast(argOption)
+    } else {
+      return app.showToast(argOption)
+    }
   })
 }
 
@@ -289,35 +296,41 @@ export const toPage = (argPage, argParams = {}, argType) => {
     }
     if (argPage === 'index') {
       app.reLaunch({
-        url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+        url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
       })
       return
     }
     switch (argType) {
       case 'switchTab':
         app.switchTab({
-          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
         })
         break
       case 'reload':
         app.reLaunch({
-          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
         })
         break
       case 'redirectTo':
         app.redirectTo({
-          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
         })
         break
       case 'reLaunch':
         app.reLaunch({
-          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
+          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
         })
         break
       default:
-        app.navigateTo({
-          url: '/pages/' + argPage + '/main' + setUrlParams(argParams)
-        })
+        if (getCurrentPages() && getCurrentPages().length === 10) {
+          app.redirectTo({
+            url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
+          })
+        } else {
+          app.navigateTo({
+            url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
+          })
+        }
         break
     }
   }
@@ -549,6 +562,134 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
 
 /**
  * @function
+ * @description 检测浏览器状态，系统状态 *
+ * @returns {object} {
+ * ua: ua,
+ * platform: 平台,
+ * isMobile: 移动端,
+ * isWin: winPC端,
+ * isIphone: iphone,
+ * isIpad: ipad,
+ * isMac: mac,
+ * isAppleMobile: 苹果移动端webview
+ * isSafari: Safari浏览器,
+ * isIos: Ios平台,
+ * isAndroid: android平台,
+ * isIE: 显示8 9 10, true为11以上
+ * ...
+ * }
+ */
+export const getSystemInfo = () => {
+  let info = {}
+  if (typeof app === 'object' && safeData(app, 'getSystemInfoSync')) {
+    info = app.getSystemInfoSync()
+    info.platform = info.platform.toLowerCase()
+    info.isIos = info.platform === 'ios'
+    info.isAndroid = info.platform === 'android'
+    info.iosVersion = info.isIos && info.system.match(/\d./)[0]
+    return info
+  }
+  let ua = navigator.userAgent.toLowerCase()
+  let platform = navigator.platform.toLowerCase()
+  info = {
+    ua: ua,
+    platform: platform,
+    isMobile: ua.match(/mobile/) && true,
+    isWin: platform.match('win') && true,
+    isIphone: ua.match(/iphone/) && true,
+    isIpad: ua.match(/ipad/) && true,
+    isMac: platform.match('mac') && true,
+    isIos: platform.match('ios') && true,
+    isAndroid: platform.match('android') && true,
+    isSafari: ua.indexOf('safari') > -1 && ua.indexOf('chrome') < 1,
+    isIE: !!window.ActiveXObject || 'ActiveXObject' in window
+  }
+  if (info.ua.match('msie')) {
+    let IE = info.ua.match(/msie\s([0-9]*)/)
+    if (IE.length >= 2) {
+      info.isIe = IE[1]
+    }
+  }
+  info.isAppleMobile =
+    info.isMobile &&
+    ua.toLowerCase().indexOf('applewebkit') &&
+    ua.indexOf('chrome') < 1
+  info = Object.assign(navigator, info)
+  return info
+}
+
+/**
+ * @function
+ * @description wx api转Promise
+ * @param {object} argData log内容
+ */
+export const log = async (...argData) => {
+  try {
+    let systemInfo = getSystemInfo()
+    console.log(systemInfo)
+    if (frame !== 'wx') {
+      // 只有不在开发工具上触发的才上报
+      if (systemInfo.platform !== 'devtools') {
+        let systemInfo = getSystemInfo()
+        let res = await app.getNetworkType()
+        await wx.cloud
+          .callFunction({
+            name: 'log',
+            data: {
+              clientType: systemInfo.model,
+              systemInfo: JSON.stringify(systemInfo),
+              pageRoute: getCurrentPage().route,
+              message: [...argData],
+              networkType: res.networkType,
+              errorTime: new Date()
+            }
+          })
+          .catch(err => console.error(err))
+      }
+    } else {
+      console.error(...argData)
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+/**
+ * @function
+ * @description 获取storage的值，默认将json转为obj
+ * @param {string} argKey 要获取的key
+ * @returns {promise} key对应的数据
+ */
+export const getStorage = async argKey => {
+  let res = await P('getStorage', { key: argKey })
+  if (!res || !res.data) {
+    log(['获取失败', res])
+  }
+  if (isJson(res.data)) {
+    res.data = JSON.parse(res.data)
+  }
+  return res.data || res || ''
+}
+export const getStorageSync = argKey => {
+  return app.getStorageSync(argKey)
+}
+/**
+ * @function
+ * @description 设置storage的值，默认将obj转为json
+ * @param {string} argKey 要设置的key
+ * @param {string} argData 要设置的值
+ * @returns {promise} key对应的数据
+ */
+export const setStorage = async (argKey, argData) => {
+  let res = await P('setStorage', { key: argKey, data: argData })
+  if (!res || !res.data) {
+    log(['setStorage失败', res])
+  }
+  return res.data || res || ''
+}
+
+/**
+ * @function
  * @description wx api转Promise
  * @param {object} argApi 需要转promise的API名称
  * @param {object} argOptions api对应的配置，除了success和fail
@@ -567,3 +708,4 @@ export const P = (argApi, argOptions) => {
     wx[argApi](options)
   })
 }
+export const APP = app

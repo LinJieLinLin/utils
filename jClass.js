@@ -80,7 +80,7 @@ export class Counter {
 export class Loading {
   // 请求数
   requestNum = 0
-  delayed = 300
+  delay = 300
   // 计时
   timmer = null
   // 临时时间
@@ -93,16 +93,16 @@ export class Loading {
    * @function
    * @param {function} argShow 显示loading 回调
    * @param {function} argHide 隐藏loading 回调
-   * @param {number} delayed 延时 ms,不宜过长,默认300
+   * @param {number} delay 延时 ms,不宜过长,默认300
    */
-  constructor(argShow, argHide, argDelayed) {
+  constructor(argShow, argHide, argdelay) {
     if (typeof argShow === 'function') {
       this.show = argShow
     }
     if (typeof argHide === 'function') {
       this.hide = argHide
     }
-    this.delayed = argDelayed || 300
+    this.delay = argdelay || 300
   }
   /**
    * @function
@@ -120,7 +120,7 @@ export class Loading {
             (this.temStartTime - this.temTime) / 1000
           )
           this.show()
-        }, this.delayed)
+        }, this.delay)
       }
       this.requestNum++
     } else {
@@ -139,7 +139,7 @@ export class Loading {
           )
         }
         this.hide()
-      }, this.delayed)
+      }, this.delay)
     }
   }
 }

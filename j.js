@@ -179,7 +179,7 @@ export const decodeHtml = argHtml => {
   argHtml = argHtml.replace(/&lt;/g, '<')
   argHtml = argHtml.replace(/&gt;/g, '>')
   argHtml = argHtml.replace(/&nbsp;/g, ' ')
-  argHtml = argHtml.replace(/&#39;/g, '\'')
+  argHtml = argHtml.replace(/&#39;/g, "'")
   argHtml = argHtml.replace(/&quot;/g, '"')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml
@@ -545,6 +545,18 @@ export const isJson = argData => {
     }
   } catch (e) {}
   return false
+}
+
+/**
+ * @function
+ * @description 获取简单uuid
+ * @returns {string} uuid
+ */
+export const uuid = () => {
+  function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+  }
+  return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()
 }
 /**
  * @function
