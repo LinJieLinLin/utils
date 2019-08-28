@@ -1,16 +1,10 @@
 /**
- * 公共函数
- * @class
- * @author linj
- * @description 公共类
- */
-/**
  * @class
  * @classdesc new对象时可传入计数
  * .start 开始计时(需要传入回调函数，返回当前计数)
  * .stop 停止计时
  */
-export default class Counter {
+class Counter {
   count = 0
   maxCount = 0
   timer = null
@@ -73,3 +67,4 @@ export default class Counter {
     return this
   }
 }
+export default Counter

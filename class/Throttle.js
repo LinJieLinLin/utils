@@ -3,7 +3,7 @@
  * @classdesc 函数节流
  * .throttle(回调函数,等待时间,...回调函数的参数)
  */
-export default class Throttle {
+class Throttle {
   trTime = 0
   clickTime = 0
   constructor() {
@@ -39,3 +39,4 @@ export default class Throttle {
     }
   }
 }
+export default Throttle

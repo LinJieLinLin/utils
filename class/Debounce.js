@@ -3,7 +3,7 @@
  * @classdesc 函数抖动
  * .debounce(回调函数,等待时间,...回调函数的参数)
  */
-export default class Debounce {
+class Debounce {
   timer = null
   dbTime = 0
   constructor() {
@@ -32,3 +32,4 @@ export default class Debounce {
     }
   }
 }
+export default Debounce

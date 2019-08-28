@@ -2,7 +2,7 @@
  * @class
  * @classdesc 通用loading
  */
-export default class Loading {
+class Loading {
   // 请求数
   requestNum = 0
   delay = 300
@@ -68,3 +68,4 @@ export default class Loading {
     }
   }
 }
+export default Loading
