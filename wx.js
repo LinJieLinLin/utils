@@ -1,5 +1,6 @@
 /* eslint-disable no-constant-condition,no-undef */
-import { Loading, Throttle } from './jClass'
+import Loading from './class/Loading'
+import Throttle from './class/Throttle'
 import { sleep, safeData, isJson } from './j'
 let frame = ''
 let app = {}
