@@ -1,9 +1,18 @@
 import fly from 'flyio'
-import { Loading } from './jClass'
+import Loading from './class/Loading'
 import { Toast } from 'vant'
-const suCode = ',0,'
+let noToast = false
+let toast = (...argData) => {
+  if (noToast) {
+    return
+  }
+  setTimeout(() => {
+    Toast(...argData)
+  }, 320)
+}
+const suCode = ',1,'
 fly.config.timeout = process.env.VUE_APP_TIMEOUT || 10000
-fly.config.baseURL = process.env.BASE_URL
+fly.config.baseURL = process.env.BASE_URL.replace('/rs', '')
 
 const showLoading = () => {
   Toast.loading({
@@ -27,6 +36,11 @@ fly.interceptors.request.use(request => {
   // request.headers['X-Tag'] = 'flyio'
   // 打印出请求体
   console.log('请求拦截', request)
+  if (request.config.noToast) {
+    noToast = request.config.noToast
+  } else {
+    noToast = false
+  }
   // 终止请求
   // var err=new Error("xxx")
   // err.request=request
@@ -36,7 +50,7 @@ fly.interceptors.request.use(request => {
 
 // 添加响应拦截器，响应拦截器会在then/catch处理之前执行
 fly.interceptors.response.use(
-  res => {
+  async res => {
     L.loading()
     console.log('响应拦截:', res)
     // const data = JSON.parse(res.data)
@@ -46,6 +60,9 @@ fly.interceptors.response.use(
     }
     // 其它异常
     switch (data.code) {
+      case 0:
+        toast(data.msg)
+        return Promise.reject(data.msg)
       case 4:
         console.log('请授权登录', data.data.url)
         window.location.href = data.data.url
@@ -54,24 +71,23 @@ fly.interceptors.response.use(
         return Promise.reject(data.data)
     }
   },
-  err => {
+  async err => {
     L.loading()
-
     // 发生网络错误后会走到这里
     console.log('http err:', err)
     // 超时处理
     if (err && err.message && err.message.match('timeout')) {
       console.log(err.message)
-      Toast('请求超时！')
+      toast('请求超时！')
       return Promise.reject(err)
     }
     // 状态码判断
     switch (err.status) {
       case 404:
-        Toast('请求失败,请重试')
+        toast('请求失败,请重试')
         break
       case 500:
-        Toast('服务器错误,请重试')
+        toast('服务器错误,请重试')
         break
     }
     // 发生网络错误后reject

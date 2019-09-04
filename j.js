@@ -179,7 +179,7 @@ export const decodeHtml = argHtml => {
   argHtml = argHtml.replace(/&lt;/g, '<')
   argHtml = argHtml.replace(/&gt;/g, '>')
   argHtml = argHtml.replace(/&nbsp;/g, ' ')
-  argHtml = argHtml.replace(/&#39;/g, "'")
+  argHtml = argHtml.replace(/&#39;/g, '\'')
   argHtml = argHtml.replace(/&quot;/g, '"')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml
