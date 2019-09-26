@@ -695,6 +695,7 @@ export const wxLog = () => {
   }
   return {
     log() {
+      console.info(arguments)
       if (!log) return
       log.debug.apply(log, arguments)
     },
