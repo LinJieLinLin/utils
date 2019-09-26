@@ -1,7 +1,7 @@
 /* eslint-disable no-constant-condition,no-undef */
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
-import { sleep, safeData, isJson } from './j'
+import { sleep, safeData, isJson, setUrlParams } from './j'
 let frame = ''
 let app = {}
 if (typeof uni !== 'undefined') {
@@ -256,27 +256,6 @@ export const setTitle = argTitle => {
   app.setNavigationBarTitle({
     title: argTitle
   })
-}
-
-/**
- * @description obj转url参数
- * @function
- * @param {object} argParams 参数对象
- * @param {boolean} noMark 默认带?,true时,不带
- * @returns {string}
- */
-export const setUrlParams = (argParams, noMark) => {
-  let re = ''
-  if (!noMark) {
-    re = '?'
-  }
-  for (let k in argParams) {
-    re += k + '=' + argParams[k] + '&'
-  }
-  if (argParams) {
-    re = re.substring(0, re.length - 1)
-  }
-  return re
 }
 
 /**
@@ -709,4 +688,45 @@ export const P = (argApi, argOptions) => {
     wx[argApi](options)
   })
 }
+export const wxLog = () => {
+  const log = wx.getRealtimeLogManager ? wx.getRealtimeLogManager() : null
+  if (!log) {
+    return null
+  }
+  return {
+    log() {
+      if (!log) return
+      log.debug.apply(log, arguments)
+    },
+    debug() {
+      if (!log) return
+      log.debug.apply(log, arguments)
+    },
+    info() {
+      if (!log) return
+      log.info.apply(log, arguments)
+    },
+    warn() {
+      if (!log) return
+      log.warn.apply(log, arguments)
+    },
+    error() {
+      if (!log) return
+      log.error.apply(log, arguments)
+    },
+    setFilterMsg(msg) {
+      // 从基础库2.7.3开始支持
+      if (!log || !log.setFilterMsg) return
+      if (typeof msg !== 'string') return
+      log.setFilterMsg(msg)
+    },
+    addFilterMsg(msg) {
+      // 从基础库2.8.1开始支持
+      if (!log || !log.addFilterMsg) return
+      if (typeof msg !== 'string') return
+      log.addFilterMsg(msg)
+    }
+  }
+}
+
 export const APP = app
