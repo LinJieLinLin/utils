@@ -10,7 +10,7 @@ let toast = (...argData) => {
     Toast(...argData)
   }, 320)
 }
-const suCode = ',1,'
+const suCode = ',0,'
 fly.config.timeout = process.env.VUE_APP_TIMEOUT || 10000
 fly.config.baseURL = process.env.BASE_URL.replace('/rs', '')
 
@@ -60,7 +60,7 @@ fly.interceptors.response.use(
     }
     // 其它异常
     switch (data.code) {
-      case 0:
+      case 1:
         toast(data.msg)
         return Promise.reject(data.msg)
       case 4:
