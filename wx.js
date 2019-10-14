@@ -662,7 +662,7 @@ export const getStorageSync = argKey => {
  */
 export const setStorage = async (argKey, argData) => {
   let res = await P('setStorage', { key: argKey, data: argData })
-  if (!res || !res.data) {
+  if (!res || !res.errMsg.match('ok')) {
     log(['setStorage失败', res])
   }
   return res.data || res || ''
