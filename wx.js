@@ -607,7 +607,7 @@ export const log = async (...argData) => {
   try {
     let systemInfo = getSystemInfo()
     console.log(systemInfo)
-    if (frame !== 'wx') {
+    if (frame === 'wx') {
       // 只有不在开发工具上触发的才上报
       if (systemInfo.platform !== 'devtools') {
         let systemInfo = getSystemInfo()
@@ -685,33 +685,44 @@ export const P = (argApi, argOptions) => {
       fail: reject
     }
     Object.assign(options, argOptions)
-    wx[argApi](options)
+    app[argApi](options)
   })
 }
+
+/**
+ * 描述
+ * @function
+ * @description 微信实时日志记录
+ * @date 2019-09-26
+ * @returns {functions}
+ */
 export const wxLog = () => {
+  if (!wx) {
+    return
+  }
   const log = wx.getRealtimeLogManager ? wx.getRealtimeLogManager() : null
   if (!log) {
+    console.log('实时日志未生效')
     return null
   }
   return {
-    log() {
-      console.info(arguments)
-      if (!log) return
-      log.debug.apply(log, arguments)
-    },
     debug() {
+      console.log(arguments)
       if (!log) return
       log.debug.apply(log, arguments)
     },
     info() {
+      console.log(arguments)
       if (!log) return
       log.info.apply(log, arguments)
     },
     warn() {
+      console.log(arguments)
       if (!log) return
       log.warn.apply(log, arguments)
     },
     error() {
+      console.log(arguments)
       if (!log) return
       log.error.apply(log, arguments)
     },
@@ -729,5 +740,21 @@ export const wxLog = () => {
     }
   }
 }
-
+export const cloudApi = async (argOption = {}) => {
+  if (wx) {
+    L.loading(1)
+    let error = ''
+    let res = await wx.cloud.callFunction(argOption).catch(err => {
+      toast(`云函数:${argOption.name}调用失败！`)
+      error = err
+    })
+    L.loading()
+    if (error) {
+      return Promise.reject(error)
+    }
+    return Promise.resolve(res)
+  } else {
+    return Promise.reject('暂不支持')
+  }
+}
 export const APP = app
