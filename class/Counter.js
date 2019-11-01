@@ -40,6 +40,10 @@ class Counter {
       console.error('需要传入计时回调')
       return
     }
+    // count为0时从最大值开始
+    if (!this.count) {
+      this.count = this.maxCount
+    }
     if (this.timer) {
       clearInterval(this.timer)
     }
@@ -47,9 +51,8 @@ class Counter {
       this.count--
       if (this.count === -1) {
         this.count = this.maxCount
-      } else {
-        argCb(this.count)
       }
+      argCb(this.count)
       if (this.count < 1) {
         this.stop()
       }

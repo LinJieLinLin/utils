@@ -226,15 +226,17 @@ export const setTitle = argTitle => {
  * @function
  * @description 显示人民币价格
  * @param  {} argData 价格
- * @param  {} argRate=1 倍数,默认1 价格/倍数
+ * @param  {} argRate=0 保留多少位小数
  * @returns {string} eg: ￥100
  */
-export const rmbPrice = (argData, argRate = 1) => {
+export const rmbPrice = (argData, argRate = -1) => {
   if (typeof argData !== 'number') {
     return argData || '--'
   }
-  argData = Math.round(argData)
-  return '￥' + argData / argRate
+  if (argRate > -1) {
+    argData = argData.toFixed(argRate)
+  }
+  return '￥' + argData
 }
 
 /**
@@ -614,6 +616,35 @@ export const getSystemInfo = () => {
     info.isMobile &&
     ua.toLowerCase().indexOf('applewebkit') &&
     ua.indexOf('chrome') < 1
-  info = Object.assign(navigator, info)
+  info = Object.assign({}, navigator, info)
   return info
+}
+
+/**
+ * 描述
+ * @function
+ * @description 数据中间加星号
+ * @date 2019-11-01
+ * @param {any} argData 要处理的数据
+ * @param {any} argStart=3 前端显示多少位
+ * @param {any} argEnd=4 后面显示多少位
+ * @returns {any} 返回处理好的数据
+ */
+export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
+  if (typeof argData !== 'string') {
+    argData = argData.toString()
+  }
+  let temLen = argData.length
+  let temSL = argData.length - argEnd - argStart
+  let start = ''
+  if (temSL > 0) {
+    for (let i = 0; i < temSL; i++) {
+      start += '*'
+    }
+    argData =
+      argData.substr(0, argStart) +
+      start +
+      argData.substr(temLen - argEnd, temLen)
+  }
+  return argData
 }
