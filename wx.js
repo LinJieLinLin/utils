@@ -2,6 +2,8 @@
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
 import { sleep, safeData, isJson, setUrlParams } from './j'
+import Aes from './Aes'
+Aes.init('tdtn', 'lj')
 let frame = ''
 let app = {}
 if (typeof uni !== 'undefined') {
@@ -16,11 +18,11 @@ if (typeof uni !== 'undefined') {
 }
 
 // 初始化loading
-let L = new Loading(() => {
-  app.showLoading({})
+const L = new Loading(() => {
+  app.showLoading({ mask: true })
 }, app.hideLoading)
 // 函数节流
-let throttle = new Throttle()
+const throttle = new Throttle()
 
 /**
  * @module
@@ -32,14 +34,20 @@ let throttle = new Throttle()
  * @description 默认拦截函数obj
  */
 const interceptors = {
-  request(argData) {
+  request (argData) {
     L.loading(1)
     return argData
   },
-  response(argData) {
+  response (argData) {
     L.loading()
     return argData
   }
+}
+export const showLoading = () => {
+  L.loading(1)
+}
+export const hideLoading = () => {
+  L.loading()
 }
 /**
  * @description 修改设置拦截函数
@@ -70,11 +78,17 @@ export const setRequest = (argRequest, argResponse) => {
 export const request = argOption => {
   argOption = interceptors.request(argOption)
   return new Promise((resolve, reject) => {
-    let config = {
+    if (encodeURIComponent) {
+      argOption.params.__cur_path__ = encodeURIComponent(
+        window.location.href.replace(window.location.hash, '')
+      )
+    }
+    const config = {
       url: argOption.url,
       method: argOption.method || 'GET',
       data: argOption.params,
-      success(res) {
+      success (res = {}) {
+        res.config = argOption.config || {}
         res = interceptors.response(res, resolve, reject)
         if (res && res.cb) {
           return res.cb(resolve, reject)
@@ -85,7 +99,7 @@ export const request = argOption => {
           return resolve(res)
         }
       },
-      fail(err) {
+      fail (err) {
         interceptors.response(err)
         return reject(err)
       }
@@ -104,11 +118,11 @@ export const checkUpdate = () => {
     return
   }
   const updateManager = app.getUpdateManager()
-  updateManager.onUpdateReady(function() {
+  updateManager.onUpdateReady(function () {
     app.showModal({
       title: '更新提示',
       content: '新版本已经准备好，是否重启应用？',
-      success: function(res) {
+      success: function (res) {
         if (res.confirm) {
           // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
           updateManager.applyUpdate()
@@ -125,9 +139,9 @@ export const checkUpdate = () => {
  */
 export const checkSetting = argSet => {
   app.removeStorage({ key: 'authSetting' })
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     app.getSetting({
-      success(res) {
+      success (res) {
         app.setStorageSync('authSetting', res.authSetting)
         if (!res.authSetting['scope.' + argSet]) {
           if (argSet === 'userInfo') {
@@ -135,10 +149,10 @@ export const checkSetting = argSet => {
           }
           app.authorize({
             scope: 'scope.' + argSet,
-            success(rs) {
+            success (rs) {
               return resolve(rs)
             },
-            fail(err) {
+            fail (err) {
               return reject(err)
             }
           })
@@ -157,7 +171,7 @@ export const checkSetting = argSet => {
           }
         }
       },
-      fail(err) {
+      fail (err) {
         return reject(err)
       }
     })
@@ -172,8 +186,8 @@ export const checkSetting = argSet => {
  * @returns {promise}
  */
 export const getLocation = (argType = 'gcj02', argAltitude = false) => {
-  let location = () => {
-    return new Promise(function(resolve, reject) {
+  const location = () => {
+    return new Promise(function (resolve, reject) {
       app.getLocation({
         altitude: argAltitude,
         type: argType,
@@ -187,10 +201,10 @@ export const getLocation = (argType = 'gcj02', argAltitude = false) => {
       })
     })
   }
-  let re = async () => {
+  const re = async () => {
     try {
       await checkSetting('userLocation')
-      let re = await location()
+      const re = await location()
       return re
     } catch (err) {
       if (err.errMsg) {
@@ -226,12 +240,15 @@ export const scrollTop = (scrollTop = 0, duration = 0) => {
  * @param {object} argOption toast 的option
  * @returns {promise}
  */
-export const toast = (argTitle, argOption = { icon: 'none', delay: 320 }) => {
-  return new Promise(async function(resolve, reject) {
+export const toast = (
+  argTitle,
+  argOption = { icon: 'none', delay: 320, duration: 5000 }
+) => {
+  return new Promise(async function (resolve, reject) {
     Object.assign(argOption, {
       title: argTitle,
       success: async () => {
-        await sleep(argOption.duration || 1500)
+        await sleep(argOption.duration || 5000)
         return resolve()
       },
       fail: err => {
@@ -265,13 +282,38 @@ export const setTitle = argTitle => {
  * @param  {object} argParams url参数
  * @param  {string} argType 跳转类型 switchTab reload redirectTo reLaunch navigateTo
  */
-export const toPage = (argPage, argParams = {}, argType) => {
-  let toPageFn = () => {
+export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
+  const toPageFn = () => {
     console.log('page:', argPage, setUrlParams(argParams))
     if (!argPage || argPage === 'back') {
-      app.navigateBack({
-        delta: argType || 1
-      })
+      if (+argType === -1) {
+        app.reLaunch({
+          url: '/pages/index/index' + setUrlParams(argParams)
+        })
+        return
+      }
+      // #ifdef  H5
+      window.history.go(+('-' + (argType || 1)))
+      // #endif
+      // #ifndef  H5
+      if (getCurrentPages().length > 1 && argType !== '-1') {
+        app.navigateBack({
+          delta: +argType || 1
+        })
+      } else {
+        app.reLaunch({
+          url: '/pages/index/index' + setUrlParams(argParams)
+        })
+      }
+      // #endif
+      return
+    }
+    if (argPage === 'faceAuth') {
+      // #ifdef  H5
+      const temUrl =
+        'https://rz.weijing.gov.cn/authgzh/auth' + setUrlParams(argParams)
+      location.href = temUrl
+      // #endif
       return
     }
     if (argPage === 'index') {
@@ -280,25 +322,34 @@ export const toPage = (argPage, argParams = {}, argType) => {
       })
       return
     }
+    let type = ''
+    // #ifdef  H5
+    type = 'h5'
+    // #endif
+    let temUrl = '/pages/' + argPage + '/index' + setUrlParams(argParams)
     switch (argType) {
       case 'switchTab':
         app.switchTab({
-          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
+          url: temUrl
         })
         break
       case 'reload':
         app.reLaunch({
-          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
+          url: temUrl
         })
         break
       case 'redirectTo':
-        app.redirectTo({
-          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
-        })
+        if (type === 'h5') {
+          window.location.replace('#' + temUrl)
+        } else {
+          app.redirectTo({
+            url: temUrl
+          })
+        }
         break
       case 'reLaunch':
         app.reLaunch({
-          url: '/pages/' + argPage + '/index' + setUrlParams(argParams)
+          url: temUrl
         })
         break
       default:
@@ -314,7 +365,14 @@ export const toPage = (argPage, argParams = {}, argType) => {
         break
     }
   }
-  throttle.throttle(toPageFn)
+  // #ifdef  H5
+  argForce = true
+  // #endif
+  if (argForce) {
+    toPageFn()
+  } else {
+    throttle.throttle(toPageFn)
+  }
 }
 
 /**
@@ -347,15 +405,15 @@ export const getCurrentPageUrl = argWithParams => {
  * @returns {promise}
  */
 export const login = () => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     app.login({
       timeout: 5000,
-      success: function(rs) {
+      success: function (rs) {
         app.setStorageSync('code', rs.code)
         console.info('login info:', rs)
         return resolve(rs)
       },
-      fail: function(err) {
+      fail: function (err) {
         toast('请检查网络')
         return reject(err)
       }
@@ -368,7 +426,7 @@ export const login = () => {
  * @param {object} argData 用户数据（点按钮授权时传入）
  * @returns {promise}
  */
-export async function getUserInfo(argData) {
+export async function getUserInfo (argData) {
   L.loading(1)
   const _login = await login().catch(err => {
     console.log(err)
@@ -400,8 +458,8 @@ export async function getUserInfo(argData) {
  * @returns {promise}
  */
 export const chooseImage = argOptions => {
-  return new Promise(function(resolve, reject) {
-    let options = {
+  return new Promise(function (resolve, reject) {
+    const options = {
       success: rs => {
         return resolve(rs)
       },
@@ -443,8 +501,8 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
       title: '提示',
       content: '需要您授权保存相册',
       showCancel: false,
-      async success() {
-        let res = await P('openSetting')
+      async success () {
+        const res = await P('openSetting')
         if (res.authSetting['scope.writePhotosAlbum']) {
           app.showModal({
             title: '提示',
@@ -496,23 +554,108 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
  */
 export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
   let err = ''
-  let res = await P('chooseImage', {
+  const res = await P('chooseImage', {
     count: argOptions.count || 9,
     sizeType: argOptions.sizeType || ['original', 'compressed'],
     sourceType: argOptions.sourceType || ['album', 'camera']
   }).catch(error => {
-    // console.error(error)
     err = error
   })
   if (!res) {
+    console.error(err)
     return new Promise((resolve, reject) => {
       reject(err)
     })
   }
+  showLoading()
   // 按需压缩
   const tempFiles = res.tempFiles
-  let compressImage = async argData => {
-    if (argData.path.match('jpg') && argData.size > argMb * 1024 * 1024) {
+  const dataURLtoBlob = async argData => {
+    var arr = argData.split(',')
+    var mime = arr[0].match(/:(.*?);/)[1]
+    var bstr = atob(arr[1])
+    var n = bstr.length
+    var u8arr = new Uint8Array(n)
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n)
+    }
+    return new Blob([u8arr], { type: 'image/jpeg' })
+  }
+  const blobToFile = async (argBlob, argName = Date.now()) => {
+    argBlob.lastModifiedDate = new Date()
+    argBlob.name = argName
+    return argBlob
+  }
+  const compressImage = async argData => {
+    let isH5 = false
+    // #ifdef  H5
+    isH5 = true
+    // #endif
+    if (isH5) {
+      const getBase64Image = async img => {
+        var canvas = document.createElement('canvas')
+        canvas.width = img.width
+        canvas.height = img.height
+        var ctx = canvas.getContext('2d')
+        ctx.drawImage(img, 0, 0, img.width, img.height)
+        let rate = 0.95
+        let sizeMb = argData.size / 1024 / 1024
+        if (sizeMb > 10) {
+          rate = 0.05
+        } else if (sizeMb < 1.5) {
+          rate = 1
+        } else if (sizeMb < 4) {
+          rate = (10 - sizeMb) / 10
+        } else if (sizeMb < 9) {
+          rate = (9 - sizeMb) / 10
+        } else {
+          rate = (10 - sizeMb) / 10
+        }
+        var dataURL = canvas.toDataURL('image/jpeg', rate)
+        var blob = await dataURLtoBlob(dataURL)
+        var file = await blobToFile(blob)
+        console.error(
+          'old:',
+          argData.size / 1024,
+          'new:',
+          dataURL.length / 1024,
+          'fileSize:',
+          file.size / 1024,
+          file,
+          typeof file
+        )
+        return file
+      }
+      const loadImg = async argPath => {
+        return new Promise((resolve, reject) => {
+          var img = new Image()
+          img.src = argPath
+          console.error(img)
+          img.onload = function () {
+            return resolve(img)
+          }
+        })
+      }
+      let file = await getBase64Image(await loadImg(argData.path))
+      return Promise.resolve({
+        tempFilePath: argData.path,
+        file: file,
+        size: argData.size
+      })
+    }
+    console.error(argData)
+    let canYs = false
+    // #ifdef  MP-WEIXIN
+    canYs = true
+    // #endif
+    // #ifdef  MP-ALIPAY
+    canYs = true
+    // #endif
+    if (
+      canYs &&
+      argData.path.match('jpg') &&
+      argData.size > argMb * 1024 * 1024
+    ) {
       console.log('未压缩前：', argData)
       return P('compressImage', {
         src: argData.path,
@@ -524,7 +667,7 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
       })
     }
   }
-  let tempFilePathsFn = tempFiles.map(compressImage)
+  const tempFilePathsFn = tempFiles.map(compressImage)
   let tempFilePaths = []
   tempFilePaths = await Promise.all(tempFilePathsFn).catch(error => {
     // console.error(error)
@@ -569,8 +712,8 @@ export const getSystemInfo = () => {
     info.iosVersion = info.isIos && info.system.match(/\d./)[0]
     return info
   }
-  let ua = navigator.userAgent.toLowerCase()
-  let platform = navigator.platform.toLowerCase()
+  const ua = navigator.userAgent.toLowerCase()
+  const platform = navigator.platform.toLowerCase()
   info = {
     ua: ua,
     platform: platform,
@@ -585,7 +728,7 @@ export const getSystemInfo = () => {
     isIE: !!window.ActiveXObject || 'ActiveXObject' in window
   }
   if (info.ua.match('msie')) {
-    let IE = info.ua.match(/msie\s([0-9]*)/)
+    const IE = info.ua.match(/msie\s([0-9]*)/)
     if (IE.length >= 2) {
       info.isIe = IE[1]
     }
@@ -605,13 +748,13 @@ export const getSystemInfo = () => {
  */
 export const log = async (...argData) => {
   try {
-    let systemInfo = getSystemInfo()
+    const systemInfo = getSystemInfo()
     console.log(systemInfo)
     if (frame === 'wx') {
       // 只有不在开发工具上触发的才上报
       if (systemInfo.platform !== 'devtools') {
-        let systemInfo = getSystemInfo()
-        let res = await app.getNetworkType()
+        const systemInfo = getSystemInfo()
+        const res = await app.getNetworkType()
         await wx.cloud
           .callFunction({
             name: 'log',
@@ -642,6 +785,7 @@ export const log = async (...argData) => {
  */
 export const getStorage = async argKey => {
   let res = await P('getStorage', { key: argKey })
+  res = Aes.decrypt(res.data)
   if (!res || !res.data) {
     log(['获取失败', res])
   }
@@ -650,8 +794,47 @@ export const getStorage = async argKey => {
   }
   return res.data || res || ''
 }
+/**
+ * @function
+ * @description 获取storage的值，默认将json转为obj
+ * @param {string} argKey 要获取的key
+ * @returns {data} key对应的数据
+ */
 export const getStorageSync = argKey => {
-  return app.getStorageSync(argKey)
+  let data = app.getStorageSync(argKey)
+  data = Aes.decrypt(data)
+  if (isJson(data)) {
+    data = JSON.parse(data)
+  }
+  return data
+}
+// 退出登录或登录失效，清除本地数据
+export const clearStorageSync = async (argKey, argData = {}) => {
+  let res = await P('getStorageInfo')
+  res.keys.map(v => {
+    if (v === 'loginData') {
+      // 部分数据不用清
+      return
+    }
+    if (!argData.force) {
+      if (v === 'Ticket' || v === 'vuex' || v === 'IsFace') {
+        // 部分数据不用清
+        return
+      }
+    }
+    app.removeStorageSync(v)
+  })
+}
+/**
+ * @function
+ * @description 获取storage的值
+ * @param {string} argKey 要获取的key
+ * @returns {promise} key对应的数据
+ */
+export const getStorageSyncForVuex = argKey => {
+  let data = app.getStorageSync(argKey)
+  data = Aes.decrypt(data)
+  return data
 }
 /**
  * @function
@@ -661,7 +844,8 @@ export const getStorageSync = argKey => {
  * @returns {promise} key对应的数据
  */
 export const setStorage = async (argKey, argData) => {
-  let res = await P('setStorage', { key: argKey, data: argData })
+  const temData = Aes.encrypt(argData)
+  const res = await P('setStorage', { key: argKey, data: temData })
   if (!res || !res.errMsg.match('ok')) {
     log(['setStorage失败', res])
   }
@@ -676,11 +860,11 @@ export const setStorage = async (argKey, argData) => {
  * @returns {promise}
  */
 export const P = (argApi, argOptions) => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     if (!argApi && argOptions.success) {
       return argOptions.success(resolve, reject)
     }
-    let options = {
+    const options = {
       success: resolve,
       fail: reject
     }
@@ -706,33 +890,33 @@ export const wxLog = () => {
     return null
   }
   return {
-    debug() {
+    debug () {
       console.log(arguments)
       if (!log) return
       log.debug.apply(log, arguments)
     },
-    info() {
+    info () {
       console.log(arguments)
       if (!log) return
       log.info.apply(log, arguments)
     },
-    warn() {
+    warn () {
       console.log(arguments)
       if (!log) return
       log.warn.apply(log, arguments)
     },
-    error() {
+    error () {
       console.log(arguments)
       if (!log) return
       log.error.apply(log, arguments)
     },
-    setFilterMsg(msg) {
+    setFilterMsg (msg) {
       // 从基础库2.7.3开始支持
       if (!log || !log.setFilterMsg) return
       if (typeof msg !== 'string') return
       log.setFilterMsg(msg)
     },
-    addFilterMsg(msg) {
+    addFilterMsg (msg) {
       // 从基础库2.8.1开始支持
       if (!log || !log.addFilterMsg) return
       if (typeof msg !== 'string') return
@@ -744,7 +928,7 @@ export const cloudApi = async (argOption = {}) => {
   if (wx) {
     L.loading(1)
     let error = ''
-    let res = await wx.cloud.callFunction(argOption).catch(err => {
+    const res = await wx.cloud.callFunction(argOption).catch(err => {
       toast(`云函数:${argOption.name}调用失败！`)
       error = err
     })

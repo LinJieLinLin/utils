@@ -8,7 +8,7 @@ class Counter {
   count = 0
   maxCount = 0
   timer = null
-  constructor(argCount = 60) {
+  constructor (argCount = 60) {
     this.count = argCount
     this.maxCount = argCount
   }
@@ -17,7 +17,7 @@ class Counter {
    * @param {number} argCount 设置倒计时数值
    * @description 设置倒计时数值
    */
-  setCount(argCount = 60) {
+  setCount (argCount = 60) {
     this.count = argCount
     return this
   }
@@ -26,7 +26,7 @@ class Counter {
    * @param {number} argCount 初始倒计数
    * @description 设置初始倒计时数值
    */
-  setMaxCount(argCount = 60) {
+  setMaxCount (argCount = 60) {
     this.maxCount = argCount
     return this
   }
@@ -35,7 +35,7 @@ class Counter {
    * @param {function} argCb 计时回调,返回当前剩余秒数
    * @description 开始倒计时
    */
-  start(argCb) {
+  start (argCb) {
     if (!argCb) {
       console.error('需要传入计时回调')
       return
@@ -63,7 +63,7 @@ class Counter {
    * @function
    * @description 停止倒计时
    */
-  stop() {
+  stop () {
     if (this.timer) {
       clearInterval(this.timer)
     }

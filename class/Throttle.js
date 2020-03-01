@@ -6,7 +6,7 @@
 class Throttle {
   trTime = 0
   clickTime = 0
-  constructor() {
+  constructor () {
     this.trTime = Date.now()
   }
   /**
@@ -17,7 +17,7 @@ class Throttle {
    * @param  {any} ...arg 回调函数的参数
    * @returns {function}
    */
-  throttle(argFn, argWait = 1000) {
+  throttle (argFn, argWait = 1000) {
     if (typeof argFn !== 'function') {
       argFn = () => {
         return this

@@ -179,7 +179,7 @@ export const decodeHtml = argHtml => {
   argHtml = argHtml.replace(/&lt;/g, '<')
   argHtml = argHtml.replace(/&gt;/g, '>')
   argHtml = argHtml.replace(/&nbsp;/g, ' ')
-  argHtml = argHtml.replace(/&#39;/g, '\'')
+  argHtml = argHtml.replace(/&#39;/g, "'")
   argHtml = argHtml.replace(/&quot;/g, '"')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml
@@ -647,4 +647,48 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
       argData.substr(temLen - argEnd, temLen)
   }
   return argData
+}
+
+/**
+ * 描述
+ * @function
+ * @description 10进制转62进制
+ * @date 2020-03-01
+ * @param {any} argData 要处理的数据
+ * @returns {any} 返回处理好的数据
+ */
+export const string10to62 = argData => {
+  var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split(
+    ''
+  )
+  var radix = chars.length
+  var qutient = +argData
+  var arr = []
+  do {
+    let mod = qutient % radix
+    qutient = (qutient - mod) / radix
+    arr.unshift(chars[mod])
+  } while (qutient)
+  return arr.join('')
+}
+
+/**
+ * 描述
+ * @function
+ * @description 62进制转10进制
+ * @date 2020-03-01
+ * @param {any} argData 要处理的数据
+ * @returns {any} 返回处理好的数据
+ */
+export const string62to10 = argData => {
+  argData = String(argData)
+  var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'
+  var radix = chars.length
+  var len = argData.length
+  var i = 0
+  var resNum = 0
+  while (i < len) {
+    resNum += Math.pow(radix, i++) * chars.indexOf(argData.charAt(len - i) || 0)
+  }
+  return resNum
 }
