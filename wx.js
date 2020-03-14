@@ -3,9 +3,16 @@ import Loading from './class/Loading'
 import Throttle from './class/Throttle'
 import { sleep, safeData, isJson, setUrlParams } from './j'
 import Aes from './Aes'
+import { getObj } from './struct'
 Aes.init('tdtn', 'lj')
 let frame = ''
 let app = {}
+let ljCloud = ''
+
+if (typeof uniCloud !== 'undefined') {
+  ljCloud = uniCloud.init(getObj('config.uniCloud'))
+}
+
 if (typeof uni !== 'undefined') {
   app = uni
   frame = 'uni'
@@ -34,11 +41,11 @@ const throttle = new Throttle()
  * @description 默认拦截函数obj
  */
 const interceptors = {
-  request (argData) {
+  request(argData) {
     L.loading(1)
     return argData
   },
-  response (argData) {
+  response(argData) {
     L.loading()
     return argData
   }
@@ -78,16 +85,11 @@ export const setRequest = (argRequest, argResponse) => {
 export const request = argOption => {
   argOption = interceptors.request(argOption)
   return new Promise((resolve, reject) => {
-    if (encodeURIComponent) {
-      argOption.params.__cur_path__ = encodeURIComponent(
-        window.location.href.replace(window.location.hash, '')
-      )
-    }
     const config = {
       url: argOption.url,
       method: argOption.method || 'GET',
       data: argOption.params,
-      success (res = {}) {
+      success(res = {}) {
         res.config = argOption.config || {}
         res = interceptors.response(res, resolve, reject)
         if (res && res.cb) {
@@ -99,13 +101,39 @@ export const request = argOption => {
           return resolve(res)
         }
       },
-      fail (err) {
+      fail(err) {
         interceptors.response(err)
         return reject(err)
       }
     }
     Object.assign(config, argOption.config)
     app.request(config)
+  })
+}
+export const requestCloud = argOption => {
+  argOption = interceptors.request(argOption)
+  return new Promise((resolve, reject) => {
+    return ljCloud
+      .callFunction({
+        name: argOption.name,
+        data: argOption.params
+      })
+      .then(res => {
+        res.config = argOption.config || {}
+        res = interceptors.response(res, resolve, reject)
+        if (res && res.cb) {
+          return res.cb(resolve, reject)
+        }
+        if (res && res.reject) {
+          return reject(res.data || res)
+        } else {
+          return resolve(res)
+        }
+      })
+      .catch(err => {
+        interceptors.response(err)
+        return reject(err)
+      })
   })
 }
 /**
@@ -118,11 +146,11 @@ export const checkUpdate = () => {
     return
   }
   const updateManager = app.getUpdateManager()
-  updateManager.onUpdateReady(function () {
+  updateManager.onUpdateReady(function() {
     app.showModal({
       title: '更新提示',
       content: '新版本已经准备好，是否重启应用？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
           updateManager.applyUpdate()
@@ -139,9 +167,9 @@ export const checkUpdate = () => {
  */
 export const checkSetting = argSet => {
   app.removeStorage({ key: 'authSetting' })
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     app.getSetting({
-      success (res) {
+      success(res) {
         app.setStorageSync('authSetting', res.authSetting)
         if (!res.authSetting['scope.' + argSet]) {
           if (argSet === 'userInfo') {
@@ -149,10 +177,10 @@ export const checkSetting = argSet => {
           }
           app.authorize({
             scope: 'scope.' + argSet,
-            success (rs) {
+            success(rs) {
               return resolve(rs)
             },
-            fail (err) {
+            fail(err) {
               return reject(err)
             }
           })
@@ -171,7 +199,7 @@ export const checkSetting = argSet => {
           }
         }
       },
-      fail (err) {
+      fail(err) {
         return reject(err)
       }
     })
@@ -187,7 +215,7 @@ export const checkSetting = argSet => {
  */
 export const getLocation = (argType = 'gcj02', argAltitude = false) => {
   const location = () => {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       app.getLocation({
         altitude: argAltitude,
         type: argType,
@@ -244,7 +272,7 @@ export const toast = (
   argTitle,
   argOption = { icon: 'none', delay: 320, duration: 5000 }
 ) => {
-  return new Promise(async function (resolve, reject) {
+  return new Promise(async function(resolve, reject) {
     Object.assign(argOption, {
       title: argTitle,
       success: async () => {
@@ -405,15 +433,15 @@ export const getCurrentPageUrl = argWithParams => {
  * @returns {promise}
  */
 export const login = () => {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     app.login({
       timeout: 5000,
-      success: function (rs) {
+      success: function(rs) {
         app.setStorageSync('code', rs.code)
         console.info('login info:', rs)
         return resolve(rs)
       },
-      fail: function (err) {
+      fail: function(err) {
         toast('请检查网络')
         return reject(err)
       }
@@ -426,7 +454,7 @@ export const login = () => {
  * @param {object} argData 用户数据（点按钮授权时传入）
  * @returns {promise}
  */
-export async function getUserInfo (argData) {
+export async function getUserInfo(argData) {
   L.loading(1)
   const _login = await login().catch(err => {
     console.log(err)
@@ -458,7 +486,7 @@ export async function getUserInfo (argData) {
  * @returns {promise}
  */
 export const chooseImage = argOptions => {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     const options = {
       success: rs => {
         return resolve(rs)
@@ -501,7 +529,7 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
       title: '提示',
       content: '需要您授权保存相册',
       showCancel: false,
-      async success () {
+      async success() {
         const res = await P('openSetting')
         if (res.authSetting['scope.writePhotosAlbum']) {
           app.showModal({
@@ -631,7 +659,7 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
           var img = new Image()
           img.src = argPath
           console.error(img)
-          img.onload = function () {
+          img.onload = function() {
             return resolve(img)
           }
         })
@@ -860,7 +888,7 @@ export const setStorage = async (argKey, argData) => {
  * @returns {promise}
  */
 export const P = (argApi, argOptions) => {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     if (!argApi && argOptions.success) {
       return argOptions.success(resolve, reject)
     }
@@ -890,33 +918,33 @@ export const wxLog = () => {
     return null
   }
   return {
-    debug () {
+    debug() {
       console.log(arguments)
       if (!log) return
       log.debug.apply(log, arguments)
     },
-    info () {
+    info() {
       console.log(arguments)
       if (!log) return
       log.info.apply(log, arguments)
     },
-    warn () {
+    warn() {
       console.log(arguments)
       if (!log) return
       log.warn.apply(log, arguments)
     },
-    error () {
+    error() {
       console.log(arguments)
       if (!log) return
       log.error.apply(log, arguments)
     },
-    setFilterMsg (msg) {
+    setFilterMsg(msg) {
       // 从基础库2.7.3开始支持
       if (!log || !log.setFilterMsg) return
       if (typeof msg !== 'string') return
       log.setFilterMsg(msg)
     },
-    addFilterMsg (msg) {
+    addFilterMsg(msg) {
       // 从基础库2.8.1开始支持
       if (!log || !log.addFilterMsg) return
       if (typeof msg !== 'string') return

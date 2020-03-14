@@ -692,3 +692,67 @@ export const string62to10 = argData => {
   }
   return resNum
 }
+/**
+ * 描述
+ * @function
+ * @description blob转base64
+ * @date 2020-03-01
+ * @param {any} argBlob 要处理的数据
+ * @returns {any} 返回base64
+ */
+export const blobToBase64 = async argBlob => {
+  // eslint-disable-next-line no-undef
+  const fileReader = new FileReader()
+  // readAsDataURL
+  fileReader.readAsDataURL(argBlob)
+  fileReader.onload = e => {
+    return Promise.resolve(e.target.result)
+  }
+  fileReader.onerror = () => {
+    return Promise.reject(new Error('文件流异常'))
+  }
+}
+/**
+ * 描述
+ * @function
+ * @description toFixed处理
+ * @date 2020-03-01
+ * @param {any} argData 要处理的数据
+ * @param {any} argNum 要保留位数
+ * @returns {any} 返回处理好的数据
+ */
+export const toFixed = (argData, argNum = 2, argType = 'string') => {
+  let rate = Math.pow(10, argNum)
+  let data = (Math.round(+argData * rate) / rate).toFixed(argNum)
+  if (argType === 'number') {
+    return +data
+  } else {
+    return data
+  }
+}
+/**
+ * 描述
+ * @function
+ * @description blobUrl 转 file文件
+ * @date 2020-03-01
+ * @param {any} argData blobUrl
+ * @returns {any} 返回文件流
+ */
+export const blobUrlToFile = async argData => {
+  return new Promise(function(resolve, reject) {
+    // eslint-disable-next-line no-undef
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', argData, true)
+    xhr.responseType = 'blob'
+    xhr.onload = function(e) {
+      if (this.status === 200) {
+        var myBlob = this.response
+        return resolve(myBlob)
+      }
+    }
+    xhr.error = err => {
+      return reject(err)
+    }
+    xhr.send()
+  })
+}
