@@ -8,36 +8,47 @@ class Counter {
   count = 0
   maxCount = 0
   timer = null
-  constructor (argCount = 60) {
+  cb = null
+  constructor(argCount = 60, argCb) {
     this.count = argCount
     this.maxCount = argCount
+    this.cb = argCb
   }
+
   /**
    * @function
    * @param {number} argCount 设置倒计时数值
    * @description 设置倒计时数值
    */
-  setCount (argCount = 60) {
+  setCount(argCount = 60) {
     this.count = argCount
+    if (!argCount) {
+      this.stop()
+    }
     return this
   }
+
   /**
    * @function
    * @param {number} argCount 初始倒计数
    * @description 设置初始倒计时数值
    */
-  setMaxCount (argCount = 60) {
+  setMaxCount(argCount = 60) {
     this.maxCount = argCount
     return this
   }
+
   /**
    * @function
    * @param {function} argCb 计时回调,返回当前剩余秒数
    * @description 开始倒计时
    */
-  start (argCb) {
+  start(argCb) {
+    if (this.cb && !argCb) {
+      argCb = this.cb
+    }
     if (!argCb) {
-      console.error('需要传入计时回调')
+      console.error('start需要传入计时回调')
       return
     }
     // count为0时从最大值开始
@@ -59,11 +70,12 @@ class Counter {
     }, 1000)
     return this
   }
+
   /**
    * @function
    * @description 停止倒计时
    */
-  stop () {
+  stop() {
     if (this.timer) {
       clearInterval(this.timer)
     }

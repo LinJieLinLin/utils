@@ -1,9 +1,11 @@
 /* eslint-disable no-constant-condition,no-undef */
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
+import Counter from './class/Counter'
 import { sleep, safeData, isJson, setUrlParams } from './j'
 import Aes from './Aes'
 import { getObj } from './struct'
+import store from '../store'
 Aes.init('tdtn', 'lj')
 let frame = ''
 let app = {}
@@ -952,6 +954,13 @@ export const wxLog = () => {
     }
   }
 }
+/**
+ * 描述
+ * @function
+ * @description 小程序云函数调用
+ * @date 2019-09-26
+ * @returns {functions}
+ */
 export const cloudApi = async (argOption = {}) => {
   if (wx) {
     L.loading(1)
@@ -969,4 +978,26 @@ export const cloudApi = async (argOption = {}) => {
     return Promise.reject('暂不支持')
   }
 }
+/**
+ * 描述
+ * @function
+ * @description 设置CountNum 全局倒计时
+ * @param argData 倒计秒数
+ * @date 2019-09-26
+ * @returns {functions}
+ */
+const setCountNum = argData => {
+  store.commit('SetCountNum', argData)
+}
+/**
+ * 描述
+ * @function
+ * @description 获取全局倒计时对象
+ * @date 2019-09-26
+ * @returns {functions}
+ */
+export const GlobalCounter = new Counter(
+  +getStorageSync('CountNum') || 60,
+  setCountNum
+)
 export const APP = app
