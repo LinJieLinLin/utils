@@ -3,10 +3,10 @@ import Loading from './class/Loading'
 import Throttle from './class/Throttle'
 import Counter from './class/Counter'
 import { sleep, safeData, isJson, setUrlParams } from './j'
-import Aes from './Aes'
+import { aesInit, decrypt, encrypt } from './encrypt/crypto'
 import { getObj } from './struct'
 import store from '../store'
-Aes.init('tdtn', 'lj')
+aesInit('tdtn', 'lj')
 let frame = ''
 let app = {}
 let ljCloud = ''
@@ -815,7 +815,7 @@ export const log = async (...argData) => {
  */
 export const getStorage = async argKey => {
   let res = await P('getStorage', { key: argKey })
-  res = Aes.decrypt(res.data)
+  res = decrypt(res.data)
   if (!res || !res.data) {
     log(['获取失败', res])
   }
@@ -832,7 +832,7 @@ export const getStorage = async argKey => {
  */
 export const getStorageSync = argKey => {
   let data = app.getStorageSync(argKey)
-  data = Aes.decrypt(data)
+  data = decrypt(data)
   if (isJson(data)) {
     data = JSON.parse(data)
   }
@@ -863,7 +863,7 @@ export const clearStorageSync = async (argKey, argData = {}) => {
  */
 export const getStorageSyncForVuex = argKey => {
   let data = app.getStorageSync(argKey)
-  data = Aes.decrypt(data)
+  data = decrypt(data)
   return data
 }
 /**
@@ -874,7 +874,7 @@ export const getStorageSyncForVuex = argKey => {
  * @returns {promise} key对应的数据
  */
 export const setStorage = async (argKey, argData) => {
-  const temData = Aes.encrypt(argData)
+  const temData = encrypt(argData)
   const res = await P('setStorage', { key: argKey, data: temData })
   if (!res || !res.errMsg.match('ok')) {
     log(['setStorage失败', res])
