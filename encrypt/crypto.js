@@ -17,7 +17,7 @@ export function aesInit(argKey, argIv) {
  * @param {string} word 待加密内容
  * @returns {string} 已加密内容
  */
-export function encrypt(word) {
+export const enAes = word => {
   if (typeof word === 'object') {
     word = JSON.stringify(word)
   }
@@ -38,7 +38,7 @@ export function encrypt(word) {
  * @param {string} word 待解密内容
  * @returns {string} 已解密内容
  */
-export function decrypt(word) {
+export const deAes = word => {
   let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
   let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
   let decrypt = CryptoJS.AES.decrypt(srcs, key, {
