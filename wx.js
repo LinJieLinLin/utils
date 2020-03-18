@@ -10,9 +10,9 @@ aesInit('tdtn', 'lj')
 let frame = ''
 let app = {}
 let ljCloud = ''
-
+const appConfig = getObj('config') || {}
 if (typeof uniCloud !== 'undefined') {
-  ljCloud = uniCloud.init(getObj('config.uniCloud'))
+  ljCloud = uniCloud.init(appConfig.uniCloud)
 }
 
 if (typeof uni !== 'undefined') {
@@ -815,7 +815,9 @@ export const log = async (...argData) => {
  */
 export const getStorage = async argKey => {
   let res = await P('getStorage', { key: argKey })
-  res = deAes(res.data)
+  if (appConfig.localEncrypt) {
+    res = deAes(res.data)
+  }
   if (!res || !res.data) {
     log(['获取失败', res])
   }
@@ -832,7 +834,9 @@ export const getStorage = async argKey => {
  */
 export const getStorageSync = argKey => {
   let data = app.getStorageSync(argKey)
-  data = deAes(data)
+  if (appConfig.localEncrypt) {
+    data = deAes(data)
+  }
   if (isJson(data)) {
     data = JSON.parse(data)
   }
@@ -863,7 +867,9 @@ export const clearStorageSync = async (argKey, argData = {}) => {
  */
 export const getStorageSyncForVuex = argKey => {
   let data = app.getStorageSync(argKey)
-  data = deAes(data)
+  if (appConfig.localEncrypt) {
+    data = deAes(data)
+  }
   return data
 }
 /**
@@ -874,7 +880,10 @@ export const getStorageSyncForVuex = argKey => {
  * @returns {promise} key对应的数据
  */
 export const setStorage = async (argKey, argData) => {
-  const temData = enAes(argData)
+  let temData = argData
+  if (appConfig.localEncrypt) {
+    temData = enAes(argData)
+  }
   const res = await P('setStorage', { key: argKey, data: temData })
   if (!res || !res.errMsg.match('ok')) {
     log(['setStorage失败', res])
