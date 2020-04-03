@@ -929,20 +929,17 @@ export const wxLog = () => {
   // logLevel 1 error 2 warn 3 info 4 debug
   const logLevel = +getStorageSync('logLevel')
   switch (logLevel) {
-    case 0:
-    case 4:
+    case 1:
+      console.warn = () => {}
+    // eslint-disable-next-line no-fallthrough
+    case 2:
+      console.info = () => {}
+    // eslint-disable-next-line no-fallthrough
     case 3:
       console.log = () => {}
-      break
-    case 2:
-      console.log = () => {}
-      console.info = () => {}
-      break
-    case 1:
-      console.log = () => {}
-      console.info = () => {}
-      console.warn = () => {}
-      break
+    // eslint-disable-next-line no-fallthrough
+    case 4:
+    case 0:
     default:
       break
   }
