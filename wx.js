@@ -11,7 +11,7 @@ let frame = ''
 let app = {}
 let ljCloud = ''
 const appConfig = getObj('config') || {}
-if (typeof uniCloud !== 'undefined') {
+if (typeof uniCloud !== 'undefined' && appConfig.uniCloud) {
   ljCloud = uniCloud.init(appConfig.uniCloud)
 }
 
@@ -597,6 +597,7 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
       reject(err)
     })
   }
+  console.error('选择文件：', res)
   showLoading()
   // 按需压缩
   const tempFiles = res.tempFiles
@@ -622,14 +623,15 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
     isH5 = true
     // #endif
     if (isH5) {
-      const getBase64Image = async img => {
+      let sizeMb = argData.size / 1024 / 1024
+      const getBase64Image = async argData => {
         var canvas = document.createElement('canvas')
+        var img = argData.img
         canvas.width = img.width
         canvas.height = img.height
         var ctx = canvas.getContext('2d')
         ctx.drawImage(img, 0, 0, img.width, img.height)
         let rate = 0.95
-        let sizeMb = argData.size / 1024 / 1024
         if (sizeMb > 10) {
           rate = 0.05
         } else if (sizeMb < 1.5) {
@@ -643,7 +645,7 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
         }
         var dataURL = canvas.toDataURL('image/jpeg', rate)
         var blob = await dataURLtoBlob(dataURL)
-        var file = await blobToFile(blob)
+        var file = await blobToFile(blob, argData.name)
         console.error(
           'old:',
           argData.size / 1024,
@@ -656,20 +658,24 @@ export const uploadImgs = async (argOptions, argQuality = 80, argMb = 1) => {
         )
         return file
       }
-      const loadImg = async argPath => {
+      const loadImg = async argData => {
         return new Promise((resolve, reject) => {
           var img = new Image()
-          img.src = argPath
+          img.src = argData.path
           console.error(img)
           img.onload = function() {
-            return resolve(img)
+            return resolve({ img, name: argData.name || '' })
           }
         })
       }
-      let file = await getBase64Image(await loadImg(argData.path))
+      let file = ''
+      if (sizeMb > 10) {
+        file = await getBase64Image(await loadImg(argData))
+      }
       return Promise.resolve({
         tempFilePath: argData.path,
         file: file,
+        fileName: argData.name || '',
         size: argData.size
       })
     }
@@ -920,6 +926,26 @@ export const P = (argApi, argOptions) => {
  * @returns {functions}
  */
 export const wxLog = () => {
+  // logLevel 1 error 2 warn 3 info 4 debug
+  const logLevel = +getStorageSync('logLevel')
+  switch (logLevel) {
+    case 0:
+    case 4:
+    case 3:
+      console.log = () => {}
+      break
+    case 2:
+      console.log = () => {}
+      console.info = () => {}
+      break
+    case 1:
+      console.log = () => {}
+      console.info = () => {}
+      console.warn = () => {}
+      break
+    default:
+      break
+  }
   if (!wx) {
     return
   }
@@ -930,22 +956,22 @@ export const wxLog = () => {
   }
   return {
     debug() {
-      console.log(arguments)
+      // console.log(arguments)
       if (!log) return
       log.debug.apply(log, arguments)
     },
     info() {
-      console.log(arguments)
+      // console.log(arguments)
       if (!log) return
       log.info.apply(log, arguments)
     },
     warn() {
-      console.log(arguments)
+      // console.log(arguments)
       if (!log) return
       log.warn.apply(log, arguments)
     },
     error() {
-      console.log(arguments)
+      // console.log(arguments)
       if (!log) return
       log.error.apply(log, arguments)
     },
