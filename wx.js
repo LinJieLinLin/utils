@@ -272,7 +272,7 @@ export const scrollTop = (scrollTop = 0, duration = 0) => {
  */
 export const toast = (
   argTitle,
-  argOption = { icon: 'none', delay: 320, duration: 5000 }
+  argOption = { icon: 'none', delay: 320, duration: 3000 }
 ) => {
   return new Promise(async function(resolve, reject) {
     Object.assign(argOption, {
