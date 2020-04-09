@@ -756,3 +756,20 @@ export const blobUrlToFile = async argData => {
     xhr.send()
   })
 }
+let isOnline = true
+// #ifdef H5
+// 断网监听
+if (window && window.addEventListener) {
+  window.addEventListener('online', function() {
+    console.error('onLine')
+    isOnline = true
+  })
+  window.addEventListener('offline', function() {
+    console.error('offLine')
+    isOnline = false
+  })
+}
+// #endif
+export const getNetworkStatus = () => {
+  return isOnline
+}
