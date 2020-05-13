@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-04-07 09:54:50
+ * @LastEditTime: 2020-05-12 11:59:38
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \uni-demo\src\utils\microApi.js
+ */
 /* eslint-disable no-constant-condition,no-undef */
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
@@ -112,6 +120,61 @@ export const request = argOption => {
     app.request(config)
   })
 }
+/**
+ * @description 图片上传 单图/多图
+ * @function
+ * @param {object} argOption 参数配置
+ * @returns {promise}
+ */
+export const uploadImg = async argOption => {
+  var error, filePath
+  var data = {
+    url:
+      argOption.params.url ||
+      store.state.BaseUrl + store.state.BasePath + '/common/uploadImage',
+    filePath: argPath,
+    name: argOption.params.name || 'file',
+    formData: null,
+    header: argOption.config.header || {}
+  }
+  filePath = argOption.params.filePath
+  const uploadOne = async argPath => {
+    data.filePath = argPath
+    let res = await P('uploadFile', data).catch(err => {
+      error = err
+    })
+    // #ifdef  H5
+    URL.revokeObjectURL(argPath)
+    // #endif
+    if (res) {
+      res = interceptors.response(res)
+      return res
+    } else {
+      return Promise.reject(error)
+    }
+  }
+
+  delete argOption.params.url
+  delete argOption.params.name
+
+  argOption = interceptors.request(argOption)
+  data.formData = argOption.params
+
+  if (typeof filePath === 'string') {
+    return uploadOne(filePath)
+  } else {
+    const temUploadFn = filePath.map(uploadFn)
+    res = await Promise.all(temUploadFn).catch(err => {
+      error = err
+    })
+    if (res) {
+      return res
+    } else {
+      return Promise.reject(error)
+    }
+  }
+}
+
 export const requestCloud = argOption => {
   argOption = interceptors.request(argOption)
   return new Promise((resolve, reject) => {
@@ -573,7 +636,6 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
   L.loading()
   await toast('下载完成！')
 }
-
 /**
  * @function
  * @description 上传图片，返回临时图片路径
@@ -914,7 +976,11 @@ export const P = (argApi, argOptions) => {
       fail: reject
     }
     Object.assign(options, argOptions)
-    app[argApi](options)
+    if (app[argApi]) {
+      app[argApi](options)
+    } else {
+      return Promise.reject('无此方法')
+    }
   })
 }
 
