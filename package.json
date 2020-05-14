@@ -1,7 +1,16 @@
 {
-  "name": "vue-demo",
-  "version": "0.1.0",
-  "private": true,
+  "name": "lj-utils",
+  "version": "0.1.001",
+  "description": "uni-app project utils",
+  "main": "j.js",
+  "keywords": [
+    "utils",
+    "uni-app",
+    "vue"
+  ],
+  "author": "linjielinlin",
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "doc": "jsdoc -c jsdoc.json",
     "rundoc": "jsdoc -c jsdoc.json && cd docs & http-server -d docs -p 1000 -c-1 -o"
@@ -15,5 +24,12 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LinJieLinLin/utils.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

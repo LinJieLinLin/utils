@@ -1,9 +1,15 @@
+/**
+ * 公共函数
+ * @module
+ * @author linj
+ * @description 公共函数
+ */
 import CryptoJS from 'crypto-js'
 let key = 'by'
 let iv = 'linj'
 /**
  * @function
- * @description aes初始化
+ * @description aes初始化,选定aes加密码方式后，先执行初始化
  * @param {string} argKey 密钥
  * @param {string} argIv 密钥偏移量
  */
