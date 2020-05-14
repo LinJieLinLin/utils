@@ -1,6 +1,6 @@
 {
   "name": "lj-utils",
-  "version": "0.1.001",
+  "version": "0.1.2",
   "description": "uni-app project utils",
   "main": "j.js",
   "keywords": [
@@ -27,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/LinJieLinLin/utils.git"
+    "url": "https://gitee.com/uni-pro/utils.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
