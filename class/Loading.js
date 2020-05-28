@@ -20,7 +20,7 @@ class Loading {
    * @param {function} argHide 隐藏loading 回调
    * @param {number} delay 延时 ms,不宜过长,默认300
    */
-  constructor (argShow, argHide, argdelay) {
+  constructor(argShow, argHide, argdelay) {
     if (typeof argShow === 'function') {
       this.show = argShow
     }
@@ -34,7 +34,7 @@ class Loading {
    * @param {boolean} isAdd 是否增加一个请求loading
    * @description 是否增加一个请求loading，true +1,false -1
    */
-  loading (isAdd) {
+  loading(isAdd) {
     if (isAdd) {
       if (!this.requestNum) {
         this.temTime = +new Date()
@@ -64,7 +64,7 @@ class Loading {
           )
         }
         this.hide()
-      }, this.delay)
+      }, 0)
     }
   }
 }

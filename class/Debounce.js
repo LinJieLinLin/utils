@@ -6,9 +6,10 @@
 class Debounce {
   timer = null
   dbTime = 0
-  constructor () {
+  constructor() {
     this.dbTime = Date.now()
   }
+
   /**
    * @function
    * @description 函数抖动，在等待n毫秒无点击后触发
@@ -17,7 +18,7 @@ class Debounce {
    * @param  {any} ...arg 回调函数的参数
    * @returns {function}
    */
-  debounce (argFn, argWait = 500) {
+  debounce(argFn, argWait = 500) {
     if (typeof argFn !== 'function') {
       argFn = () => {
         return this

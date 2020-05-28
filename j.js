@@ -59,7 +59,7 @@ export const getRegexp = () => {
     // 帐号50个字内：大小写+数字+中文+'_'+'-'
     account: /^[a-zA-Z0-9_\-\u4e00-\u9fa5]{1,50}$/,
     // 中英文姓名 50个字内
-    realName: /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/
+    realName: /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
   }
 }
 
@@ -113,7 +113,7 @@ export const replaceUrlParam = (name, value, url = window.location.href) => {
   let strValue = url
   if (value === undefined || value === null) {
     if (r != null) {
-      strValue = url.replace(reg, function() {
+      strValue = url.replace(reg, function () {
         if (!arguments[4] || !arguments[4].length) {
           return ''
         } else if (arguments[1] === arguments[4]) {
@@ -152,7 +152,7 @@ export const replaceUrlParam = (name, value, url = window.location.href) => {
  * @description 转义html标签
  * @param  {} argHtml 需要转义的文本
  */
-export const encodeHtml = argHtml => {
+export const encodeHtml = (argHtml) => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
@@ -171,7 +171,7 @@ export const encodeHtml = argHtml => {
  * @description 反转义html标签
  * @param  {} argHtml 需要反转义的文本
  */
-export const decodeHtml = argHtml => {
+export const decodeHtml = (argHtml) => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
@@ -218,7 +218,7 @@ export const safeData = (argData, argCheck, argValue) => {
  * @description 设置标题
  * @param  {} argTitle 标题
  */
-export const setTitle = argTitle => {
+export const setTitle = (argTitle) => {
   document.getElementsByTagName('title')[0].innerText = argTitle
 }
 
@@ -270,7 +270,7 @@ export const formatTime = (
     'm+': date.getMinutes(),
     's+': date.getSeconds(),
     'q+': Math.floor((date.getMonth() + 3) / 3),
-    S: date.getMilliseconds()
+    S: date.getMilliseconds(),
   }
   var week = {
     '0': '\u65e5',
@@ -279,7 +279,7 @@ export const formatTime = (
     '3': '\u4e09',
     '4': '\u56db',
     '5': '\u4e94',
-    '6': '\u516d'
+    '6': '\u516d',
   }
   if (/(Y+)/.test(fmt)) {
     fmt = fmt.replace(
@@ -386,7 +386,7 @@ export const remInit = () => {
  * @description 是否为正确的身份证号码
  * @param  {string} code 身份证号码
  */
-export const isIdCard = code => {
+export const isIdCard = (code) => {
   let city = {
     11: '北京',
     12: '天津',
@@ -422,7 +422,7 @@ export const isIdCard = code => {
     71: '台湾',
     81: '香港',
     82: '澳门',
-    91: '国外 '
+    91: '国外 ',
   }
   let tip = ''
   let pass = true
@@ -469,7 +469,7 @@ export const isIdCard = code => {
  * @description 获取cookie
  * @param  {string} argName 要获取的值
  */
-export const getCookie = argName => {
+export const getCookie = (argName) => {
   let cookie = document.cookie.split('; ')
   for (let i = 0; i < cookie.length; i += 1) {
     let name = cookie[i].split('=')
@@ -510,7 +510,7 @@ export const setCookie = (argName, argValue, argTime = 24) => {
  * @description 清除cookie
  * @param  {string} argName 要清除的值
  */
-export const delCookie = argName => {
+export const delCookie = (argName) => {
   setCookie(argName, '', -1)
 }
 /**
@@ -518,8 +518,8 @@ export const delCookie = argName => {
  * @description setTimeout promise版
  * @param  {number} ms 时间，毫秒
  */
-export const sleep = ms => {
-  return new Promise(resolve => setTimeout(resolve, ms))
+export const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 /**
  * @function
@@ -540,7 +540,7 @@ export const randomInt = (min = 0, max) => {
  * @param  {any} argData 最小值
  * @returns {boolean}
  */
-export const isJson = argData => {
+export const isJson = (argData) => {
   try {
     if (typeof JSON.parse(argData || '') === 'object') {
       return true
@@ -604,7 +604,7 @@ export const getSystemInfo = () => {
     isIos: platform.match('ios') && true,
     isAndroid: platform.match('android') && true,
     isSafari: ua.indexOf('safari') > -1 && ua.indexOf('chrome') < 1,
-    isIE: !!window.ActiveXObject || 'ActiveXObject' in window
+    isIE: !!window.ActiveXObject || 'ActiveXObject' in window,
   }
   if (info.ua.match('msie')) {
     let IE = info.ua.match(/msie\s([0-9]*)/)
@@ -657,7 +657,7 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
  * @param {any} argData 要处理的数据
  * @returns {any} 返回处理好的数据
  */
-export const string10to62 = argData => {
+export const string10to62 = (argData) => {
   var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split(
     ''
   )
@@ -680,7 +680,7 @@ export const string10to62 = argData => {
  * @param {any} argData 要处理的数据
  * @returns {any} 返回处理好的数据
  */
-export const string62to10 = argData => {
+export const string62to10 = (argData) => {
   argData = String(argData)
   var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'
   var radix = chars.length
@@ -700,12 +700,12 @@ export const string62to10 = argData => {
  * @param {any} argBlob 要处理的数据
  * @returns {any} 返回base64
  */
-export const blobToBase64 = async argBlob => {
+export const blobToBase64 = async (argBlob) => {
   // eslint-disable-next-line no-undef
   const fileReader = new FileReader()
   // readAsDataURL
   fileReader.readAsDataURL(argBlob)
-  fileReader.onload = e => {
+  fileReader.onload = (e) => {
     return Promise.resolve(e.target.result)
   }
   fileReader.onerror = () => {
@@ -738,19 +738,19 @@ export const toFixed = (argData, argNum = 2, argType = 'string') => {
  * @param {any} argData blobUrl
  * @returns {any} 返回文件流
  */
-export const blobUrlToFile = async argData => {
-  return new Promise(function(resolve, reject) {
+export const blobUrlToFile = async (argData) => {
+  return new Promise(function (resolve, reject) {
     // eslint-disable-next-line no-undef
     var xhr = new XMLHttpRequest()
     xhr.open('GET', argData, true)
     xhr.responseType = 'blob'
-    xhr.onload = function(e) {
+    xhr.onload = function (e) {
       if (this.status === 200) {
         var myBlob = this.response
         return resolve(myBlob)
       }
     }
-    xhr.error = err => {
+    xhr.error = (err) => {
       return reject(err)
     }
     xhr.send()
@@ -760,16 +760,50 @@ let isOnline = true
 // #ifdef H5
 // 断网监听
 if (window && window.addEventListener) {
-  window.addEventListener('online', function() {
+  window.addEventListener('online', function () {
     console.error('onLine')
     isOnline = true
   })
-  window.addEventListener('offline', function() {
+  window.addEventListener('offline', function () {
     console.error('offLine')
     isOnline = false
   })
 }
 // #endif
+
+/**
+ * @description: 获取当前网络状态（H5）
+ * @return: boolean
+ */
 export const getNetworkStatus = () => {
   return isOnline
+}
+
+/**
+ * @description: 图片dataurl转blob对象
+ * @param {type} dataurl
+ * @return: blob
+ */
+export const dataURLtoBlob = async (argData) => {
+  var arr = argData.split(',')
+  var mime = arr[0].match(/:(.*?);/)[1]
+  var bstr = atob(arr[1])
+  var n = bstr.length
+  var u8arr = new Uint8Array(n)
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+  return new Blob([u8arr], { type: 'image/jpeg' })
+}
+
+/**
+ * @description: blob转file对象
+ * @param {type} argBlob blob对像
+ * @param {type} argName filename
+ * @return:
+ */
+export const blobToFile = async (argBlob, argName = Date.now()) => {
+  argBlob.lastModifiedDate = new Date()
+  argBlob.name = argName
+  return argBlob
 }
