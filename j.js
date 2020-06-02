@@ -191,9 +191,14 @@ export const decodeHtml = (argHtml) => {
  * @param  {object|Array} argData  [原始数据]
  * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
  * @param  {*} argValue [如果数据有误，返回的值，选填]
+ * @param  {Boolean} argSetValueForce [是否强制赋值argValue]
  * @returns {any}
  */
-export const safeData = (argData, argCheck, argValue) => {
+export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
+  if (typeof argCheck !== 'string') {
+    console.error('argCheck请传入string当前为：' + argCheck)
+    return ''
+  }
   var temKey = argCheck.toString().split('.')
   var temLen = temKey.length
   if (!argData) {
@@ -206,6 +211,9 @@ export const safeData = (argData, argCheck, argValue) => {
       }
       argData = argData[temKey[i]] || {}
     }
+  }
+  if (argSetValueForce) {
+    argData[temKey[temLen - 1]] = argValue || ''
   }
   if (typeof argValue === 'undefined') {
     return argData[temKey[temLen - 1]]

@@ -44,18 +44,29 @@ const mixin = {
      * @return: no
      */
     ComChange(argData) {
-      console.log(argData)
+      // console.log(argData)
       // #ifdef MP-WEIXIN||H5
       if (argData.key) {
-        if (this.$f.safeData(this, argData.key, '')) {
+        let temData = this.$f.safeData(this, argData.key)
+        if (temData || typeof temData !== 'undefined') {
           // 小程序赋值
           if (Array.isArray(argData.data)) {
-            this[argData.key] = []
+            this.$f.safeData(this, argData.key, [], true)
           }
-          this[argData.key] = argData.data
+          this.$f.safeData(this, argData.key, argData.data, true)
+          console.log(
+            'mp-weixin update data:',
+            argData.data,
+            typeof argData.data
+          )
           return
         } else {
-          console.error('数据' + argData.key + '不存在！')
+          console.error(
+            this.$f.safeData(this, argData.key) +
+              '数据' +
+              argData.key +
+              '不存在！'
+          )
         }
       }
       // #endif
