@@ -195,7 +195,7 @@ export const decodeHtml = (argHtml) => {
  * @returns {any}
  */
 export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
-  if (typeof argCheck !== 'string') {
+  if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
     console.error('argCheck请传入string当前为：' + argCheck)
     return ''
   }
@@ -213,7 +213,7 @@ export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
     }
   }
   if (argSetValueForce) {
-    argData[temKey[temLen - 1]] = argValue || ''
+    argData[temKey[temLen - 1]] = argValue
   }
   if (typeof argValue === 'undefined') {
     return argData[temKey[temLen - 1]]

@@ -33,10 +33,29 @@ const mixin = {
         this.SetReload()
       }
     },
-
+    /**
+     * @description:
+     * @param {type} argKey '要赋值的数据下标，相对于this',
+     * @param {type} argValue 数据,
+     * @return:
+     */
+    SetKv(argKey, argValue) {
+      let temData = this.$f.safeData(this, argKey)
+      if (temData || typeof temData !== 'undefined') {
+        // 小程序赋值
+        if (Array.isArray(argValue)) {
+          this.$f.safeData(this, argKey, [], true)
+        }
+        this.$f.safeData(this, argKey, argValue, true)
+      } else {
+        console.error(
+          this.$f.safeData(this, argKey) + '数据' + argKey + '不存在！'
+        )
+      }
+    },
     /**
      * @description: mixin监听数据变动，调用指定函数（主要用于小程序）
-     * @param {object} argData{
+     * @param {object} argData{ // key与fn只传其一
      * key: '要赋值的数据下标，相对于this',
      * fn: '要调用的函数名',
      * data: '数据'
@@ -45,31 +64,9 @@ const mixin = {
      */
     ComChange(argData) {
       // console.log(argData)
-      // #ifdef MP-WEIXIN||H5
       if (argData.key) {
-        let temData = this.$f.safeData(this, argData.key)
-        if (temData || typeof temData !== 'undefined') {
-          // 小程序赋值
-          if (Array.isArray(argData.data)) {
-            this.$f.safeData(this, argData.key, [], true)
-          }
-          this.$f.safeData(this, argData.key, argData.data, true)
-          console.log(
-            'mp-weixin update data:',
-            argData.data,
-            typeof argData.data
-          )
-          return
-        } else {
-          console.error(
-            this.$f.safeData(this, argData.key) +
-              '数据' +
-              argData.key +
-              '不存在！'
-          )
-        }
+        this.SetKv(argData.key, argData.data)
       }
-      // #endif
       if (typeof this[argData.fn] === 'function') {
         this[argData.fn](argData.data)
       } else if (argData.fn) {
