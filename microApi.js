@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-05-27 11:35:07
+ * @LastEditTime: 2020-07-13 18:32:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -99,7 +99,7 @@ export const setRequest = (argRequest, argResponse) => {
  * @param {object} argOption http配置
  * @returns {promise}
  */
-export const request = (argOption) => {
+export const requestOld = (argOption) => {
   argOption = interceptors.request(argOption)
   return new Promise((resolve, reject) => {
     const config = {
@@ -128,10 +128,45 @@ export const request = (argOption) => {
   })
 }
 /**
+ * @description 封装小程序request
+ * @function
+ * @param {object} argOption http配置
+ * @returns {promise}
+ */
+export const request = async (argOption) => {
+  argOption = await interceptors.request(argOption)
+  return new Promise((resolve, reject) => {
+    const config = {
+      url: argOption.url,
+      method: argOption.method || 'GET',
+      data: argOption.params,
+      success(res = {}) {
+        console.log('响应数据：', res)
+        res.config = argOption.config || {}
+        res = interceptors.response(res, resolve, reject)
+        if (res && res.cb) {
+          return res.cb(resolve, reject)
+        }
+        if (res && res.reject) {
+          return reject(res.data || res)
+        } else {
+          return resolve(res)
+        }
+      },
+      fail(err) {
+        interceptors.response(err)
+        return reject(err)
+      },
+    }
+    Object.assign(config, argOption.config)
+    app.request(config)
+  })
+}
+/**
  * @description 图片上传 单图/多图
  * @function
  * @param {object} argOption 参数配置
- * @returns {promise}
+ * @returns {promise} 上传回调
  */
 export const uploadImg = async (argOption) => {
   var error, filePath
@@ -166,11 +201,11 @@ export const uploadImg = async (argOption) => {
 
   argOption = interceptors.request(argOption)
   data.formData = argOption.params
-
+  // 单张上传
   if (typeof filePath === 'string') {
     return uploadOne(filePath)
   } else {
-    const temUploadFn = filePath.map(uploadFn)
+    const temUploadFn = filePath.map(uploadOne)
     res = await Promise.all(temUploadFn).catch((err) => {
       error = err
     })
@@ -755,6 +790,7 @@ export const uploadImgs = async (
     // console.error(error)
     err = error
   })
+  hideLoading()
   if (!tempFilePaths) {
     return Promise.reject(err)
   }
@@ -821,7 +857,7 @@ export const getSystemInfo = () => {
 
 /**
  * @function
- * @description wx api转Promise
+ * @description 小程序云函数记录日志（需要添加云函数log，弃用）
  * @param {object} argData log内容
  */
 export const log = async (...argData) => {
@@ -859,9 +895,10 @@ export const log = async (...argData) => {
  * @function
  * @description 获取storage的值，默认将json转为obj
  * @param {string} argKey 要获取的key
+ * @param {string} argNoJson true时不自动转换JSON字符串
  * @returns {promise} key对应的数据
  */
-export const getStorage = async (argKey) => {
+export const getStorage = async (argKey, argNoJson) => {
   let res = await P('getStorage', { key: argKey })
   if (appConfig.localEncrypt) {
     res = decode(res.data)
@@ -869,43 +906,54 @@ export const getStorage = async (argKey) => {
   if (!res || !res.data) {
     log(['获取失败', res])
   }
-  if (isJson(res.data)) {
+  // 默认转义JSON字符串
+  if (!argNoJson && isJson(res.data)) {
     res.data = JSON.parse(res.data)
   }
   return res.data || res || ''
 }
+
 /**
  * @function
  * @description 获取storage的值，默认将json转为obj
  * @param {string} argKey 要获取的key
+ * @param {string} argNoJson true时不自动转换JSON字符串
  * @returns {data} key对应的数据
  */
-export const getStorageSync = (argKey) => {
+export const getStorageSync = (argKey, argNoJson) => {
   let data = app.getStorageSync(argKey)
   if (appConfig.localEncrypt) {
     data = decode(data)
   }
-  if (isJson(data)) {
+  // 默认转义JSON字符串
+  if (!argNoJson && isJson(data)) {
     data = JSON.parse(data)
   }
   return data
 }
-// 退出登录或登录失效，清除本地数据
-export const clearStorageSync = async (argKey, argData = {}) => {
-  let res = await P('getStorageInfo')
-  res.keys.map((v) => {
-    if (v === 'loginData') {
-      // 部分数据不用清
-      return
-    }
-    if (!argData.force) {
-      if (v === 'Ticket' || v === 'vuex' || v === 'IsFace') {
-        // 部分数据不用清
-        return
+
+/**
+ * @function
+ * @description 退出登录或登录失效，清除本地数据
+ * @param {string} argKey 要删除的key,不填为删除全部
+ * @param {string} argExtraKey:额外保留的key如：'vuex,ticket'
+ * @returns {data} key对应的数据
+ */
+export const clearStorageSync = async (argKey = '', argExtraKey = {}) => {
+  if (argKey) {
+    app.removeStorageSync(argKey)
+  } else {
+    let res = await P('getStorageInfo')
+    res.keys.map((v) => {
+      if (!argData.force) {
+        let extraKey = ',' + argExtraKey + ','
+        if (extraKey.match(',' + v + ',')) {
+          return
+        }
       }
-    }
-    app.removeStorageSync(v)
-  })
+      app.removeStorageSync(v)
+    })
+  }
 }
 /**
  * @function
@@ -920,6 +968,7 @@ export const getStorageSyncForVuex = (argKey) => {
   }
   return data
 }
+
 /**
  * @function
  * @description 设置storage的值，默认将obj转为json
