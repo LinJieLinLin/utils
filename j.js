@@ -75,12 +75,17 @@ export const setUrlParams = (argParams, noMark) => {
   if (!noMark) {
     re = '?'
   }
-  for (let k in argParams) {
-    re += k + '=' + argParams[k] + '&'
+  let paramsList = Object.keys(argParams)
+  let temLenght = paramsList.length
+  if (temLenght) {
+    return ''
   }
-  if (argParams) {
-    re = re.substring(0, re.length - 1)
-  }
+  paramsList.map((v, k) => {
+    re += v + '=' + argParams[v]
+    if (k < temLenght - 1) {
+      re += '&'
+    }
+  })
   return re
 }
 

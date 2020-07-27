@@ -2,7 +2,7 @@
  * 公共函数
  * @module
  * @author linj
- * @description 公共函数
+ * @description 公共函数 小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
  */
 import CryptoJS from 'crypto-js'
 let key = 'by'
@@ -17,13 +17,14 @@ export function aesInit(argKey, argIv) {
   key = CryptoJS.enc.Utf8.parse(argKey) // 十六位十六进制数作为密钥
   iv = CryptoJS.enc.Utf8.parse(argIv) // 十六位十六进制数作为密钥偏移量
 }
+
 /**
  * @function
  * @description aes加密
  * @param {string} word 待加密内容
  * @returns {string} 已加密内容
  */
-export const enAes = word => {
+export const enAes = (word) => {
   if (typeof word === 'object') {
     word = JSON.stringify(word)
   }
@@ -34,7 +35,7 @@ export const enAes = word => {
   let encrypted = CryptoJS.AES.encrypt(srcs, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7
+    padding: CryptoJS.pad.Pkcs7,
   })
   return encrypted.ciphertext.toString().toUpperCase()
 }
@@ -44,13 +45,13 @@ export const enAes = word => {
  * @param {string} word 待解密内容
  * @returns {string} 已解密内容
  */
-export const deAes = word => {
+export const deAes = (word) => {
   let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
   let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
   let decrypt = CryptoJS.AES.decrypt(srcs, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7
+    padding: CryptoJS.pad.Pkcs7,
   })
   let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
   return decryptedStr.toString()
@@ -61,14 +62,14 @@ export const deAes = word => {
  * @param {string} argData 待加密内容
  * @returns {string} 已加密内容
  */
-export const md5 = argData => CryptoJS.MD5(argData).toString()
+export const md5 = (argData) => CryptoJS.MD5(argData).toString()
 /**
  * @function
  * @description base64 加密
  * @param {string} argData 待加密内容
  * @returns {string} 已加密内容
  */
-export const enBase64 = argData => {
+export const enBase64 = (argData) => {
   argData = argData || ''
   var wordArray = CryptoJS.enc.Utf8.parse(argData)
   var base64 = CryptoJS.enc.Base64.stringify(wordArray)
@@ -80,7 +81,7 @@ export const enBase64 = argData => {
  * @param {string} argData 待解密内容
  * @returns {string} 已解密内容
  */
-export const deBase64 = argData => {
+export const deBase64 = (argData) => {
   argData = argData || ''
   var wordArray = CryptoJS.enc.Utf8.parse(argData)
   var base64 = CryptoJS.enc.Base64.stringify(wordArray)

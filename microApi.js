@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-07-13 18:32:54
+ * @LastEditTime: 2020-07-27 16:21:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -18,10 +18,10 @@ import {
   dataURLtoBlob,
   blobToFile,
 } from './j'
-import { aesInit, decode, encode } from './encrypt/crypto'
+// import { decode, encode } from './encrypt/crypto'
+import { decode, encode } from './encrypt/base64'
 import { getObj } from './struct'
 import store from '../store'
-aesInit('tdtn', 'lj')
 let frame = ''
 let app = {}
 let ljCloud = ''
@@ -419,8 +419,10 @@ export const setTitle = (argTitle) => {
  */
 export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
   const toPageFn = () => {
-    console.log('page:', argPage, setUrlParams(argParams))
+    console.log('params:', argPage, setUrlParams(argParams), argType, argForce)
+    // 返回处理
     if (!argPage || argPage === 'back') {
+      // -1时返回首页
       if (+argType === -1) {
         app.reLaunch({
           url: '/pages/index/index' + setUrlParams(argParams),
@@ -443,14 +445,7 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
       // #endif
       return
     }
-    if (argPage === 'faceAuth') {
-      // #ifdef  H5
-      const temUrl =
-        'https://rz.weijing.gov.cn/authgzh/auth' + setUrlParams(argParams)
-      location.href = temUrl
-      // #endif
-      return
-    }
+    // 每次进入首页都重载
     if (argPage === 'index') {
       app.reLaunch({
         url: '/pages/' + argPage + '/index' + setUrlParams(argParams),
@@ -462,6 +457,10 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
     type = 'h5'
     // #endif
     let temUrl = '/pages/' + argPage + '/index' + setUrlParams(argParams)
+    // 匹配绝对路径和url
+    if (argPage[0] === '/' || /http:\/\/|https:\/\//.test(argPage)) {
+      temUrl = argPage + setUrlParams(argParams)
+    }
     switch (argType) {
       case 'switchTab':
         app.switchTab({
