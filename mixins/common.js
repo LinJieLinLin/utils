@@ -17,6 +17,9 @@ const mixin = {
   },
   onLoad(argData) {
     this.Params = argData || {}
+    if (this.init) {
+      this.init()
+    }
   },
   onShow() {},
   components: {},

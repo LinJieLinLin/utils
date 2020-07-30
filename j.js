@@ -820,3 +820,77 @@ export const blobToFile = async (argBlob, argName = Date.now()) => {
   argBlob.name = argName
   return argBlob
 }
+
+/**
+ * @description: 动态加载html文件标签
+ * @param {type} argUrl 要加载的url
+ * @param {type} argType 加载类型 js/css
+ * @param {type} argOptions{
+ * disCheck:'不检查是否有相同标签'
+ * force:'如果有相同标签，先删除再添加'
+ * } 是否强制添加
+ * @return: promise
+ */
+export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
+  let temId = argType + '-' + argUrl.split('/').pop()
+  let head = document.getElementsByTagName('head')[0]
+  let nodeTag = null
+  if (!argOptions.disCheck) {
+    let checkTag = document.getElementById(temId)
+    // 已经存在对应tag
+    if (checkTag) {
+      if (argOptions.force) {
+        head.removeChild(checkTag)
+      } else {
+        return { msg: '已存在，中断加载！' }
+      }
+    }
+  }
+  switch (argType) {
+    case 'css':
+      nodeTag = document.createElement('link')
+      nodeTag.type = 'text/css'
+      nodeTag.rel = 'stylesheet'
+      nodeTag.href = argUrl
+      break
+    case 'js':
+      nodeTag = document.createElement('script')
+      nodeTag.src = argUrl
+      nodeTag.type = 'text/javascript'
+      break
+    default:
+      console.error('暂不支持：' + argType)
+      return
+  }
+  nodeTag.id = temId
+  head.appendChild(nodeTag)
+  return new Promise((resolve) => {
+    if (nodeTag.readyState) {
+      nodeTag.onreadystatechange = function () {
+        if (
+          nodeTag.readyState === 'loaded' ||
+          nodeTag.readyState === 'complete'
+        ) {
+          nodeTag.onreadystatechange = null
+          return resolve(argUrl)
+        }
+      }
+    } else {
+      // Others
+      nodeTag.onload = function () {
+        console.log('已加载：' + argUrl)
+        return resolve(argUrl)
+      }
+    }
+  })
+}
+
+/**
+ * @description: 获取随机颜色
+ * @return: string
+ */
+export const getRandomColor = function () {
+  return (
+    '#' + ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6)
+  )
+}

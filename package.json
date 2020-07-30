@@ -9,11 +9,16 @@
     "vue"
   ],
   "author": "linjielinlin",
+  "email": "993353454@qq.com",
   "license": "MIT",
   "private": false,
   "scripts": {
     "doc": "jsdoc -c jsdoc.json",
-    "rundoc": "jsdoc -c jsdoc.json && cd docs & http-server -d docs -p 1000 -c-1 -o"
+    "rundoc": "jsdoc -c jsdoc.json && cd docs & http-server -d docs -p 1000 -c-1 -o",
+    "z": "echo '小改动' &&npm version patch",
+    "y": "echo '特性更新' &&npm version minor",
+    "x": "echo '大改动' &&npm version major",
+    "push": "npm login && npm publish"
   },
   "dependencies": {},
   "devDependencies": {
