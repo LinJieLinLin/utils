@@ -785,6 +785,7 @@ if (window && window.addEventListener) {
 // #endif
 
 /**
+ * @function
  * @description: 获取当前网络状态（H5）
  * @return: boolean
  */
@@ -793,6 +794,7 @@ export const getNetworkStatus = () => {
 }
 
 /**
+ * @function
  * @description: 图片dataurl转blob对象
  * @param {type} dataurl
  * @return: blob
@@ -810,6 +812,7 @@ export const dataURLtoBlob = async (argData) => {
 }
 
 /**
+ * @function
  * @description: blob转file对象
  * @param {type} argBlob blob对像
  * @param {type} argName filename
@@ -822,6 +825,7 @@ export const blobToFile = async (argBlob, argName = Date.now()) => {
 }
 
 /**
+ * @function
  * @description: 动态加载html文件标签
  * @param {type} argUrl 要加载的url
  * @param {type} argType 加载类型 js/css
@@ -886,6 +890,7 @@ export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
 }
 
 /**
+ * @function
  * @description: 获取随机颜色
  * @return: string
  */
