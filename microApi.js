@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-07-27 16:21:13
+ * @LastEditTime: 2020-08-11 11:28:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -217,6 +217,15 @@ export const uploadImg = async (argOption) => {
   }
 }
 
+/**
+ * @function
+ * @description 请求云函数
+ * @param argOption{
+ * name:'函数名',
+ * params:'参数',
+ * config:'请求配置',
+ * }
+ */
 export const requestCloud = (argOption) => {
   argOption = interceptors.request(argOption)
   return new Promise((resolve, reject) => {
@@ -267,8 +276,8 @@ export const checkUpdate = () => {
   })
 }
 /**
- * @description 检查用户授权状态，未授权弹出授权，(userInfo除外)，将拿到的权限放在authSetting 中
  * @function
+ * @description 检查用户授权状态，未授权弹出授权，(userInfo除外)，将拿到的权限放在authSetting 中
  * @param {string} argSet 要检查的权限,userInfo时：已授权会返回userInfo数据
  * @returns {promise}
  */
@@ -372,7 +381,11 @@ export const scrollTop = (scrollTop = 0, duration = 0) => {
  * @description toast默认为文字提示,默认推迟320ms显示
  * @function
  * @param {string} argTitle title
- * @param {object} argOption toast 的option
+ * @param {object} argOption{
+ * icon:'图标',
+ * delay: '延时显示'
+ * duration："显示时间""
+ * } toast 的option
  * @returns {promise}
  */
 export const toast = (
@@ -680,16 +693,37 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
 /**
  * @function
  * @description 上传图片，返回临时图片路径
- * @param {object} argOptions 选择图片chooseImage配置
- * @param {object} argQuality 压缩质量默认80
+ * @param {object} argOptions{
+ * // 最多可以选择的图片张数
+ *  count: 9,
+ *  // 所选的图片的尺寸
+ *  sizeType: ['original', 'compressed'],
+ *  // album 从相册选图，camera 使用相机，默认二者都有。如需直接开相机或直接选相册，请只使用一个选项
+ *  sourceType: ['album', 'camera'],
+ *  // 是否关闭图片压缩，默认开启
+ * disCompress: false,
+ * } 外加选择图片chooseImage配置
  * @param {object} argMb 超过多少M压缩，默认1M(仅支持jpg)
+ * @param {object} argQuality 压缩质量默认80
+ * @param {object} argMaxSize 图片最长边默认1920
  * @returns {promise} 返回临时图片路径[{tempFilePath:'临时路径',size: '不压缩时返回'}]
  */
 export const uploadImgs = async (
-  argOptions = {},
-  argQuality = 80,
-  argMb = 1
+  argOptions = {
+    // 最多可以选择的图片张数
+    count: 9,
+    // 所选的图片的尺寸
+    sizeType: ['original', 'compressed'],
+    // album 从相册选图，camera 使用相机，默认二者都有。如需直接开相机或直接选相册，请只使用一个选项
+    sourceType: ['album', 'camera'],
+    // 是否关闭图片压缩，默认开启
+    disCompress: false,
+  },
+  argMb = 1,
+  argQuality = 90,
+  argMaxSize = 1920
 ) => {
+  var maxSize = argMaxSize || 1920
   let err = ''
   const res = await P('chooseImage', {
     count: argOptions.count || 9,
@@ -700,89 +734,106 @@ export const uploadImgs = async (
   })
   if (!res) {
     console.error(err)
-    return new Promise((resolve, reject) => {
-      reject(err)
-    })
+    return Promise.reject(err)
   }
-  console.error('选择文件：', res)
+  console.log('选择文件：', res)
   showLoading()
   // 按需压缩
   const tempFiles = res.tempFiles
+  // 压缩图片
   const compressImage = async (argData) => {
-    console.error('压缩数据：', argData)
     if (argData.size > argMb * 1024 * 1024) {
       console.log('未压缩前：', argData)
-      // #ifdef MP-WEIXIN
-      if (argData.path.match('jpg')) {
+      // #ifndef H5
+      if (!argOptions.disCompress) {
         return P('compressImage', {
           src: argData.path,
           quality: argQuality,
         })
       }
       // #endif
-      let sizeMb = argData.size / 1024 / 1024
       const getBase64Image = async (argData) => {
-        console.log('canvas压缩')
+        console.log('canvas压缩Start')
         var canvas = document.createElement('canvas')
         var img = argData.img
+        let scaleRate
+        if (img.width > img.height && img.width > maxSize) {
+          scaleRate = img.width / maxSize
+          img.width = maxSize
+          img.height = img.height / scaleRate
+        }
+        if (img.height > img.width && img.height > maxSize) {
+          scaleRate = img.height / maxSize
+          img.height = maxSize
+          img.width = img.width / scaleRate
+        }
         canvas.width = img.width
         canvas.height = img.height
         var ctx = canvas.getContext('2d')
         ctx.drawImage(img, 0, 0, img.width, img.height)
-        let rate = 0.95
-        if (sizeMb > 10) {
-          rate = 0.05
-        } else if (sizeMb < 1.5) {
-          rate = 1
-        } else if (sizeMb < 4) {
-          rate = (10 - sizeMb) / 10
-        } else if (sizeMb < 9) {
-          rate = (9 - sizeMb) / 10
+        let rate = argQuality / 100
+        // base64Url
+        var base64Url = canvas.toDataURL('image/jpeg', rate)
+        if (argOptions.reType === 'base64') {
+          return {
+            path: base64Url,
+            file: null,
+          }
         } else {
-          rate = (10 - sizeMb) / 10
+          var blob = await dataURLtoBlob(base64Url)
+          var file = await blobToFile(blob, argData.name)
+          console.warn(
+            'old:',
+            argData.size / 1024,
+            'new:',
+            base64Url.length / 1024,
+            'fileSize:',
+            file.size / 1024,
+            file,
+            typeof file
+          )
+          return {
+            path: base64Url,
+            file: file,
+          }
         }
-        var dataURL = canvas.toDataURL('image/jpeg', rate)
-        var blob = await dataURLtoBlob(dataURL)
-        var file = await blobToFile(blob, argData.name)
-        console.error(
-          'old:',
-          argData.size / 1024,
-          'new:',
-          dataURL.length / 1024,
-          'fileSize:',
-          file.size / 1024,
-          file,
-          typeof file
-        )
-        return file
       }
       const loadImg = async (argData) => {
         return new Promise((resolve, reject) => {
           var img = new Image()
           img.src = argData.path
-          console.error(img)
+          // console.warn(img)
           img.onload = function () {
             return resolve({ img, name: argData.name || '' })
           }
         })
       }
-      let file = argData
-      if (sizeMb > 1) {
-        file = await getBase64Image(await loadImg(argData))
+      let file = await getBase64Image(await loadImg(argData))
+      if (safeData(file, 'file.size') > argMb * 1024 * 1024) {
+        console.log('二次压缩', file)
+        // 控制质量
+        argQuality = argQuality / 2
+        // 控制大小
+        // maxSize = maxSize / 2
+        file = await getBase64Image(await loadImg(file))
       }
       return Promise.resolve({
-        tempFilePath: argData.path,
-        file: file,
+        // 临时路径
+        tempFilePath: file.path,
+        file: file.file,
         fileName: argData.name || '',
-        size: argData.size,
+        // 大小
+        size: file.size,
       })
     }
     return Promise.resolve({
       tempFilePath: argData.path,
       size: argData.size,
+      fileName: argData.name || '',
       file: argData,
     })
   }
+
   const tempFilePathsFn = tempFiles.map(compressImage)
   let tempFilePaths = []
   tempFilePaths = await Promise.all(tempFilePathsFn).catch((error) => {
