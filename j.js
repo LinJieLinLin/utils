@@ -77,7 +77,7 @@ export const setUrlParams = (argParams, noMark) => {
   }
   let paramsList = Object.keys(argParams)
   let temLenght = paramsList.length
-  if (temLenght) {
+  if (!temLenght) {
     return ''
   }
   paramsList.map((v, k) => {
