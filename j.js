@@ -212,6 +212,9 @@ export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
   if (temLen > 1) {
     for (var i = 0; i < temLen - 1; i++) {
       if (typeof argData[temKey[i]] !== 'object') {
+        if (argSetValueForce) {
+          console.error('赋值失败：', argData)
+        }
         return argValue
       }
       argData = argData[temKey[i]] || {}
@@ -898,4 +901,17 @@ export const getRandomColor = function () {
   return (
     '#' + ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6)
   )
+}
+
+/**
+ * @function
+ * @description: px转vw
+ * @param {type} argPx blob对像
+ * @param {type} argWith px对应最大宽度
+ * @param {type} argNum 保留小数
+ * @param {type} argUnit 单位 'vw'||'%'
+ * @return:
+ */
+export const px2vw = (argPx, argWith = 375, argNum = 6, argUnit = 'vw') => {
+  return ((100 / argWith) * argPx).toFixed(argNum) + argUnit
 }
