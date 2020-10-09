@@ -23,9 +23,14 @@ export const enBase64 = (argData) => {
  * @returns {string} 已解密内容
  */
 export const deBase64 = (argData) => {
-  argData = argData || ''
-  var base64 = Base64.decode(argData)
-  return base64
+  try {
+    argData = argData || ''
+    var base64 = Base64.decode(argData)
+    return base64
+  } catch (e) {
+    console.error('解密失败：', argData)
+    return ''
+  }
 }
 /**
  * @function

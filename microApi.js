@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-08-11 11:28:27
+ * @LastEditTime: 2020-09-30 16:52:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -742,6 +742,7 @@ export const uploadImgs = async (
   const tempFiles = res.tempFiles
   // 压缩图片
   const compressImage = async (argData) => {
+    console.error(argData.size, argMb)
     if (argData.size > argMb * 1024 * 1024) {
       console.log('未压缩前：', argData)
       // #ifndef H5

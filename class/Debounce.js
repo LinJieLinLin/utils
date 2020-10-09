@@ -5,11 +5,6 @@
  */
 class Debounce {
   timer = null
-  dbTime = 0
-  constructor() {
-    this.dbTime = Date.now()
-  }
-
   /**
    * @function
    * @description 函数抖动，在等待n毫秒无点击后触发

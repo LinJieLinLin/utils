@@ -44,7 +44,7 @@ export const getRegexp = () => {
     email: /^(w)+(.w+)*@(w)+((.w+)+)$/,
     // 网址
     http: /http:\/\/|https:\/\//,
-    // 分数
+    // 含0整数（得分）
     score: /^[1-9]\d*|0$/,
     // 保留1位小数的分数
     score1: /^(([1-9])|([1-9]+[0-9]+)|(0)|([0-9]+.[0-9]{1}))$/,
@@ -52,10 +52,14 @@ export const getRegexp = () => {
     score2: /^(([1-9])|([1-9]+[0-9]+)|(0)|([0-9]+.[0-9]{2}))$/,
     // 整数
     int: /^[1-9]\d*$/,
+    // 匹配数字
+    number: /^\d*$/,
     // 正一位小数
     float1: /^(([1-9]\d*)|0|(\d+.\d{1}))$/,
     // 正两位小数
     float2: /^(([1-9]\d*)|0|(\d+.\d{2}))$/,
+    // 字母+数字组合
+    letterNumber: /^[a-zA-Z0-9]*$/,
     // 帐号50个字内：大小写+数字+中文+'_'+'-'
     account: /^[a-zA-Z0-9_\-\u4e00-\u9fa5]{1,50}$/,
     // 中英文姓名 50个字内
@@ -374,23 +378,18 @@ export const friendlyTime = (
 /**
  * @function
  * @description 使用postcss-px2rem时使用
+ * @param {int} argBaseSize 基础大小 16px（要跟配置一致） argWidth 基础宽度
  */
-export const remInit = () => {
-  // 基准大小
-  const baseSize = 200
-
+export const remInit = (argBaseSize = 16, argWidth = 375) => {
   // 设置 rem 函数
   const setRem = () => {
-    // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
-    const scale = document.documentElement.clientWidth / 750
-
+    // 当前页面宽度相对于 argWidth 宽的缩放比例，可根据自己需要修改。
+    const scale = document.documentElement.clientWidth / argWidth
     // 设置页面根节点字体大小
-    document.documentElement.style.fontSize =
-      baseSize * Math.min(scale, 2) + 'px'
+    document.documentElement.style.fontSize = argBaseSize * scale + 'px'
   }
   // 初始化
   setRem()
-
   // 改变窗口大小时重新设置 rem
   window.onresize = () => {
     setRem()

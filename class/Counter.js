@@ -58,6 +58,7 @@ class Counter {
     if (this.timer) {
       clearInterval(this.timer)
     }
+    argCb(this.count)
     this.timer = setInterval(() => {
       this.count--
       if (this.count === -1) {

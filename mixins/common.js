@@ -71,7 +71,8 @@ const mixin = {
         this.SetKv(argData.key, argData.data)
       }
       if (typeof this[argData.fn] === 'function') {
-        this[argData.fn](argData.data)
+        let [, ...args] = [...arguments]
+        this[argData.fn](argData.data, ...args)
       } else if (argData.fn) {
         console.error('函数' + argData.fn + '不存在！')
       }
