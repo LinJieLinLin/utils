@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-09-30 16:52:21
+ * @LastEditTime: 2020-11-11 17:08:03
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -128,13 +128,38 @@ export const requestOld = (argOption) => {
   })
 }
 /**
+ * @description 使用ljapi
+ * @function
+ * @param {object} argOption 传入参数
+ * @returns {argOption} 返回修改后的参数
+ */
+export const ljApiFn = (argOption) => {
+  argOption.params = Object.assign(
+    {
+      path: argOption.url,
+      data: safeData(argOption, 'params.data', {}),
+    },
+    JSON.parse(process.env.VUE_APP_LJAPIC)
+  )
+  argOption.params.type = process.env.VUE_APP_LJAPITYPE
+  argOption.url = process.env.VUE_APP_LJAPIURL
+  argOption.method = 'GET'
+  // argOption.method = 'POST'
+  return argOption
+}
+/**
  * @description 封装小程序request
  * @function
  * @param {object} argOption http配置
  * @returns {promise}
  */
 export const request = async (argOption) => {
-  argOption = await interceptors.request(argOption)
+  let apiUrl = argOption.url
+  if (process.env.VUE_APP_LJAPITYPE === 'get' || argIsMock) {
+    argOption = ljApiFn(argOption, argOption.params.data)
+  } else {
+    argOption = await interceptors.request(argOption)
+  }
   return new Promise((resolve, reject) => {
     const config = {
       url: argOption.url,
@@ -142,6 +167,11 @@ export const request = async (argOption) => {
       data: argOption.params,
       success(res = {}) {
         console.log('响应数据：', res)
+        if (!argIsMock && process.env.VUE_APP_LJAPITYPE === 'set') {
+          argOption.url = apiUrl
+          argOption.params.data = JSON.stringify(res.data)
+          return request(argOption, 1)
+        }
         res.config = argOption.config || {}
         res = interceptors.response(res, resolve, reject)
         if (res && res.cb) {

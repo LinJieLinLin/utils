@@ -96,8 +96,8 @@ export const setUrlParams = (argParams, noMark) => {
 /**
  * @description 获取url参数
  * @function
- * @param {object} argName 要获取的key
- * @param {boolean} noMark 是否添加'?'
+ * @param {string} argName 要获取的key
+ * @param {string} argUrl url数据
  * @returns {string}
  */
 export const getUrlParam = (argName, argUrl = window.location.search) => {
@@ -106,6 +106,33 @@ export const getUrlParam = (argName, argUrl = window.location.search) => {
     return ''
   }
   return decodeURIComponent(result[1])
+}
+/**
+ * @description 获取所有url参数，eg: a=1&b=2 to {a:1,b:2}
+ * @function
+ * @param {string} argData 要处理的数据
+ * @returns {object}
+ */
+export const getUrlParamObj = (argData = window.location.search) => {
+  try {
+    return JSON.parse(
+      '{"' +
+        decodeURIComponent(argData)
+          .replace(/"/g, '\\"')
+          .replace(/&/g, '","')
+          .replace(/=/g, '":"') +
+        '"}'
+    )
+  } catch (e) {
+    console.error('转换失败', e)
+    return {}
+  }
+  // let temObj = new URLSearchParams(argData)
+  // let resObj = {}
+  // for (const [key, value] of temObj) {
+  //   resObj[key] = value
+  // }
+  // return resObj
 }
 
 /**
