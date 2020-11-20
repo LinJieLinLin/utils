@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-11-11 17:08:03
+ * @LastEditTime: 2020-11-18 18:09:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -43,7 +43,9 @@ if (typeof uni !== 'undefined') {
 
 // 初始化loading
 const L = new Loading(() => {
-  app.showLoading({ mask: true })
+  app.showLoading({
+    mask: true,
+  })
 }, app.hideLoading)
 // 函数节流
 const throttle = new Throttle()
@@ -312,7 +314,9 @@ export const checkUpdate = () => {
  * @returns {promise}
  */
 export const checkSetting = (argSet) => {
-  app.removeStorage({ key: 'authSetting' })
+  app.removeStorage({
+    key: 'authSetting',
+  })
   return new Promise(function (resolve, reject) {
     app.getSetting({
       success(res) {
@@ -420,7 +424,11 @@ export const scrollTop = (scrollTop = 0, duration = 0) => {
  */
 export const toast = (
   argTitle,
-  argOption = { icon: 'none', delay: 320, duration: 3000 }
+  argOption = {
+    icon: 'none',
+    delay: 320,
+    duration: 3000,
+  }
 ) => {
   return new Promise(async function (resolve, reject) {
     Object.assign(argOption, {
@@ -701,7 +709,9 @@ export const downloadImgs = async (argImgList = [], argIsLocal = false) => {
   for (const img of argImgList) {
     let tempFilePath = img
     if (!argIsLocal) {
-      res = await P('downloadFile', { url: img })
+      res = await P('downloadFile', {
+        url: img,
+      })
       tempFilePath = res.tempFilePath
     }
     let saveFail = false
@@ -835,7 +845,10 @@ export const uploadImgs = async (
           img.src = argData.path
           // console.warn(img)
           img.onload = function () {
-            return resolve({ img, name: argData.name || '' })
+            return resolve({
+              img,
+              name: argData.name || '',
+            })
           }
         })
       }
@@ -980,7 +993,9 @@ export const log = async (...argData) => {
  * @returns {promise} key对应的数据
  */
 export const getStorage = async (argKey, argNoJson) => {
-  let res = await P('getStorage', { key: argKey })
+  let res = await P('getStorage', {
+    key: argKey,
+  })
   if (appConfig.localEncrypt) {
     res = decode(res.data)
   }
@@ -1062,7 +1077,10 @@ export const setStorage = async (argKey, argData) => {
   if (appConfig.localEncrypt) {
     temData = encode(argData)
   }
-  const res = await P('setStorage', { key: argKey, data: temData })
+  const res = await P('setStorage', {
+    key: argKey,
+    data: temData,
+  })
   if (!res || !res.errMsg.match('ok')) {
     log(['setStorage失败', res])
   }
