@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-11-18 18:09:30
+ * @LastEditTime: 2020-12-02 17:36:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -9,7 +9,6 @@
 /* eslint-disable no-constant-condition,no-undef */
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
-import Counter from './class/Counter'
 import {
   sleep,
   safeData,
@@ -18,16 +17,11 @@ import {
   dataURLtoBlob,
   blobToFile,
 } from './j'
-// import { decode, encode } from './encrypt/crypto'
 import { decode, encode } from './encrypt/base64'
-import { getObj } from './struct'
-import store from '../store'
 let frame = ''
 let app = {}
-let ljCloud = ''
-const appConfig = getObj('config') || {}
-if (typeof uniCloud !== 'undefined' && appConfig.uniCloud) {
-  ljCloud = uniCloud.init(appConfig.uniCloud)
+let appConfig = {
+  localEncrypt: false,
 }
 
 if (typeof uni !== 'undefined') {
@@ -49,7 +43,6 @@ const L = new Loading(() => {
 }, app.hideLoading)
 // 函数节流
 const throttle = new Throttle()
-
 /**
  * @module
  * @author linj
@@ -69,9 +62,28 @@ const interceptors = {
     return argData
   },
 }
+
+/**
+ * @description 初始化配置
+ * @function
+ * @param argConfig {
+ * localEncrypt: false,//本是缓存是否加密
+ * }
+ */
+export const init = (argConfig = {}) => {
+  Object.assign(appConfig, argConfig)
+}
+/**
+ * @description 显示loading
+ * @function
+ */
 export const showLoading = () => {
   L.loading(1)
 }
+/**
+ * @description 隐藏loading
+ * @function
+ */
 export const hideLoading = () => {
   L.loading()
 }
@@ -203,9 +215,7 @@ export const request = async (argOption) => {
 export const uploadImg = async (argOption) => {
   var error, filePath
   var data = {
-    url:
-      argOption.params.url ||
-      store.state.BaseUrl + store.state.BasePath + '/common/uploadImage',
+    url: argOption.params.url,
     filePath: argPath,
     name: argOption.params.name || 'file',
     formData: null,
@@ -1204,26 +1214,5 @@ export const cloudApi = async (argOption = {}) => {
     return Promise.reject('暂不支持')
   }
 }
-/**
- * 描述
- * @function
- * @description 设置CountNum 全局倒计时
- * @param argData 倒计秒数
- * @date 2019-09-26
- * @returns {functions}
- */
-const setCountNum = (argData) => {
-  store.commit('SetCountNum', argData)
-}
-/**
- * 描述
- * @function
- * @description 获取全局倒计时对象
- * @date 2019-09-26
- * @returns {functions}
- */
-export const GlobalCounter = new Counter(
-  +getStorageSync('CountNum') || 60,
-  setCountNum
-)
+
 export const APP = app
