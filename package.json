@@ -18,7 +18,7 @@
     "z": "echo '小改动' &&npm version patch",
     "y": "echo '特性更新' &&npm version minor",
     "x": "echo '大改动' &&npm version major",
-    "push": "npm login && npm publish"
+    "push": "nrm use npm &npm login & npm publish & nrm use taobao"
   },
   "dependencies": {},
   "devDependencies": {
