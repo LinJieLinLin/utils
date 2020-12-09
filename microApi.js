@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-12-02 17:36:15
+ * @LastEditTime: 2020-12-09 15:57:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -167,7 +167,7 @@ export const ljApiFn = (argOption) => {
  * @param {object} argOption http配置
  * @returns {promise}
  */
-export const request = async (argOption) => {
+export const request = async (argOption, argIsMock) => {
   let apiUrl = argOption.url
   if (process.env.VUE_APP_LJAPITYPE === 'get' || argIsMock) {
     argOption = ljApiFn(argOption, argOption.params.data)
@@ -927,7 +927,8 @@ export const getSystemInfo = () => {
     info.platform = info.platform.toLowerCase()
     info.isIos = info.platform === 'ios'
     info.isAndroid = info.platform === 'android'
-    info.iosVersion = info.isIos && info.system.match(/\d./)[0]
+    info.iosVersion =
+      info.isIos && info.system.match(/\d./) && info.system.match(/\d./)[0]
     return info
   }
   const ua = navigator.userAgent.toLowerCase()
@@ -1090,10 +1091,10 @@ export const setStorage = async (argKey, argData) => {
   const res = await P('setStorage', {
     key: argKey,
     data: temData,
-  })
-  if (!res || !res.errMsg.match('ok')) {
+  }).catch((err) => {
+    console.error(err)
     log(['setStorage失败', res])
-  }
+  })
   return res.data || res || ''
 }
 

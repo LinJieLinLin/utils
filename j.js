@@ -320,13 +320,13 @@ export const formatTime = (
     S: date.getMilliseconds(),
   }
   var week = {
-    '0': '\u65e5',
-    '1': '\u4e00',
-    '2': '\u4e8c',
-    '3': '\u4e09',
-    '4': '\u56db',
-    '5': '\u4e94',
-    '6': '\u516d',
+    0: '\u65e5',
+    1: '\u4e00',
+    2: '\u4e8c',
+    3: '\u4e09',
+    4: '\u56db',
+    5: '\u4e94',
+    6: '\u516d',
   }
   if (/(Y+)/.test(fmt)) {
     fmt = fmt.replace(
@@ -629,7 +629,8 @@ export const getSystemInfo = () => {
       info.platform = info.platform.toLowerCase()
       info.isIos = info.platform === 'ios'
       info.isAndroid = info.platform === 'android'
-      info.iosVersion = info.isIos && info.system.match(/\d./)[0]
+      info.iosVersion =
+        info.isIos && info.system.match(/\d./) && info.system.match(/\d./)[0]
       return info
     }
   }
