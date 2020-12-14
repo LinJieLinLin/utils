@@ -13,6 +13,8 @@ const mixin = {
     return {
       // 进入页面的参数
       Params: {},
+      // 页面loading状态
+      LoadSu: true,
     }
   },
   onLoad(argData) {
@@ -126,10 +128,10 @@ const mixin = {
     console.error('调用了分享', argData)
     // https://uniapp.dcloud.io/api/plugins/share?id=onshareappmessage
     return {
-      title: '欢迎分享',
+      title: this.$store.state.ShareTitle || '欢迎分享',
       // 页面 path ，必须是以 / 开头的完整路径。 QQ小程序不支持
       path: '/pages/index/index',
-      imageUrl: 'https://img.lj4.top/test/1.jpg',
+      imageUrl: '',
       // 百度小程序表现为：分享内容；支付宝小程序表现为：吱口令文案;百度小程序、支付宝小程序
       // content: '',
       // // 自定义分享描述支付宝小程序、字节跳动小程序

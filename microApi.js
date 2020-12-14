@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-12-09 15:57:15
+ * @LastEditTime: 2020-12-08 12:04:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -23,6 +23,7 @@ let app = {}
 let appConfig = {
   localEncrypt: false,
 }
+let ljCloud = ''
 
 if (typeof uni !== 'undefined') {
   app = uni
@@ -34,7 +35,6 @@ if (typeof uni !== 'undefined') {
   app = wx
   frame = 'wx'
 }
-
 // 初始化loading
 const L = new Loading(() => {
   app.showLoading({
@@ -64,6 +64,13 @@ const interceptors = {
 }
 
 /**
+ * @description 获取unicloud DB
+ * @function
+ */
+export const getDb = () => {
+  return ljCloud.database()
+}
+/**
  * @description 初始化配置
  * @function
  * @param argConfig {
@@ -72,6 +79,9 @@ const interceptors = {
  */
 export const init = (argConfig = {}) => {
   Object.assign(appConfig, argConfig)
+  if (typeof uniCloud !== 'undefined' && appConfig.uniCloud) {
+    ljCloud = uniCloud.init(appConfig.uniCloud)
+  }
 }
 /**
  * @description 显示loading
