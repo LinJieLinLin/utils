@@ -942,3 +942,30 @@ export const getRandomColor = function () {
 export const px2vw = (argPx, argWith = 375, argNum = 6, argUnit = 'vw') => {
   return ((100 / argWith) * argPx).toFixed(argNum) + argUnit
 }
+
+/**
+ * @function
+ * @description: 驼峰转下划线
+ * @param {string} argData 要转换数据
+ * @param {string} argUnit 要转换的字符，默认“_”
+ * @return: {string}
+ */
+export const toLine = (argName, argData = '_') => {
+  return argName.replace(/([A-Z])/g, argData + '$1').toLowerCase()
+}
+
+/**
+ * @function
+ * @description: 下划线转驼峰
+ * @param {string} argData 要转换数据
+ * @param {string} argUnit 要转换的字符，默认“_”
+ * @return: {string}
+ */
+export const toHump = (argData, argUnit = '_') => {
+  return argData.replace(
+    new RegExp('\\' + argUnit + '(\\w)', 'g'),
+    (all, letter) => {
+      return letter.toUpperCase()
+    }
+  )
+}
