@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-12-15 14:49:06
+ * @LastEditTime: 2020-12-15 15:51:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -271,10 +271,10 @@ export const uploadImg = async (argOption) => {
 /**
  * @function
  * @description 请求云函数
- * @param argOption{
- * name:'函数名',
- * params:'参数',
- * config:'请求配置',
+ * @param {object} argOption
+ * @param {string} argOption.name 云函数名
+ * @param {object} argOption.params 参数
+ * @param {object} argOption.config 请求配置
  * }
  */
 export const requestCloud = (argOption) => {
