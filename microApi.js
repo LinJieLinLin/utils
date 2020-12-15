@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-12-08 12:04:31
+ * @LastEditTime: 2020-12-15 14:49:06
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \uni-demo\src\utils\microApi.js
@@ -73,9 +73,8 @@ export const getDb = () => {
 /**
  * @description 初始化配置
  * @function
- * @param argConfig {
- * localEncrypt: false,//本是缓存是否加密
- * }
+ * @param {object} argConfig
+ * @param {boolean} argConfig.localEncrypt 本地缓存是否加密
  */
 export const init = (argConfig = {}) => {
   Object.assign(appConfig, argConfig)
