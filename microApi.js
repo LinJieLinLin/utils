@@ -1,11 +1,11 @@
-/*
- * @Author: your name
- * @Date: 2020-04-07 09:54:50
- * @LastEditTime: 2020-12-15 15:51:27
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \uni-demo\src\utils\microApi.js
+/**
+ * @module
+ * @author linj
+ * @email: 993353454@qq.com
+ * @Date: 2020-12-15 11:07:31
+ * @description:微信小程序公共函数
  */
+
 /* eslint-disable no-constant-condition,no-undef */
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
@@ -43,11 +43,6 @@ const L = new Loading(() => {
 }, app.hideLoading)
 // 函数节流
 const throttle = new Throttle()
-/**
- * @module
- * @author linj
- * @description 微信小程序公共函数
- */
 /**
  * @static
  * @description 默认拦截函数obj

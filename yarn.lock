@@ -2,122 +2,160 @@
 # yarn lockfile v1
 
 
-babylon@7.0.0-beta.19:
-  version "7.0.0-beta.19"
-  resolved "http://r.cnpmjs.org/babylon/download/babylon-7.0.0-beta.19.tgz#e928c7e807e970e0536b078ab3e0c48f9e052503"
-  integrity sha1-6SjH6AfpcOBTaweKs+DEj54FJQM=
+"@babel/parser@^7.9.4":
+  version "7.12.10"
+  resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.12.10.tgz?cache=0&sync_timestamp=1607569377971&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.12.10.tgz#824600d59e96aea26a5a2af5a9d812af05c3ae81"
+  integrity sha1-gkYA1Z6WrqJqWir1qdgSrwXDroE=
 
-bluebird@~3.5.0:
-  version "3.5.3"
-  resolved "http://r.cnpmjs.org/bluebird/download/bluebird-3.5.3.tgz#7d01c6f9616c9a51ab0f8c549a79dfe6ec33efa7"
-  integrity sha1-fQHG+WFsmlGrD4xUmnnf5uwz76c=
-
-catharsis@~0.8.9:
-  version "0.8.9"
-  resolved "http://r.cnpmjs.org/catharsis/download/catharsis-0.8.9.tgz#98cc890ca652dd2ef0e70b37925310ff9e90fc8b"
-  integrity sha1-mMyJDKZS3S7w5ws3klMQ/56Q/Is=
+argparse@^1.0.7:
+  version "1.0.10"
+  resolved "https://registry.npm.taobao.org/argparse/download/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
+  integrity sha1-vNZ5HqWuCXJeF+WtmIE0zUCz2RE=
   dependencies:
-    underscore-contrib "~0.3.0"
+    sprintf-js "~1.0.2"
 
-docdash@^1.0.2:
-  version "1.0.3"
-  resolved "http://r.cnpmjs.org/docdash/download/docdash-1.0.3.tgz#1ca4d37940275f05f926c1326cde36d88b9f3fbc"
-  integrity sha1-HKTTeUAnXwX5JsEybN422IufP7w=
+bluebird@^3.7.2:
+  version "3.7.2"
+  resolved "https://registry.npm.taobao.org/bluebird/download/bluebird-3.7.2.tgz?cache=0&sync_timestamp=1589682744631&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbluebird%2Fdownload%2Fbluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
+  integrity sha1-nyKcFb4nJFT/qXOs4NvueaGww28=
 
-escape-string-regexp@~1.0.5:
-  version "1.0.5"
-  resolved "http://r.cnpmjs.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
-  integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+catharsis@^0.8.11:
+  version "0.8.11"
+  resolved "https://registry.npm.taobao.org/catharsis/download/catharsis-0.8.11.tgz#d0eb3d2b82b7da7a3ce2efb1a7b00becc6643468"
+  integrity sha1-0Os9K4K32no84u+xp7AL7MZkNGg=
+  dependencies:
+    lodash "^4.17.14"
+
+docdash@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/docdash/download/docdash-1.2.0.tgz#f99dde5b8a89aa4ed083a3150383e042d06c7f49"
+  integrity sha1-+Z3eW4qJqk7Qg6MVA4PgQtBsf0k=
+
+entities@~2.0.0:
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/entities/download/entities-2.0.3.tgz?cache=0&sync_timestamp=1602897029273&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fentities%2Fdownload%2Fentities-2.0.3.tgz#5c487e5742ab93c15abb5da22759b8590ec03b7f"
+  integrity sha1-XEh+V0Krk8Fau12iJ1m4WQ7AO38=
+
+escape-string-regexp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-2.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fescape-string-regexp%2Fdownload%2Fescape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  integrity sha1-owME6Z2qMuI7L9IPUbq9B8/8o0Q=
 
 graceful-fs@^4.1.9:
   version "4.1.15"
   resolved "http://r.cnpmjs.org/graceful-fs/download/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha1-/7cD4QZuig7qpMi4C6klPu77+wA=
 
-js2xmlparser@~3.0.0:
-  version "3.0.0"
-  resolved "http://r.cnpmjs.org/js2xmlparser/download/js2xmlparser-3.0.0.tgz#3fb60eaa089c5440f9319f51760ccd07e2499733"
-  integrity sha1-P7YOqgicVED5MZ9RdgzNB+JJlzM=
+js2xmlparser@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npm.taobao.org/js2xmlparser/download/js2xmlparser-4.0.1.tgz#670ef71bc5661f089cc90481b99a05a1227ae3bd"
+  integrity sha1-Zw73G8VmHwicyQSBuZoFoSJ6470=
   dependencies:
-    xmlcreate "^1.0.1"
+    xmlcreate "^2.0.3"
 
-jsdoc@^3.5.5:
-  version "3.5.5"
-  resolved "http://r.cnpmjs.org/jsdoc/download/jsdoc-3.5.5.tgz#484521b126e81904d632ff83ec9aaa096708fa4d"
-  integrity sha1-SEUhsSboGQTWMv+D7JqqCWcI+k0=
+jsdoc@^3.6.6:
+  version "3.6.6"
+  resolved "https://registry.npm.taobao.org/jsdoc/download/jsdoc-3.6.6.tgz#9fe162bbdb13ee7988bf74352b5147565bcfd8e1"
+  integrity sha1-n+Fiu9sT7nmIv3Q1K1FHVlvP2OE=
   dependencies:
-    babylon "7.0.0-beta.19"
-    bluebird "~3.5.0"
-    catharsis "~0.8.9"
-    escape-string-regexp "~1.0.5"
-    js2xmlparser "~3.0.0"
-    klaw "~2.0.0"
-    marked "~0.3.6"
-    mkdirp "~0.5.1"
-    requizzle "~0.2.1"
-    strip-json-comments "~2.0.1"
+    "@babel/parser" "^7.9.4"
+    bluebird "^3.7.2"
+    catharsis "^0.8.11"
+    escape-string-regexp "^2.0.0"
+    js2xmlparser "^4.0.1"
+    klaw "^3.0.0"
+    markdown-it "^10.0.0"
+    markdown-it-anchor "^5.2.7"
+    marked "^0.8.2"
+    mkdirp "^1.0.4"
+    requizzle "^0.2.3"
+    strip-json-comments "^3.1.0"
     taffydb "2.6.2"
-    underscore "~1.8.3"
+    underscore "~1.10.2"
 
-klaw@~2.0.0:
-  version "2.0.0"
-  resolved "http://r.cnpmjs.org/klaw/download/klaw-2.0.0.tgz#59c128e0dc5ce410201151194eeb9cbf858650f6"
-  integrity sha1-WcEo4Nxc5BAgEVEZTuucv4WGUPY=
+klaw@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/klaw/download/klaw-3.0.0.tgz#b11bec9cf2492f06756d6e809ab73a2910259146"
+  integrity sha1-sRvsnPJJLwZ1bW6Amrc6KRAlkUY=
   dependencies:
     graceful-fs "^4.1.9"
 
-marked@~0.3.6:
-  version "0.3.19"
-  resolved "http://r.cnpmjs.org/marked/download/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
-  integrity sha1-XUf3CcTJ/Dwha21GEnKA9As515A=
-
-minimist@0.0.8:
-  version "0.0.8"
-  resolved "http://r.cnpmjs.org/minimist/download/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
-  integrity sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0=
-
-mkdirp@~0.5.1:
-  version "0.5.1"
-  resolved "http://r.cnpmjs.org/mkdirp/download/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
-  integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
+linkify-it@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.npm.taobao.org/linkify-it/download/linkify-it-2.2.0.tgz#e3b54697e78bf915c70a38acd78fd09e0058b1cf"
+  integrity sha1-47VGl+eL+RXHCjis14/QngBYsc8=
   dependencies:
-    minimist "0.0.8"
+    uc.micro "^1.0.1"
 
-requizzle@~0.2.1:
-  version "0.2.1"
-  resolved "http://r.cnpmjs.org/requizzle/download/requizzle-0.2.1.tgz#6943c3530c4d9a7e46f1cddd51c158fc670cdbde"
-  integrity sha1-aUPDUwxNmn5G8c3dUcFY/GcM294=
+lodash@^4.17.14:
+  version "4.17.20"
+  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha1-tEqbYpe8tpjxxRo1RaKzs2jVnFI=
+
+markdown-it-anchor@^5.2.7:
+  version "5.3.0"
+  resolved "https://registry.npm.taobao.org/markdown-it-anchor/download/markdown-it-anchor-5.3.0.tgz?cache=0&sync_timestamp=1605766636892&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmarkdown-it-anchor%2Fdownload%2Fmarkdown-it-anchor-5.3.0.tgz#d549acd64856a8ecd1bea58365ef385effbac744"
+  integrity sha1-1Ums1khWqOzRvqWDZe84Xv+6x0Q=
+
+markdown-it@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.npm.taobao.org/markdown-it/download/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"
+  integrity sha1-q/xk8UGxci1mNAIETkOSfx9QqNw=
   dependencies:
-    underscore "~1.6.0"
+    argparse "^1.0.7"
+    entities "~2.0.0"
+    linkify-it "^2.0.0"
+    mdurl "^1.0.1"
+    uc.micro "^1.0.5"
 
-strip-json-comments@~2.0.1:
-  version "2.0.1"
-  resolved "http://r.cnpmjs.org/strip-json-comments/download/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
-  integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
+marked@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.npm.taobao.org/marked/download/marked-0.8.2.tgz?cache=0&sync_timestamp=1607633055333&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmarked%2Fdownload%2Fmarked-0.8.2.tgz#4faad28d26ede351a7a1aaa5fec67915c869e355"
+  integrity sha1-T6rSjSbt41Gnoaql/sZ5Fchp41U=
+
+mdurl@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/mdurl/download/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
+  integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
+
+mkdirp@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npm.taobao.org/mkdirp/download/mkdirp-1.0.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmkdirp%2Fdownload%2Fmkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
+  integrity sha1-PrXtYmInVteaXw4qIh3+utdcL34=
+
+requizzle@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.npm.taobao.org/requizzle/download/requizzle-0.2.3.tgz#4675c90aacafb2c036bd39ba2daa4a1cb777fded"
+  integrity sha1-RnXJCqyvssA2vTm6LapKHLd3/e0=
+  dependencies:
+    lodash "^4.17.14"
+
+sprintf-js@~1.0.2:
+  version "1.0.3"
+  resolved "https://registry.npm.taobao.org/sprintf-js/download/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
+  integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+
+strip-json-comments@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
+  integrity sha1-MfEoGzgyYwQ0gxwxDAHMzajL4AY=
 
 taffydb@2.6.2:
   version "2.6.2"
   resolved "http://r.cnpmjs.org/taffydb/download/taffydb-2.6.2.tgz#7cbcb64b5a141b6a2efc2c5d2c67b4e150b2a268"
   integrity sha1-fLy2S1oUG2ou/CxdLGe04VCyomg=
 
-underscore-contrib@~0.3.0:
-  version "0.3.0"
-  resolved "http://r.cnpmjs.org/underscore-contrib/download/underscore-contrib-0.3.0.tgz#665b66c24783f8fa2b18c9f8cbb0e2c7d48c26c7"
-  integrity sha1-ZltmwkeD+PorGMn4y7Dix9SMJsc=
-  dependencies:
-    underscore "1.6.0"
+uc.micro@^1.0.1, uc.micro@^1.0.5:
+  version "1.0.6"
+  resolved "https://registry.npm.taobao.org/uc.micro/download/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+  integrity sha1-nEEagCpAmpH8bPdAgbq6NLJEmaw=
 
-underscore@1.6.0, underscore@~1.6.0:
-  version "1.6.0"
-  resolved "http://r.cnpmjs.org/underscore/download/underscore-1.6.0.tgz#8b38b10cacdef63337b8b24e4ff86d45aea529a8"
-  integrity sha1-izixDKze9jM3uLJOT/htRa6lKag=
+underscore@~1.10.2:
+  version "1.10.2"
+  resolved "https://registry.npm.taobao.org/underscore/download/underscore-1.10.2.tgz?cache=0&sync_timestamp=1606179462980&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Funderscore%2Fdownload%2Funderscore-1.10.2.tgz#73d6aa3668f3188e4adb0f1943bd12cfd7efaaaf"
+  integrity sha1-c9aqNmjzGI5K2w8ZQ70Sz9fvqq8=
 
-underscore@~1.8.3:
-  version "1.8.3"
-  resolved "http://r.cnpmjs.org/underscore/download/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
-  integrity sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
-
-xmlcreate@^1.0.1:
-  version "1.0.2"
-  resolved "http://r.cnpmjs.org/xmlcreate/download/xmlcreate-1.0.2.tgz#fa6bf762a60a413fb3dd8f4b03c5b269238d308f"
-  integrity sha1-+mv3YqYKQT+z3Y9LA8WyaSONMI8=
+xmlcreate@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/xmlcreate/download/xmlcreate-2.0.3.tgz#df9ecd518fd3890ab3548e1b811d040614993497"
+  integrity sha1-357NUY/TiQqzVI4bgR0EBhSZNJc=

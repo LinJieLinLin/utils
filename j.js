@@ -8,32 +8,8 @@
 /**
  * @function
  * @description 正则收集
- * // 简易身份证号正则，isIdCard更为严格
-    idCard: ,
-    // 手机号
-    phone:,
-    // 邮箱
-    email: ,
-    // 网址
-    http: ,
-    // 分数
-    score: ,
-    // 保留1位小数的分数
-    score1: ,
-    // 保留1位小数的分数
-    score2: ,
-    // 整数
-    int: ,
-    // 正一位小数
-    float1: ,
-    // 正两位小数
-    float2: ,
-    // 帐号50个字内：大小写+数字+中文+'_'+'-'
-    account: ,
-    // 中英文姓名 50个字内
-    realName:
  * @returns {object}
-*/
+ */
 export const getRegexp = () => {
   return {
     // 简易身份证号正则，isIdCard更为严格
@@ -816,8 +792,8 @@ if (window && window.addEventListener) {
 
 /**
  * @function
- * @description: 获取当前网络状态（H5）
- * @return: boolean
+ * @description 获取当前网络状态（H5）
+ * @return boolean
  */
 export const getNetworkStatus = () => {
   return isOnline
@@ -825,9 +801,9 @@ export const getNetworkStatus = () => {
 
 /**
  * @function
- * @description: 图片dataurl转blob对象
+ * @description 图片dataurl转blob对象
  * @param {type} dataurl
- * @return: blob
+ * @return blob
  */
 export const dataURLtoBlob = async (argData) => {
   var arr = argData.split(',')
@@ -843,7 +819,7 @@ export const dataURLtoBlob = async (argData) => {
 
 /**
  * @function
- * @description: blob转file对象
+ * @description blob转file对象
  * @param {type} argBlob blob对像
  * @param {type} argName filename
  * @return:
@@ -856,14 +832,14 @@ export const blobToFile = async (argBlob, argName = Date.now()) => {
 
 /**
  * @function
- * @description: 动态加载html文件标签
+ * @description 动态加载html文件标签
  * @param {type} argUrl 要加载的url
  * @param {type} argType 加载类型 js/css
  * @param {type} argOptions{
  * disCheck:'不检查是否有相同标签'
  * force:'如果有相同标签，先删除再添加'
  * } 是否强制添加
- * @return: promise
+ * @return promise
  */
 export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
   let temId = argType + '-' + argUrl.split('/').pop()
@@ -921,8 +897,8 @@ export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
 
 /**
  * @function
- * @description: 获取随机颜色
- * @return: string
+ * @description 获取随机颜色
+ * @return string
  */
 export const getRandomColor = function () {
   return (
@@ -932,7 +908,7 @@ export const getRandomColor = function () {
 
 /**
  * @function
- * @description: px转vw
+ * @description px转vw
  * @param {type} argPx blob对像
  * @param {type} argWith px对应最大宽度
  * @param {type} argNum 保留小数
@@ -945,10 +921,10 @@ export const px2vw = (argPx, argWith = 375, argNum = 6, argUnit = 'vw') => {
 
 /**
  * @function
- * @description: 驼峰转下划线
+ * @description 驼峰转下划线
  * @param {string} argData 要转换数据
  * @param {string} argUnit 要转换的字符，默认“_”
- * @return: {string}
+ * @return {string}
  */
 export const toLine = (argName, argData = '_') => {
   return argName.replace(/([A-Z])/g, argData + '$1').toLowerCase()
@@ -956,10 +932,10 @@ export const toLine = (argName, argData = '_') => {
 
 /**
  * @function
- * @description: 下划线转驼峰
+ * @description 下划线转驼峰
  * @param {string} argData 要转换数据
  * @param {string} argUnit 要转换的字符，默认“_”
- * @return: {string}
+ * @return {string}
  */
 export const toHump = (argData, argUnit = '_') => {
   return argData.replace(

@@ -1,5 +1,4 @@
 /**
- * 公共函数
  * @module
  * @author linj
  * @description 公共函数 小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可

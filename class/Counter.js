@@ -1,6 +1,7 @@
 /**
  * @class
  * @classdesc new对象时可传入计数
+ * @example
  * .start 开始计时(需要传入回调函数，返回当前计数)
  * .stop 停止计时
  */
@@ -9,6 +10,12 @@ class Counter {
   maxCount = 0
   timer = null
   cb = null
+  /**
+   * @description:
+   * @param {number} argCount 开始计时秒数
+   * @param {function} argCb 回调函数
+   * @return {class}
+   */
   constructor(argCount = 60, argCb) {
     this.count = argCount
     this.maxCount = argCount

@@ -1,8 +1,8 @@
-/*
- * @Author: linj
- * @Email: 993353454@qq.com
- * @Date: 2020-07-27 14:18:47
- * @Description:
+/**
+ * @module
+ * @author: linj
+ * @email: 993353454@qq.com
+ * @description:
  */
 import { Base64 } from 'js-base64'
 /**

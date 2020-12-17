@@ -1,13 +1,66 @@
 {
-  "source": {
-    "include": ["./"],
-    "exclude": ["node_modules/"]
+  "tags": {
+    "allowUnknownTags": true
   },
+  "source": {
+    "include": ["./", "package.json", "README.md"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules|docs)"
+  },
+  "plugins": ["plugins/markdown"],
   "opts": {
-    "template": "node_modules/docdash",
+    "template": "./node_modules/docdash",
     "encoding": "utf8",
-    "destination": "./docs/",
+    "destination": "docs/",
     "recurse": true,
     "verbose": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true,
+      "includeDate": true,
+      "useLongnameInNav": true
+    }
+  },
+  "docdash": {
+    "static": true,
+    "sort": true,
+    "disqus": "",
+    "openGraph": {
+      "title": "Docdash",
+      "type": "website",
+      "image": "https://cloud.githubusercontent.com/assets/447956/13398144/4dde7f36-defd-11e5-8909-1a9013302cb9.png",
+      "site_name": "Docdash",
+      "url": "http://clenemt.github.io/docdash/"
+    },
+    "meta": {
+      "title": "Docdash",
+      "description": "A clean, responsive documentation template theme for JSDoc 3.",
+      "keyword": "jsdoc, docdash"
+    },
+    "search": true,
+    "collapse": false,
+    "typedefs": true,
+    "removeQuotes": "none",
+    "scripts": [],
+    "menu": {
+      "Github repo": {
+        "href": "https://github.com/LinJieLinLin/utils",
+        "target": "_blank",
+        "class": "menu-item",
+        "id": "Github"
+      },
+      "Gitee repo": {
+        "href": "https://gitee.com/uni-pro/utils",
+        "target": "_blank",
+        "class": "menu-item",
+        "id": "Gitee"
+      }
+    },
+    "scopeInOutputPath": [false],
+    "nameInOutputPath": [false],
+    "versionInOutputPath": [false]
   }
 }

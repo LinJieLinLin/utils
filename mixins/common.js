@@ -1,9 +1,3 @@
-/*
- * @Author: linj
- * @Email: 993353454@qq.com
- * @Date: 2020-05-13 10:08:05
- * @Description: 默认mixins
- */
 import { mapState, mapMutations } from 'vuex'
 const init = (argOptions) => {
   console.log('mixin init', argOptions)
