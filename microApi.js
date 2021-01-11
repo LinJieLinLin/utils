@@ -933,6 +933,11 @@ export const getSystemInfo = () => {
     info.isAndroid = info.platform === 'android'
     info.iosVersion =
       info.isIos && info.system.match(/\d./) && info.system.match(/\d./)[0]
+    // #ifdef H5
+    info.ua = safeData(navigator, 'userAgent', '').toLowerCase()
+    info.isWeixin = info.ua.match(/MicroMessenger/i) === 'micromessenger'
+    info.isAlipay = info.ua.match(/Alipay/i) === 'alipay'
+    // #endif
     return info
   }
   const ua = navigator.userAgent.toLowerCase()
@@ -940,10 +945,12 @@ export const getSystemInfo = () => {
   info = {
     ua: ua,
     platform: platform,
-    isMobile: ua.match(/mobile/) && true,
-    isWin: platform.match('win') && true,
-    isIphone: ua.match(/iphone/) && true,
-    isIpad: ua.match(/ipad/) && true,
+    isWeixin: ua.match(/MicroMessenger/i) && true,
+    isAlipay: ua.match(/Alipay/i) && true,
+    isMobile: ua.match(/mobile/i) && true,
+    isWin: platform.match(/win/i) && true,
+    isIphone: ua.match(/iphone/i) && true,
+    isIpad: ua.match(/ipad/i) && true,
     isMac: platform.match('mac') && true,
     isIos: platform.match('ios') && true,
     isAndroid: platform.match('android') && true,

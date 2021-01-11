@@ -12,6 +12,9 @@
  */
 export const getRegexp = () => {
   return {
+    // !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ 至少1数字1字母1字符，8-16位
+    // password: /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[`~!@#$%^&*()_\-+=<>?:"{}|,.\/;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘'，。、]).{8,16}$/,
+    password: /^(?![A-Za-z0-9]+$)(?![A-Za-z\W]+$)(?![0-9\W]+$)[a-zA-Z0-9_\W]{8,16}$/,
     // 简易身份证号正则，isIdCard更为严格
     idCard: /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/,
     // 手机号
@@ -91,6 +94,7 @@ export const getUrlParam = (argName, argUrl = window.location.search) => {
  */
 export const getUrlParamObj = (argData = window.location.search) => {
   try {
+    argData = argData.split('?').pop()
     return JSON.parse(
       '{"' +
         decodeURIComponent(argData)
