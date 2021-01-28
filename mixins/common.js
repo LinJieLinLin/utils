@@ -27,7 +27,7 @@ const mixin = {
     // 检测是否需要重load
     CheckReload() {
       if (this.Reload) {
-        console.log('find reload,call init()')
+        console.log('reload init()')
         this.init()
         this.SetReload()
       }

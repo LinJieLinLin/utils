@@ -1226,5 +1226,45 @@ export const cloudApi = async (argOption = {}) => {
     return Promise.reject('暂不支持')
   }
 }
+/**
+ * @function
+ * @description 富文本格式处理 for 小程序rich-text
+ * @param {*} argData 富文本
+ * @returns {String}
+ */
+export const getRichText = (argData) => {
+  if (!argData) {
+    return ''
+  }
+  const imgReg = /<img.*?(?:>|\/>)/gi
+  const styleReg = /style="([^"]*)"/g
+  // 处理空格
+  argData = argData.replace(/&nbsp;/g, '\xa0')
+  argData = String(argData).replace(imgReg, (match) => {
+    let newStyleImg = ''
+    // 图片样式保留原来style添加大小限制，若原来img没有设style则直接插进去
+    if (!match.match('max-width:100%')) {
+      let temStyle = safeData(match.match(styleReg), '0', '')
+      if (temStyle) {
+        temStyle =
+          temStyle.slice(0, temStyle.length - 1) +
+          ';max-width:100%;height:auto;"'
+        newStyleImg = match.replace(styleReg, temStyle)
+      } else {
+        newStyleImg = match.replace(
+          /<img/gim,
+          '<img style="max-width:100%;height:auto;"'
+        )
+      }
+    } else {
+      newStyleImg = match
+    }
+    // #ifdef MP
+    // newStyleImg = newStyleImg.replace(/px;/gim, 'rpx;')
+    // #endif
+    return newStyleImg
+  })
+  return argData
+}
 
 export const APP = app
