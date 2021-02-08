@@ -161,8 +161,8 @@ export const ljApiFn = (argOption) => {
   )
   argOption.params.type = process.env.VUE_APP_LJAPITYPE
   argOption.url = process.env.VUE_APP_LJAPIURL
-  argOption.method = 'GET'
-  // argOption.method = 'POST'
+  // argOption.method = 'GET'
+  argOption.method = 'POST'
   return argOption
 }
 /**
@@ -188,7 +188,7 @@ export const request = async (argOption, argIsMock) => {
         if (!argIsMock && process.env.VUE_APP_LJAPITYPE === 'set') {
           argOption.url = apiUrl
           argOption.params.data = JSON.stringify(res.data)
-          return request(argOption, 1)
+          request(argOption, 1)
         }
         res.config = argOption.config || {}
         res = interceptors.response(res, resolve, reject)
