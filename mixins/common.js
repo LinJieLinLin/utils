@@ -144,6 +144,15 @@ const mixin = {
       // complete: () => {},
     }
   },
+  onShareTimeline() {
+    console.error('调用了朋友圈分享')
+    return {
+      title: this.$store.state.ShareTitle || '欢迎分享',
+      query: 'type=timeline',
+      // 自定义图片路径，可以是本地文件或者网络图片。支持 PNG 及 JPG，显示图片长宽比是 1:1。
+      // imageUrl:'',
+    }
+  },
 }
 export default {
   init,
