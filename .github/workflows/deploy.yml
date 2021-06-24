@@ -13,10 +13,18 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@master
-      env:
-        BRANCH: gh-pages
-        FOLDER: docs
-        BUILD_SCRIPT: npm install && npm run doc
+    - name: Setup Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: "14.x"
+    
+    - name: build
+      run: |
+          npm install && npm run doc
+          
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        folder: docs
+        commit-message: github actions auto commit
+        branch: gh-pages
