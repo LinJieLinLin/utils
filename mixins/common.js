@@ -9,6 +9,7 @@ const mixin = {
       Params: {},
       // 页面loading状态
       LoadSu: true,
+      FontTheme: { color: '#fe3800' },
     }
   },
   onLoad(argData) {
