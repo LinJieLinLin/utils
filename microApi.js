@@ -74,6 +74,7 @@ export const getDb = () => {
 export const init = (argConfig = {}) => {
   Object.assign(appConfig, argConfig)
   if (typeof uniCloud !== 'undefined' && appConfig.uniCloud) {
+    // console.error(appConfig.uniCloud)
     ljCloud = uniCloud.init(appConfig.uniCloud)
   }
 }
@@ -518,10 +519,15 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
       return
     }
     let type = ''
+    let temUrl = '/pages/' + argPage + '/index' + setUrlParams(argParams)
     // #ifdef  H5
     type = 'h5'
+    if (/http:\/\/|https:\/\//.test(argPage)) {
+      temUrl = argPage + setUrlParams(argParams)
+      window.location.replace(temUrl)
+      return
+    }
     // #endif
-    let temUrl = '/pages/' + argPage + '/index' + setUrlParams(argParams)
     // 匹配绝对路径和url
     if (argPage[0] === '/' || /http:\/\/|https:\/\//.test(argPage)) {
       temUrl = argPage + setUrlParams(argParams)
