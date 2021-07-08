@@ -43,7 +43,7 @@ escape-string-regexp@^2.0.0:
 
 graceful-fs@^4.1.9:
   version "4.1.15"
-  resolved "http://r.cnpmjs.org/graceful-fs/download/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
+  resolved "https://r.cnpmjs.org/graceful-fs/download/graceful-fs-4.1.15.tgz#ffb703e1066e8a0eeaa4c8b80ba9253eeefbfb00"
   integrity sha1-/7cD4QZuig7qpMi4C6klPu77+wA=
 
 js2xmlparser@^4.0.1:
@@ -88,9 +88,9 @@ linkify-it@^2.0.0:
     uc.micro "^1.0.1"
 
 lodash@^4.17.14:
-  version "4.17.20"
-  resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
-  integrity sha1-tEqbYpe8tpjxxRo1RaKzs2jVnFI=
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 markdown-it-anchor@^5.2.7:
   version "5.3.0"
@@ -142,7 +142,7 @@ strip-json-comments@^3.1.0:
 
 taffydb@2.6.2:
   version "2.6.2"
-  resolved "http://r.cnpmjs.org/taffydb/download/taffydb-2.6.2.tgz#7cbcb64b5a141b6a2efc2c5d2c67b4e150b2a268"
+  resolved "https://r.cnpmjs.org/taffydb/download/taffydb-2.6.2.tgz#7cbcb64b5a141b6a2efc2c5d2c67b4e150b2a268"
   integrity sha1-fLy2S1oUG2ou/CxdLGe04VCyomg=
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
