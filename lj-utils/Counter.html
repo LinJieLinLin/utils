@@ -3,12 +3,12 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Loading.js - Docdash</title>
+    <title>Counter - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
-        <meta name="keywords" content="jsdoc, docdash" />
-        <meta name="keyword" content="jsdoc, docdash" />
+        <meta name="keywords" content="jsdoc, docdash,lj-utils" />
+        <meta name="keyword" content="jsdoc, docdash,lj-utils" />
     
     
     
@@ -46,90 +46,764 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Loading.js</h1>
+    <h1 class="page-title">Counter</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @class
- * @classdesc 通用loading
- */
-class Loading {
-  // 请求数
-  requestNum = 0
-  delay = 300
-  // 计时
-  timmer = null
-  // 临时时间
-  temTime = null
-  // 临时开始时间
-  temStartTime = null
-  show = () => {}
-  hide = () => {}
-  /**
-   * @function
-   * @param {function} argShow 显示loading 回调
-   * @param {function} argHide 隐藏loading 回调
-   * @param {number} delay 延时 ms,不宜过长,默认300
-   */
-  constructor(argShow, argHide, argdelay) {
-    if (typeof argShow === 'function') {
-      this.show = argShow
-    }
-    if (typeof argHide === 'function') {
-      this.hide = argHide
-    }
-    this.delay = argdelay || 300
-  }
-  /**
-   * @function
-   * @param {boolean} isAdd 是否增加一个请求loading
-   * @description 是否增加一个请求loading，true +1,false -1
-   */
-  loading(isAdd) {
-    if (isAdd) {
-      if (!this.requestNum) {
-        this.temTime = +new Date()
-        this.timmer = setTimeout(() => {
-          this.temStartTime = +new Date()
-          console.info(
-            '显示loading用时：',
-            (this.temStartTime - this.temTime) / 1000
-          )
-          this.show()
-        }, this.delay)
-      }
-      this.requestNum++
-    } else {
-      this.requestNum--
-      if (this.requestNum &lt; 0) {
-        this.requestNum = 0
-      }
-    }
-    if (!this.requestNum) {
-      clearTimeout(this.timmer)
-      setTimeout(() => {
-        if (this.temStartTime) {
-          console.info(
-            '显示loading时长：',
-            (+new Date() - this.temStartTime) / 1000
-          )
-        }
-        this.hide()
-      }, 0)
-    }
-  }
-}
-export default Loading
-</code></pre>
-        </article>
-    </section>
+        <h2>
+        Counter
+        </h2>
+        
+            <div class="class-description usertext"><p>new对象时可传入计数</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Counter"><span class="type-signature"></span>new Counter<span class="signature">(argCount, argCb)</span><span class="type-signature"> &rarr; {class}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Counter.js.html">class/Counter.js</a>, <a href="class_Counter.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>.start 开始计时(需要传入回调函数，返回当前计数)
+.stop 停止计时</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>60</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>开始计时秒数</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argCb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>回调函数</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">class</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="setCount"><span class="type-signature"></span>setCount<span class="signature">(argCount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Counter.js.html">class/Counter.js</a>, <a href="class_Counter.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>设置倒计时数值</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>60</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>设置倒计时数值</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setMaxCount"><span class="type-signature"></span>setMaxCount<span class="signature">(argCount)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Counter.js.html">class/Counter.js</a>, <a href="class_Counter.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>设置初始倒计时数值</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>60</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>初始倒计数</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="start"><span class="type-signature"></span>start<span class="signature">(argCb)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Counter.js.html">class/Counter.js</a>, <a href="class_Counter.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>开始倒计时</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argCb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>计时回调,返回当前剩余秒数</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="stop"><span class="type-signature"></span>stop<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Counter.js.html">class/Counter.js</a>, <a href="class_Counter.js.html#line86">line 86</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>停止倒计时</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -141,7 +815,7 @@ export default Loading
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 03:23:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 06:40:48 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

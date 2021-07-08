@@ -3,12 +3,12 @@
 <head>
     
     <meta charset="utf-8">
-    <title>encrypt/base64.js - Docdash</title>
+    <title>Debounce - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
-        <meta name="keywords" content="jsdoc, docdash" />
-        <meta name="keyword" content="jsdoc, docdash" />
+        <meta name="keywords" content="jsdoc, docdash,lj-utils" />
+        <meta name="keyword" content="jsdoc, docdash,lj-utils" />
     
     
     
@@ -46,84 +46,362 @@
 
 <div id="main">
     
-    <h1 class="page-title">encrypt/base64.js</h1>
+    <h1 class="page-title">Debounce</h1>
     
 
     
 
 
 
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module
- * @author: linj
- * @email: 993353454@qq.com
- * @description:
- */
-import { Base64 } from 'js-base64'
-/**
- * @function
- * @description base64 加密
- * @param {string} argData 待加密内容
- * @returns {string} 已加密内容
- */
-export const enBase64 = (argData) => {
-  argData = argData || ''
-  var base64 = Base64.encode(argData)
-  return base64
-}
-/**
- * @function
- * @description base64 解密
- * @param {string} argData 待解密内容
- * @returns {string} 已解密内容
- */
-export const deBase64 = (argData) => {
-  try {
-    argData = argData || ''
-    var base64 = Base64.decode(argData)
-    return base64
-  } catch (e) {
-    console.error('解密失败：', argData)
-    return ''
-  }
-}
-/**
- * @function
- * @description 加密
- * @param {string} argData 待加密内容
- * @param {string} argType 加密类型，默认base64
- * @returns {string} 已加密内容
- */
-export const encode = (argData, argType = 'base64') => {
-  switch (argType) {
-    case 'base64':
-      return enBase64(argData)
-    case 'aes':
-      return argData
-  }
-}
 
-/**
- * @function
- * @description 解密
- * @param {string} argData 待解密内容
- * @param {string} argType 解密类型，默认base64
- * @returns {string} 已解密内容
- */
-export const decode = (argData, argType = 'base64') => {
-  switch (argType) {
-    case 'base64':
-      return deBase64(argData)
-    case 'aes':
-      return argData
-  }
-}
-</code></pre>
-        </article>
-    </section>
+<section>
+
+<header>
+    
+        <h2>
+        Debounce
+        </h2>
+        
+            <div class="class-description usertext"><p>函数抖动
+.debounce(回调函数,等待时间,...回调函数的参数)</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Debounce"><span class="type-signature"></span>new Debounce<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Debounce.js.html">class/Debounce.js</a>, <a href="class_Debounce.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="debounce"><span class="type-signature"></span>debounce<span class="signature">(argFn, argWait)</span><span class="type-signature"> &rarr; {function}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Debounce.js.html">class/Debounce.js</a>, <a href="class_Debounce.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>函数抖动，在等待n毫秒无点击后触发</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argFn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>回调函数</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argWait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>500</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>等待时间,默认0.5秒</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>...arg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>回调函数的参数</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -135,7 +413,7 @@ export const decode = (argData, argType = 'base64') => {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 03:23:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 06:40:48 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

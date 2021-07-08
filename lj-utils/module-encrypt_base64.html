@@ -3,12 +3,12 @@
 <head>
     
     <meta charset="utf-8">
-    <title>encrypt/crypto - Docdash</title>
+    <title>encrypt/base64 - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
-        <meta name="keywords" content="jsdoc, docdash" />
-        <meta name="keyword" content="jsdoc, docdash" />
+        <meta name="keywords" content="jsdoc, docdash,lj-utils" />
+        <meta name="keyword" content="jsdoc, docdash,lj-utils" />
     
     
     
@@ -46,7 +46,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">encrypt/crypto</h1>
+    <h1 class="page-title">encrypt/base64</h1>
     
 
     
@@ -59,8 +59,6 @@
 <header>
     
         
-            
-        
     
 </header>
 
@@ -69,92 +67,6 @@
         <div class="container-overview">
         
             
-                <div class="description usertext"><p>公共函数 小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可</p></div>
-            
-
-            
-                
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-author">Author:</dt>
-    <dd class="tag-author">
-        <ul>
-            <li>linj</li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             
         
@@ -183,323 +95,6 @@
 
     
 
-    <h4 class="name" id=".aesInit"><span class="type-signature">(static) </span>aesInit<span class="signature">(argKey, argIv)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line15">line 15</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>aes初始化,选定aes加密码方式后，先执行初始化</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>argKey</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>密钥</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>argIv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>密钥偏移量</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".deAes"><span class="type-signature">(static) </span>deAes<span class="signature">(word)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line47">line 47</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>aes解密</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>word</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>待解密内容</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>已解密内容</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id=".deBase64"><span class="type-signature">(static) </span>deBase64<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
@@ -512,7 +107,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line83">line 83</a>
+        <a href="encrypt_base64.js.html">encrypt/base64.js</a>, <a href="encrypt_base64.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -670,7 +265,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line113">line 113</a>
+        <a href="encrypt_base64.js.html">encrypt/base64.js</a>, <a href="encrypt_base64.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -839,164 +434,6 @@
 
     
 
-    <h4 class="name" id=".enAes"><span class="type-signature">(static) </span>enAes<span class="signature">(word)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line26">line 26</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>aes加密</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>word</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>待加密内容</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>已加密内容</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id=".enBase64"><span class="type-signature">(static) </span>enBase64<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
@@ -1009,7 +446,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line71">line 71</a>
+        <a href="encrypt_base64.js.html">encrypt/base64.js</a>, <a href="encrypt_base64.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -1167,7 +604,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line97">line 97</a>
+        <a href="encrypt_base64.js.html">encrypt/base64.js</a>, <a href="encrypt_base64.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -1332,164 +769,6 @@
 
 
         
-            
-
-    
-
-    <h4 class="name" id=".md5"><span class="type-signature">(static) </span>md5<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line64">line 64</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>md5 加密</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>argData</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>待加密内容</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>已加密内容</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
     
 
     
@@ -1509,7 +788,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 03:23:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 06:40:48 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
