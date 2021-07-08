@@ -11,7 +11,7 @@
   "opts": {
     "template": "./node_modules/docdash",
     "encoding": "utf8",
-    "destination": "docs/",
+    "destination": "dist/",
     "recurse": true,
     "verbose": true
   },
@@ -36,9 +36,9 @@
       "url": "http://clenemt.github.io/docdash/"
     },
     "meta": {
-      "title": "Docdash",
+      "title": "lj-utils",
       "description": "A clean, responsive documentation template theme for JSDoc 3.",
-      "keyword": "jsdoc, docdash"
+      "keyword": "jsdoc, docdash,lj-utils"
     },
     "search": true,
     "collapse": false,
@@ -59,8 +59,8 @@
         "id": "Gitee"
       }
     },
-    "scopeInOutputPath": [false],
-    "nameInOutputPath": [false],
-    "versionInOutputPath": [false]
+    "scopeInOutputPath": false,
+    "nameInOutputPath": false,
+    "versionInOutputPath": false
   }
 }

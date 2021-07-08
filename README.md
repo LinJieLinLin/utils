@@ -14,9 +14,9 @@ lj-utils 为本人整理的一些公共JS
 3.  clone 本仓库到项目内
 
 #### 使用说明
-> 在线访问  [https://linjielinlin.github.io/utils/lj-utils/0.1.5/](https://linjielinlin.github.io/utils/lj-utils/0.1.5/)
+> 在线访问  [https://linjielinlin.github.io/utils/lj-utils/index.html](https://linjielinlin.github.io/utils/lj-utils/index.html)
 
-> 或在线访问  [http://unidemo.lj4.top/lj-utils/0.1.5/index.html](http://unidemo.lj4.top/lj-utils/0.1.5/index.html)
+> 或在线访问  [http://unidemo.lj4.top/lj-utils/index.html](http://unidemo.lj4.top/lj-utils/index.html)
 
 #### 参与贡献
 

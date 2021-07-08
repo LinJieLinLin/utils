@@ -1,7 +1,7 @@
 # This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
 # For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
 
-name:  GitHub Actions Build and Deploy
+name: GitHub Actions Build and Deploy
 
 on:
   push:
@@ -11,20 +11,20 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Setup Node.js
-      uses: actions/setup-node@master
-      with:
-        node-version: "14.x"
-    
-    - name: build
-      run: |
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: '14.x'
+
+      - name: build
+        run: |
           npm install && npm run doc
-          
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@4.1.4
-      with:
-        folder: docs
-        commit-message: github actions auto commit
-        branch: gh-pages
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          folder: dist
+          commit-message: github actions auto commit
+          branch: gh-pages

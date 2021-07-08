@@ -13,16 +13,17 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "doc": "jsdoc -c jsdoc.json",
-    "rundoc": "jsdoc -c jsdoc.json && cd docs & http-server -d docs -p 1000 -c-1 -o",
+    "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
+    "rundoc": "jsdoc -c jsdoc.json && cd dist & http-server -d dist -p 1000 -c-1 -o",
     "z": "echo '小改动' &&npm version patch",
     "y": "echo '特性更新' &&npm version minor",
     "x": "echo '大改动' &&npm version major",
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
-  "dependencies": {},
+  "dependencies": {
+    "docdash": "^1.2.0"
+  },
   "devDependencies": {
-    "docdash": "^1.2.0",
     "jsdoc": "^3.6.6"
   },
   "browserslist": [
