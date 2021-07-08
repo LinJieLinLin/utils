@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Counter.js - Docdash</title>
+    <title>Debounce - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -46,112 +46,362 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Counter.js</h1>
+    <h1 class="page-title">Debounce</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @class
- * @classdesc new对象时可传入计数
- * @example
- * .start 开始计时(需要传入回调函数，返回当前计数)
- * .stop 停止计时
- */
-class Counter {
-  count = 0
-  maxCount = 0
-  timer = null
-  cb = null
-  /**
-   * @description:
-   * @param {number} argCount 开始计时秒数
-   * @param {function} argCb 回调函数
-   * @return {class}
-   */
-  constructor(argCount = 60, argCb) {
-    this.count = argCount
-    this.maxCount = argCount
-    this.cb = argCb
-  }
+        <h2>
+        Debounce
+        </h2>
+        
+            <div class="class-description usertext"><p>函数抖动
+.debounce(回调函数,等待时间,...回调函数的参数)</p></div>
+        
+    
+</header>
 
-  /**
-   * @function
-   * @param {number} argCount 设置倒计时数值
-   * @description 设置倒计时数值
-   */
-  setCount(argCount = 60) {
-    this.count = argCount
-    if (!argCount) {
-      this.stop()
-    }
-    return this
-  }
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-  /**
-   * @function
-   * @param {number} argCount 初始倒计数
-   * @description 设置初始倒计时数值
-   */
-  setMaxCount(argCount = 60) {
-    this.maxCount = argCount
-    return this
-  }
+    
+    <h2>Constructor</h2>
+    
 
-  /**
-   * @function
-   * @param {function} argCb 计时回调,返回当前剩余秒数
-   * @description 开始倒计时
-   */
-  start(argCb) {
-    if (this.cb &amp;&amp; !argCb) {
-      argCb = this.cb
-    }
-    if (!argCb) {
-      console.error('start需要传入计时回调')
-      return
-    }
-    // count为0时从最大值开始
-    if (!this.count) {
-      this.count = this.maxCount
-    }
-    if (this.timer) {
-      clearInterval(this.timer)
-    }
-    argCb(this.count)
-    this.timer = setInterval(() => {
-      this.count--
-      if (this.count === -1) {
-        this.count = this.maxCount
-      }
-      argCb(this.count)
-      if (this.count &lt; 1) {
-        this.stop()
-      }
-    }, 1000)
-    return this
-  }
+    <h4 class="name" id="Debounce"><span class="type-signature"></span>new Debounce<span class="signature">()</span><span class="type-signature"></span></h4>
 
-  /**
-   * @function
-   * @description 停止倒计时
-   */
-  stop() {
-    if (this.timer) {
-      clearInterval(this.timer)
-    }
-    return this
-  }
-}
-export default Counter
-</code></pre>
-        </article>
-    </section>
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Debounce.js.html">class/Debounce.js</a>, <a href="class_Debounce.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="debounce"><span class="type-signature"></span>debounce<span class="signature">(argFn, argWait)</span><span class="type-signature"> &rarr; {function}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Debounce.js.html">class/Debounce.js</a>, <a href="class_Debounce.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>函数抖动，在等待n毫秒无点击后触发</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argFn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>回调函数</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argWait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>500</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>等待时间,默认0.5秒</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>...arg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>回调函数的参数</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -163,7 +413,7 @@ export default Counter
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jun 25 2021 03:50:14 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 03:23:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

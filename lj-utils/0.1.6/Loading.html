@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Loading.js - Docdash</title>
+    <title>Loading - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -46,90 +46,376 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Loading.js</h1>
+    <h1 class="page-title">Loading</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @class
- * @classdesc 通用loading
- */
-class Loading {
-  // 请求数
-  requestNum = 0
-  delay = 300
-  // 计时
-  timmer = null
-  // 临时时间
-  temTime = null
-  // 临时开始时间
-  temStartTime = null
-  show = () => {}
-  hide = () => {}
-  /**
-   * @function
-   * @param {function} argShow 显示loading 回调
-   * @param {function} argHide 隐藏loading 回调
-   * @param {number} delay 延时 ms,不宜过长,默认300
-   */
-  constructor(argShow, argHide, argdelay) {
-    if (typeof argShow === 'function') {
-      this.show = argShow
-    }
-    if (typeof argHide === 'function') {
-      this.hide = argHide
-    }
-    this.delay = argdelay || 300
-  }
-  /**
-   * @function
-   * @param {boolean} isAdd 是否增加一个请求loading
-   * @description 是否增加一个请求loading，true +1,false -1
-   */
-  loading(isAdd) {
-    if (isAdd) {
-      if (!this.requestNum) {
-        this.temTime = +new Date()
-        this.timmer = setTimeout(() => {
-          this.temStartTime = +new Date()
-          console.info(
-            '显示loading用时：',
-            (this.temStartTime - this.temTime) / 1000
-          )
-          this.show()
-        }, this.delay)
-      }
-      this.requestNum++
-    } else {
-      this.requestNum--
-      if (this.requestNum &lt; 0) {
-        this.requestNum = 0
-      }
-    }
-    if (!this.requestNum) {
-      clearTimeout(this.timmer)
-      setTimeout(() => {
-        if (this.temStartTime) {
-          console.info(
-            '显示loading时长：',
-            (+new Date() - this.temStartTime) / 1000
-          )
-        }
-        this.hide()
-      }, 0)
-    }
-  }
-}
-export default Loading
-</code></pre>
-        </article>
-    </section>
+        <h2>
+        Loading
+        </h2>
+        
+            <div class="class-description usertext"><p>通用loading</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Loading"><span class="type-signature"></span>new Loading<span class="signature">(argShow, argHide, delay)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Loading.js.html">class/Loading.js</a>, <a href="class_Loading.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argShow</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>显示loading 回调</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argHide</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>隐藏loading 回调</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>delay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>延时 ms,不宜过长,默认300</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="loading"><span class="type-signature"></span>loading<span class="signature">(isAdd)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Loading.js.html">class/Loading.js</a>, <a href="class_Loading.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>是否增加一个请求loading，true +1,false -1</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isAdd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>是否增加一个请求loading</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -141,7 +427,7 @@ export default Loading
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Jun 25 2021 03:50:14 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Jul 08 2021 03:23:15 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
