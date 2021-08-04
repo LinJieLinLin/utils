@@ -31,16 +31,18 @@ export const getRegexp = () => {
     // 匹配数字
     number: /^\d*$/,
     // >=0||1位小数
-    float1: /^(([1-9]\d*)|0|(\d+.\d{1}))$/,
+    float1: /^(([1-9]\d*)|0|(0.\d{0,1})|([1-9]\d*.\d{0,1}))$/,
     // >=0||2位小数
-    float2: /^(([1-9]\d*)|0|(\d+.\d{1,2}))$/,
-    float3: /^(([1-9]\d*)|0|(\d+.\d{1,3}))$/,
+    float2: /^(([1-9]\d*)|0|(0.\d{0,2})|([1-9]\d*.\d{0,2}))$/,
+    float3: /^(([1-9]\d*)|0|(0.\d{0,3})|([1-9]\d*.\d{0,3}))$/,
     // 字母+数字组合
     letterNumber: /^[a-zA-Z0-9]*$/,
+    letter: /^[a-zA-Z]*$/,
     // 帐号50个字内：大小写+数字+中文+'_'+'-'
     account: /^[a-zA-Z0-9_\-\u4e00-\u9fa5]{1,50}$/,
     // 中英文姓名 50个字内
-    realName: /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
+    realName:
+      /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
     // 匹配中文
     cn: /^[\u4e00-\u9fa5]*$/,
   }
@@ -681,9 +683,8 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
  * @returns {any} 返回处理好的数据
  */
 export const string10to62 = (argData) => {
-  var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split(
-    ''
-  )
+  var chars =
+    '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split('')
   var radix = chars.length
   var qutient = +argData
   var arr = []

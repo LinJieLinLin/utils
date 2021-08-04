@@ -52,7 +52,7 @@ const interceptors = {
     L.loading(1)
     return argData
   },
-  response(argData) {
+  async response(argData) {
     L.loading()
     return argData
   },
@@ -113,40 +113,6 @@ export const setRequest = (argRequest, argResponse) => {
   }
 }
 /**
- * @description 封装小程序request
- * @function
- * @param {object} argOption http配置
- * @returns {promise}
- */
-export const requestOld = (argOption) => {
-  argOption = interceptors.request(argOption)
-  return new Promise((resolve, reject) => {
-    const config = {
-      url: argOption.url,
-      method: argOption.method || 'GET',
-      data: argOption.params,
-      success(res = {}) {
-        res.config = argOption.config || {}
-        res = interceptors.response(res, resolve, reject)
-        if (res && res.cb) {
-          return res.cb(resolve, reject)
-        }
-        if (res && res.reject) {
-          return reject(res.data || res)
-        } else {
-          return resolve(res)
-        }
-      },
-      fail(err) {
-        interceptors.response(err)
-        return reject(err)
-      },
-    }
-    Object.assign(config, argOption.config)
-    app.request(config)
-  })
-}
-/**
  * @description 使用ljapi
  * @function
  * @param {object} argOption 传入参数
@@ -192,19 +158,10 @@ export const request = async (argOption, argIsMock) => {
           request(argOption, 1)
         }
         res.config = argOption.config || {}
-        res = interceptors.response(res, resolve, reject)
-        if (res && res.cb) {
-          return res.cb(resolve, reject)
-        }
-        if (res && res.reject) {
-          return reject(res.data || res)
-        } else {
-          return resolve(res)
-        }
+        return resolve(interceptors.response(res))
       },
       fail(err) {
-        interceptors.response(err)
-        return reject(err)
+        return reject(interceptors.response(err))
       },
     }
     Object.assign(config, argOption.config)
@@ -273,31 +230,22 @@ export const uploadImg = async (argOption) => {
  * @param {object} argOption.config 请求配置
  * }
  */
-export const requestCloud = (argOption) => {
+export const requestCloud = async (argOption) => {
   argOption = interceptors.request(argOption)
-  return new Promise((resolve, reject) => {
-    return ljCloud
-      .callFunction({
-        name: argOption.name,
-        data: argOption.params,
-      })
-      .then((res) => {
-        res.config = argOption.config || {}
-        res = interceptors.response(res, resolve, reject)
-        if (res && res.cb) {
-          return res.cb(resolve, reject)
-        }
-        if (res && res.reject) {
-          return reject(res.data || res)
-        } else {
-          return resolve(res)
-        }
-      })
-      .catch((err) => {
-        interceptors.response(err)
-        return reject(err)
-      })
-  })
+  let e
+  let res = await ljCloud
+    .callFunction({
+      name: argOption.name,
+      data: argOption.params,
+    })
+    .catch((err) => {
+      e = err
+    })
+  if (!res) {
+    res = e
+  }
+  res.config = argOption.config || {}
+  return interceptors.response(res)
 }
 /**
  * @function
