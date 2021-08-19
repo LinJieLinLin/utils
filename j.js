@@ -12,6 +12,8 @@
  */
 export const getRegexp = () => {
   return {
+    // 匹配html标签，提取html文字： htmlCode.replace(reg.html,'')
+    html: /<[^>]+>/gim,
     // 至少1数字1字母1字符，8-16位
     password: /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[\W_]).{8,16}$/,
     // 普通身份证号正则，isIdCard更为严格
@@ -41,8 +43,7 @@ export const getRegexp = () => {
     // 帐号50个字内：大小写+数字+中文+'_'+'-'
     account: /^[a-zA-Z0-9_\-\u4e00-\u9fa5]{1,50}$/,
     // 中英文姓名 50个字内
-    realName:
-      /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
+    realName: /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
     // 匹配中文
     cn: /^[\u4e00-\u9fa5]*$/,
   }
@@ -683,8 +684,9 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
  * @returns {any} 返回处理好的数据
  */
 export const string10to62 = (argData) => {
-  var chars =
-    '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split('')
+  var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split(
+    ''
+  )
   var radix = chars.length
   var qutient = +argData
   var arr = []
