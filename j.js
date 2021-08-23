@@ -43,7 +43,8 @@ export const getRegexp = () => {
     // 帐号50个字内：大小写+数字+中文+'_'+'-'
     account: /^[a-zA-Z0-9_\-\u4e00-\u9fa5]{1,50}$/,
     // 中英文姓名 50个字内
-    realName: /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
+    realName:
+      /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
     // 匹配中文
     cn: /^[\u4e00-\u9fa5]*$/,
   }
@@ -684,9 +685,8 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
  * @returns {any} 返回处理好的数据
  */
 export const string10to62 = (argData) => {
-  var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split(
-    ''
-  )
+  var chars =
+    '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split('')
   var radix = chars.length
   var qutient = +argData
   var arr = []
@@ -982,4 +982,82 @@ export const setStorage = (argKey, argData) => {
   }
   localStorage.setItem(argKey, argData)
   return argData
+}
+/**
+ * @function
+ * @description 秒转倒计时
+ * @param {number} argData 秒数
+ * @param {string} argType 's,m,h,d,M,y 对应 秒 分 时 天 月 年'
+ * @param {string} argKey 要获取的key
+ * @param {object} argOption 额外的处理
+ * @returns {string} 保存的数据
+ */
+export const secondToTime = (argData, argType = 'm', argOption = {}) => {
+  let res = []
+  let list = [
+    {
+      size: 1,
+      type: 's',
+      sign: ':',
+      index: 0,
+    },
+    {
+      size: 60,
+      sign: ':',
+      type: 'm',
+      index: 1,
+    },
+    {
+      size: 60,
+      sign: ':',
+      type: 'h',
+      index: 2,
+    },
+    {
+      size: 24,
+      sign: ':',
+      type: 'd',
+      index: 3,
+    },
+    {
+      size: 30,
+      sign: ':',
+      type: 'M',
+      index: 4,
+    },
+    {
+      size: 365,
+      sign: ':',
+      type: 'y',
+      index: 5,
+    },
+  ]
+  let temLen = list.length
+  let second = argData
+  let size = 1
+  let signList = argOption.sign || ['年', '月', '天', '时', '分', '秒']
+  let index = 0
+  for (let i = 0; i < temLen; i++) {
+    let lastSize = size
+    if (argType === list[i].type) {
+      let temTime = Math.floor(second / lastSize)
+      if (temTime < 10) {
+        temTime = '0' + temTime
+      }
+      res.unshift(temTime)
+      index = temLen - i - 1
+      break
+    }
+    size = size * list[i + 1].size
+    let time = Math.floor((second % size) / lastSize)
+    if (time < 10) {
+      time = '0' + time
+    }
+    res.unshift(time)
+  }
+  let timeText = ''
+  res.map((v, k) => {
+    timeText += v + signList[index + k]
+  })
+  return timeText
 }
