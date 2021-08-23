@@ -952,3 +952,34 @@ export const toHump = (argData, argUnit = '_') => {
     }
   )
 }
+
+/**
+ * @function
+ * @description 获取storage的值，默认将json转为obj
+ * @param {string} argKey 要获取的key
+ * @param {string} argNoJson true时不自动转换JSON字符串
+ * @returns {any} key对应的数据
+ */
+export const getStorage = (argKey, argNoJson) => {
+  let res = localStorage.getItem(argKey)
+  // 默认转义JSON字符串
+  if (!argNoJson && isJson(res)) {
+    res = JSON.parse(res)
+  }
+  return res || ''
+}
+
+/**
+ * @function
+ * @description 设置storage的值，默认将obj转为json
+ * @param {string} argKey 要获取的key
+ * @param {object} argData
+ * @returns {any} 保存的数据
+ */
+export const setStorage = (argKey, argData) => {
+  if (typeof argData === 'object') {
+    argData = JSON.stringify(argData)
+  }
+  localStorage.setItem(argKey, argData)
+  return argData
+}
