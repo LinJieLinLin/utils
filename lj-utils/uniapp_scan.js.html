@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Debounce - lj-utils</title>
+    <title>uniapp/scan.js - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -46,362 +46,43 @@
 
 <div id="main">
     
-    <h1 class="page-title">Debounce</h1>
+    <h1 class="page-title">uniapp/scan.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        Debounce
-        </h2>
-        
-            <div class="class-description usertext"><p>函数抖动
-.debounce(回调函数,等待时间,...回调函数的参数)</p></div>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="Debounce"><span class="type-signature"></span>new Debounce<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="class_Debounce.js.html">class/Debounce.js</a>, <a href="class_Debounce.js.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="debounce"><span class="type-signature"></span>debounce<span class="signature">(argFn, argWait)</span><span class="type-signature"> &rarr; {function}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="class_Debounce.js.html">class/Debounce.js</a>, <a href="class_Debounce.js.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>函数抖动，在等待n毫秒无点击后触发</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>argFn</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>回调函数</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>argWait</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    <code>500</code>
-                
-                </td>
-            
-
-            <td class="description last"><p>等待时间,默认0.5秒</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>...arg</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">any</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>回调函数的参数</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">function</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+// https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.0.1.52.js
+    !function (e, n) { "object" == typeof exports &amp;&amp; "undefined" != typeof module ? module.exports = n() : "function" == typeof define &amp;&amp; define.amd ? define(n) : (e = e || self).uni = n() }(void 0, function () { try { var e = {}; Object.defineProperty(e, "passive", { get: function () { !0 } }), window.addEventListener("test-passive", null, e) } catch (e) { } var n = Object.prototype.hasOwnProperty; function t(e, t) { return n.call(e, t) } var i = [], a = function (e, n) { var t = { options: { timestamp: +new Date() }, name: e, arg: n }; if (window.__dcloud_weex_postMessage || window.__dcloud_weex_) { if ("postMessage" === e) { var a = { data: [n] }; return window.__dcloud_weex_postMessage ? window.__dcloud_weex_postMessage(a) : window.__dcloud_weex_.postMessage(JSON.stringify(a)) } var o = { type: "WEB_INVOKE_APPSERVICE", args: { data: t, webviewIds: i } }; window.__dcloud_weex_postMessage ? window.__dcloud_weex_postMessageToService(o) : window.__dcloud_weex_.postMessageToService(JSON.stringify(o)) } if (!window.plus) { return window.parent.postMessage({ type: "WEB_INVOKE_APPSERVICE", data: t, pageId: "" }, "*") } if (0 === i.length) { var r = plus.webview.currentWebview(); if (!r) { throw new Error("plus.webview.currentWebview() is undefined") } var d = r.parent(), s = ""; s = d ? d.id : r.id, i.push(s) } if (plus.webview.getWebviewById("__uniapp__service")) { plus.webview.postMessageToUniNView({ type: "WEB_INVOKE_APPSERVICE", args: { data: t, webviewIds: i } }, "__uniapp__service") } else { var w = JSON.stringify(t); plus.webview.getLaunchWebview().evalJS('UniPlusBridge.subscribeHandler("'.concat("WEB_INVOKE_APPSERVICE", '",').concat(w, ",").concat(JSON.stringify(i), ");")) } }, o = { navigateTo: function () { var e = arguments.length > 0 &amp;&amp; void 0 !== arguments[0] ? arguments[0] : {}, n = e.url; a("navigateTo", { url: encodeURI(n) }) }, navigateBack: function () { var e = arguments.length > 0 &amp;&amp; void 0 !== arguments[0] ? arguments[0] : {}, n = e.delta; a("navigateBack", { delta: parseInt(n) || 1 }) }, switchTab: function () { var e = arguments.length > 0 &amp;&amp; void 0 !== arguments[0] ? arguments[0] : {}, n = e.url; a("switchTab", { url: encodeURI(n) }) }, reLaunch: function () { var e = arguments.length > 0 &amp;&amp; void 0 !== arguments[0] ? arguments[0] : {}, n = e.url; a("reLaunch", { url: encodeURI(n) }) }, redirectTo: function () { var e = arguments.length > 0 &amp;&amp; void 0 !== arguments[0] ? arguments[0] : {}, n = e.url; a("redirectTo", { url: encodeURI(n) }) }, getEnv: function (e) { window.plus ? e({ plus: !0 }) : e({ h5: !0 }) }, postMessage: function () { var e = arguments.length > 0 &amp;&amp; void 0 !== arguments[0] ? arguments[0] : {}; a("postMessage", e.data || {}) } }, r = /uni-app/i.test(navigator.userAgent), d = /Html5Plus/i.test(navigator.userAgent), s = /complete|loaded|interactive/; var w = window.my &amp;&amp; navigator.userAgent.indexOf("AlipayClient") > -1; var u = window.swan &amp;&amp; window.swan.webView &amp;&amp; /swan/i.test(navigator.userAgent); var c = window.qq &amp;&amp; window.qq.miniProgram &amp;&amp; /QQ/i.test(navigator.userAgent) &amp;&amp; /miniProgram/i.test(navigator.userAgent); var g = window.tt &amp;&amp; window.tt.miniProgram &amp;&amp; /toutiaomicroapp/i.test(navigator.userAgent); var v = window.wx &amp;&amp; window.wx.miniProgram &amp;&amp; /micromessenger/i.test(navigator.userAgent) &amp;&amp; /miniProgram/i.test(navigator.userAgent); var p = window.qa &amp;&amp; /quickapp/i.test(navigator.userAgent); for (var l, _ = function () { window.UniAppJSBridge = !0, document.dispatchEvent(new CustomEvent("UniAppJSBridgeReady", { bubbles: !0, cancelable: !0 })) }, f = [function (e) { if (r || d) { return window.__dcloud_weex_postMessage || window.__dcloud_weex_ ? document.addEventListener("DOMContentLoaded", e) : window.plus &amp;&amp; s.test(document.readyState) ? setTimeout(e, 0) : document.addEventListener("plusready", e), o } }, function (e) { if (v) { return window.WeixinJSBridge &amp;&amp; window.WeixinJSBridge.invoke ? setTimeout(e, 0) : document.addEventListener("WeixinJSBridgeReady", e), window.wx.miniProgram } }, function (e) { if (c) { return window.QQJSBridge &amp;&amp; window.QQJSBridge.invoke ? setTimeout(e, 0) : document.addEventListener("QQJSBridgeReady", e), window.qq.miniProgram } }, function (e) { if (w) { document.addEventListener("DOMContentLoaded", e); var n = window.my; return { navigateTo: n.navigateTo, navigateBack: n.navigateBack, switchTab: n.switchTab, reLaunch: n.reLaunch, redirectTo: n.redirectTo, postMessage: n.postMessage, getEnv: n.getEnv } } }, function (e) { if (u) { return document.addEventListener("DOMContentLoaded", e), window.swan.webView } }, function (e) { if (g) { return document.addEventListener("DOMContentLoaded", e), window.tt.miniProgram } }, function (e) { if (p) { window.QaJSBridge &amp;&amp; window.QaJSBridge.invoke ? setTimeout(e, 0) : document.addEventListener("QaJSBridgeReady", e); var n = window.qa; return { navigateTo: n.navigateTo, navigateBack: n.navigateBack, switchTab: n.switchTab, reLaunch: n.reLaunch, redirectTo: n.redirectTo, postMessage: n.postMessage, getEnv: n.getEnv } } }, function (e) { return document.addEventListener("DOMContentLoaded", e), o }], m = 0; m &lt; f.length &amp;&amp; !(l = f[m](_)); m++) { } l || (l = {}); var E = "undefined" != typeof uni ? uni : {}; if (!E.navigateTo) { for (var b in l) { t(l, b) &amp;&amp; (E[b] = l[b]) } } return E.webView = l, E });
+    /**
+    * @function
+    * @description 调起扫一扫
+    */
+    window.SCAN_START = function () {
+      uni.postMessage({
+        data: {
+          action: 'postMessage',
+          type: 'scan'
+        }
+      });
+    };
+    /**
+    * @function
+    * @description 扫一扫回调
+    * 样例数据：{"type":"marked","timeStamp":1635131673066,"target":{"id":"1","dataset":{},"offsetLeft":0,"offsetTop":0},"currentTarget":{"id":"1","dataset":{},"offsetLeft":0,"offsetTop":0},"detail":{"code":0,"type":"success","message":"https://baidu.com","charSet":"ISO8859_1"}}
+    */
+    window.SCAN_CB = function (argData) {
+      var data = JSON.parse(argData);
+      alert(data.type);
+      // todo
+    };</code></pre>
+        </article>
+    </section>
 
 
 
