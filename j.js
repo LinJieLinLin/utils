@@ -96,9 +96,16 @@ export const getUrlParam = (argName, argUrl = window.location.search) => {
  * @param {string} argData 要处理的数据
  * @returns {object}
  */
-export const getUrlParamObj = (argData = window.location.search) => {
+export const getUrlParamObj = (
+  argData = window.location.search || window.location.hash
+) => {
   try {
-    argData = argData.split('?').pop()
+    argData = decodeURIComponent(argData)
+    let temArr = argData.split('?')
+    if (temArr.length < 2 || argData.match('=')) {
+      return {}
+    }
+    argData = temArr.pop()
     return JSON.parse(
       '{"' +
         decodeURIComponent(argData)
@@ -748,6 +755,9 @@ export const blobToBase64 = async (argBlob) => {
  * @returns {any} 返回处理好的数据
  */
 export const toFixed = (argData, argNum = 2, argType = 'string') => {
+  if (isNaN(argData)) {
+    return ''
+  }
   let rate = Math.pow(10, argNum)
   let data = (Math.round(+argData * rate) / rate).toFixed(argNum)
   if (argType === 'number') {

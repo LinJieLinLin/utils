@@ -176,9 +176,10 @@ export const request = async (argOption, argIsMock) => {
  */
 export const uploadImg = async (argOption) => {
   var error, filePath
+  argOption.config = argOption.config || {}
   var data = {
     url: argOption.params.url,
-    filePath: argPath,
+    filePath: '',
     name: argOption.params.name || 'file',
     formData: null,
     header: argOption.config.header || {},
@@ -193,18 +194,21 @@ export const uploadImg = async (argOption) => {
     URL.revokeObjectURL(argPath)
     // #endif
     if (res) {
-      res = interceptors.response(res)
-      return res
+      res.data = JSON.parse(res.data)
+      return response(res)
     } else {
       return Promise.reject(error)
     }
   }
 
   delete argOption.params.url
+  delete argOption.params.filePath
   delete argOption.params.name
+  delete argOption.config.header['content-type']
 
   argOption = interceptors.request(argOption)
   data.formData = argOption.params
+  data.header = argOption.config.header || {}
   // 单张上传
   if (typeof filePath === 'string') {
     return uploadOne(filePath)
