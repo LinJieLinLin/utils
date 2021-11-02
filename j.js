@@ -378,7 +378,7 @@ export const friendlyTime = (
     console.error('not a valid date')
   }
   if (isNaN(dayDiff) || dayDiff < 0 || dayDiff >= 31) {
-    return this.formatTime(date, fmt)
+    return formatTime(date, fmt)
   }
   return (
     (dayDiff === 0 &&
