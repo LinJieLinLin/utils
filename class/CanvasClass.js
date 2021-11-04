@@ -5,8 +5,6 @@ import { P } from '../microApi'
  * @class
  * @classdesc canvas封装
  * @example
- * .start 开始计时(需要传入回调函数，返回当前计数)
- * .stop 停止计时
  */
 class CanvasClass {
   scale = 4

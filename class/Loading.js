@@ -20,14 +20,14 @@ class Loading {
    * @param {function} argHide 隐藏loading 回调
    * @param {number} delay 延时 ms,不宜过长,默认300
    */
-  constructor(argShow, argHide, argdelay) {
+  constructor(argShow, argHide, argDelay) {
     if (typeof argShow === 'function') {
       this.show = argShow
     }
     if (typeof argHide === 'function') {
       this.hide = argHide
     }
-    this.delay = argdelay || 300
+    this.delay = argDelay || 300
   }
   /**
    * @function

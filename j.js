@@ -1000,6 +1000,7 @@ export const setStorage = (argKey, argData) => {
  * @param {string} argType 's,m,h,d,M,y 对应 秒 分 时 天 月 年'
  * @param {string} argKey 要获取的key
  * @param {object} argOption 额外的处理
+ * @param {Array} argOption.sing ['年', '月', '天', '时', '分', '秒']
  * @returns {string} 保存的数据
  */
 export const secondToTime = (argData, argType = 'm', argOption = {}) => {
@@ -1066,8 +1067,14 @@ export const secondToTime = (argData, argType = 'm', argOption = {}) => {
     res.unshift(time)
   }
   let timeText = ''
+  let isZero = true
   res.map((v, k) => {
-    timeText += v + signList[index + k]
+    if (!+v && isZero) {
+      // console.error(v)
+    } else {
+      isZero = false
+      timeText += v + signList[index + k]
+    }
   })
   return timeText
 }

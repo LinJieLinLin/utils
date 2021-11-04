@@ -21,7 +21,9 @@
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
   "dependencies": {
-    "docdash": "^1.2.0"
+    "crypto-js": "^4.1.1",
+    "docdash": "^1.2.0",
+    "js-base64": "^3.7.2"
   },
   "devDependencies": {
     "jsdoc": "^3.6.6"
