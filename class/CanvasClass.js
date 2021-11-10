@@ -1,11 +1,10 @@
-import { sleep } from '../j'
-import { P } from '../microApi'
-
 /**
  * @class
  * @classdesc canvas封装
  * @example
  */
+import { sleep } from '../j'
+import { P } from '../microApi'
 class CanvasClass {
   scale = 4
   ctx = 0
