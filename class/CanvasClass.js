@@ -1,7 +1,6 @@
 /**
  * @class
- * @classdesc new对象时可传入计数
- * @example
+ * @classdesc canvas
  */
 import { sleep } from '../j'
 import { P } from '../microApi'
