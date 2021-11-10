@@ -1,6 +1,6 @@
 /**
  * @class
- * @classdesc canvas封装
+ * @classdesc new对象时可传入计数
  * @example
  */
 import { sleep } from '../j'
