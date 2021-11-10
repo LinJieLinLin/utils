@@ -1003,7 +1003,7 @@ export const setStorage = (argKey, argData) => {
  * @param {Array} argOption.sing ['年', '月', '天', '时', '分', '秒']
  * @returns {string} 保存的数据
  */
-export const secondToTime = (argData, argType = 'm', argOption = {}) => {
+export const secondToTime = (argData, argType = 'y', argOption = {}) => {
   let res = []
   let list = [
     {

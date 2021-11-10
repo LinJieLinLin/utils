@@ -893,7 +893,7 @@ export const getSystemInfo = () => {
       info.isIos && info.system.match(/\d./) && info.system.match(/\d./)[0]
     // #ifdef H5
     info.ua = safeData(navigator, 'userAgent', '').toLowerCase()
-    info.isWeixin = info.ua.match(/MicroMessenger/i) === 'micromessenger'
+    info.isWeixin = !!info.ua.match(/MicroMessenger/i)
     info.isAlipay = info.ua.match(/Alipay/i) === 'alipay'
     // #endif
     return info
