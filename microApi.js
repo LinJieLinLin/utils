@@ -433,25 +433,25 @@ export const setTitle = (argTitle) => {
  * @description mpvue跳到特定页面
  * @param  {string} argPage 标题
  * @param  {object} argParams url参数
- * @param  {string} argType 跳转类型 switchTab reload redirectTo reLaunch navigateTo
+ * @param  {string|number} argType 跳转类型 switchTab reload redirectTo reLaunch navigateTo
+ * @param {boolean} argForce 是否取消节流非H5生效
  */
-export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
+export const toPage = (argPage, argParams = {}, argType, argForce = false) => {
   const toPageFn = () => {
-    console.log('params:', argPage, setUrlParams(argParams), argType, argForce)
-    // 返回处理
+    console.log(
+      'toPage params:',
+      argPage,
+      setUrlParams(argParams),
+      argType,
+      argForce
+    )
+    // 后退处理
+    let pages = null
     if (!argPage || argPage === 'back') {
       // -1时返回首页
-      if (+argType === -1) {
-        app.reLaunch({
-          url: '/pages/index/index' + setUrlParams(argParams),
-        })
-        return
-      }
-      // #ifdef  H5
-      window.history.go(+('-' + (argType || 1)))
-      // #endif
       // #ifndef  H5
-      if (getCurrentPages().length > 1 && argType !== '-1') {
+      pages = getCurrentPages()
+      if (pages.length > 1 && argType !== '-1') {
         app.navigateBack({
           delta: +argType || 1,
         })
@@ -461,10 +461,13 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
         })
       }
       // #endif
+      // #ifdef  H5
+      window.history.go(+('-' + (argType || 1)))
+      // #endif
       return
     }
     // 每次进入首页都重载
-    if (argPage === 'index') {
+    if (argPage === 'index' || argPage === '/pages/index/index') {
       app.reLaunch({
         url: '/pages/' + argPage + '/index' + setUrlParams(argParams),
       })
@@ -472,6 +475,10 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
     }
     let type = ''
     let temUrl = '/pages/' + argPage + '/index' + setUrlParams(argParams)
+    // 匹配绝对路径和url
+    if (argPage[0] === '/' || /http:\/\/|https:\/\//.test(argPage)) {
+      temUrl = argPage + setUrlParams(argParams)
+    }
     // #ifdef  H5
     type = 'h5'
     if (/http:\/\/|https:\/\//.test(argPage)) {
@@ -480,10 +487,6 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
       return
     }
     // #endif
-    // 匹配绝对路径和url
-    if (argPage[0] === '/' || /http:\/\/|https:\/\//.test(argPage)) {
-      temUrl = argPage + setUrlParams(argParams)
-    }
     switch (argType) {
       case 'switchTab':
         app.switchTab({
@@ -510,15 +513,18 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
         })
         break
       default:
-        if (getCurrentPages() && getCurrentPages().length === 10) {
+        // 超10层处理
+        // #ifndef H5
+        if (pages && pages.length >= 10) {
           app.redirectTo({
-            url: '/pages/' + argPage + '/index' + setUrlParams(argParams),
+            url: temUrl,
           })
-        } else {
-          app.navigateTo({
-            url: '/pages/' + argPage + '/index' + setUrlParams(argParams),
-          })
+          return
         }
+        // #endif
+        app.navigateTo({
+          url: temUrl,
+        })
         break
     }
   }
@@ -535,6 +541,7 @@ export const toPage = (argPage, argParams = {}, argType, argForce = 0) => {
 /**
  * @function
  * @description 当前页面数据obj
+ * @returns {object}
  */
 export const getCurrentPage = () => {
   var pages = getCurrentPages() || []
@@ -1224,5 +1231,15 @@ export const getRichText = (argData) => {
   })
   return argData
 }
-
+/**
+ * @function
+ * @description 页面刷新
+ */
+export const refresh = () => {
+  let nowPage = getCurrentPage()
+  let options = getUrlParamObj(safeData(nowPage, '$page.fullPath'))
+  nowPage.onLoad && nowPage.onLoad(options)
+  nowPage.onReady && nowPage.onReady()
+  nowPage.onShow && nowPage.onShow()
+}
 export const APP = app

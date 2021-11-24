@@ -17,9 +17,9 @@ export const getRegexp = () => {
     // 至少1数字1字母1字符，8-16位
     password: /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[\W_]).{8,16}$/,
     // 普通身份证号正则，isIdCard更为严格
-    idcard: /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/,
+    idCard: /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/,
     // 简易身份证号 数字+x
-    idcardNormal: /^[0-9]\d+([0-9]|X|x)*$/,
+    idCardNormal: /^[0-9]\d+([0-9]|X|x)*$/,
     // 手机号
     phone: /^1\d{10}$/,
     // 邮箱
@@ -36,20 +36,59 @@ export const getRegexp = () => {
     float1: /^(([1-9]\d*)|0|(0.\d{0,1})|([1-9]\d*.\d{0,1}))$/,
     // >=0||2位小数
     float2: /^(([1-9]\d*)|0|(0.\d{0,2})|([1-9]\d*.\d{0,2}))$/,
+    // >=0||3位小数
     float3: /^(([1-9]\d*)|0|(0.\d{0,3})|([1-9]\d*.\d{0,3}))$/,
     // 字母+数字组合
     letterNumber: /^[a-zA-Z0-9]*$/,
+    // 字母
     letter: /^[a-zA-Z]*$/,
     // 帐号50个字内：大小写+数字+中文+'_'+'-'
     account: /^[a-zA-Z0-9_\-\u4e00-\u9fa5]{1,50}$/,
-    // 中英文姓名 50个字内
+    // 中英文姓名 50个字内/中文 中文/英文-. 英文-./
     realName:
       /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
     // 匹配中文
     cn: /^[\u4e00-\u9fa5]*$/,
   }
 }
-
+/**
+ * @function
+ * @description 数据安全访问
+ * @param  {object|Array} argData  [原始数据]
+ * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
+ * @param  {*} argValue [如果数据有误，返回的值，选填]
+ * @param  {Boolean} argSetValueForce [是否强制赋值argValue]
+ * @returns {any}
+ */
+export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
+  if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
+    console.error('argCheck请传入string当前为：' + argCheck)
+    return ''
+  }
+  var temKey = argCheck.toString().split('.')
+  var temLen = temKey.length
+  if (!argData) {
+    return argValue
+  }
+  if (temLen > 1) {
+    for (var i = 0; i < temLen - 1; i++) {
+      if (typeof argData[temKey[i]] !== 'object') {
+        if (argSetValueForce) {
+          console.error('赋值失败：', argData)
+        }
+        return argValue
+      }
+      argData = argData[temKey[i]] || {}
+    }
+  }
+  if (argSetValueForce) {
+    argData[temKey[temLen - 1]] = argValue
+  }
+  if (typeof argValue === 'undefined') {
+    return argData[temKey[temLen - 1]]
+  }
+  return argData[temKey[temLen - 1]] || argValue
+}
 /**
  * @description obj转url参数
  * @function
@@ -63,13 +102,13 @@ export const setUrlParams = (argParams, noMark) => {
     re = '?'
   }
   let paramsList = Object.keys(argParams)
-  let temLenght = paramsList.length
-  if (!temLenght) {
+  let temLength = paramsList.length
+  if (!temLength) {
     return ''
   }
   paramsList.map((v, k) => {
     re += v + '=' + argParams[v]
-    if (k < temLenght - 1) {
+    if (k < temLength - 1) {
       re += '&'
     }
   })
@@ -102,7 +141,7 @@ export const getUrlParamObj = (
   try {
     argData = decodeURIComponent(argData)
     let temArr = argData.split('?')
-    if (temArr.length < 2 || argData.match('=')) {
+    if (temArr.length < 2 || !argData.match('=')) {
       return {}
     }
     argData = temArr.pop()
@@ -210,45 +249,6 @@ export const decodeHtml = (argHtml) => {
   argHtml = argHtml.replace(/&quot;/g, '"')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml
-}
-
-/**
- * @function
- * @description 数据安全访问
- * @param  {object|Array} argData  [原始数据]
- * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
- * @param  {*} argValue [如果数据有误，返回的值，选填]
- * @param  {Boolean} argSetValueForce [是否强制赋值argValue]
- * @returns {any}
- */
-export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
-  if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
-    console.error('argCheck请传入string当前为：' + argCheck)
-    return ''
-  }
-  var temKey = argCheck.toString().split('.')
-  var temLen = temKey.length
-  if (!argData) {
-    return argValue
-  }
-  if (temLen > 1) {
-    for (var i = 0; i < temLen - 1; i++) {
-      if (typeof argData[temKey[i]] !== 'object') {
-        if (argSetValueForce) {
-          console.error('赋值失败：', argData)
-        }
-        return argValue
-      }
-      argData = argData[temKey[i]] || {}
-    }
-  }
-  if (argSetValueForce) {
-    argData[temKey[temLen - 1]] = argValue
-  }
-  if (typeof argValue === 'undefined') {
-    return argData[temKey[temLen - 1]]
-  }
-  return argData[temKey[temLen - 1]] || argValue
 }
 
 /**
@@ -570,7 +570,7 @@ export const randomInt = (min = 0, max) => {
 /**
  * @function
  * @description 判断是否是JSON
- * @param  {any} argData 最小值
+ * @param  {any} argData 数据
  * @returns {boolean}
  */
 export const isJson = (argData) => {
@@ -580,6 +580,24 @@ export const isJson = (argData) => {
     }
   } catch (e) {}
   return false
+}
+/**
+ * @function
+ * @description 判断是否是Blob
+ * @param  {any} argData 数据
+ * @returns {boolean}
+ */
+export const isBlob = (argData) => {
+  return argData instanceof Blob
+}
+/**
+ * @function
+ * @description 判断是否是File
+ * @param  {any} argData 数据
+ * @returns {boolean}
+ */
+export const isFile = (argData) => {
+  return argData instanceof File
 }
 
 /**
@@ -612,21 +630,14 @@ export const uuid = () => {
  * ...
  * }
  */
-export const getSystemInfo = () => {
+export const getInfo = () => {
   let info = {}
-  if (typeof window === 'undefined') {
-    if (typeof wx === 'object' && safeData(wx, 'getSystemInfoSync')) {
-      info = wx.getSystemInfoSync()
-      info.platform = info.platform.toLowerCase()
-      info.isIos = info.platform === 'ios'
-      info.isAndroid = info.platform === 'android'
-      info.iosVersion =
-        info.isIos && info.system.match(/\d./) && info.system.match(/\d./)[0]
-      return info
-    }
-  }
   let ua = navigator.userAgent.toLowerCase()
-  let platform = navigator.platform.toLowerCase()
+  let platform = safeData(
+    navigator,
+    'userAgentData.platform',
+    navigator.platform
+  ).toLowerCase()
   info = {
     ua: ua,
     platform: platform,
@@ -695,13 +706,13 @@ export const string10to62 = (argData) => {
   var chars =
     '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split('')
   var radix = chars.length
-  var qutient = +argData
+  var data = +argData
   var arr = []
   do {
-    let mod = qutient % radix
-    qutient = (qutient - mod) / radix
+    let mod = data % radix
+    data = (data - mod) / radix
     arr.unshift(chars[mod])
-  } while (qutient)
+  } while (data)
   return arr.join('')
 }
 
@@ -782,8 +793,7 @@ export const blobUrlToFile = async (argData) => {
     xhr.responseType = 'blob'
     xhr.onload = function (e) {
       if (this.status === 200) {
-        var myBlob = this.response
-        return resolve(myBlob)
+        return resolve(this.response)
       }
     }
     xhr.error = (err) => {
@@ -818,11 +828,11 @@ export const getNetworkStatus = () => {
 
 /**
  * @function
- * @description 图片dataurl转blob对象
- * @param {type} dataurl
- * @return blob
+ * @description 图片dataUrl base64转blob对象
+ * @param {string} argData dataUrl
+ * @returns {blob}
  */
-export const dataURLtoBlob = async (argData) => {
+export const dataURLtoBlob = (argData) => {
   var arr = argData.split(',')
   var mime = arr[0].match(/:(.*?);/)[1]
   var bstr = atob(arr[1])
@@ -831,20 +841,48 @@ export const dataURLtoBlob = async (argData) => {
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n)
   }
-  return new Blob([u8arr], { type: 'image/jpeg' })
+  return new Blob([u8arr], { type: mime })
 }
 
 /**
  * @function
  * @description blob转file对象
- * @param {type} argBlob blob对像
- * @param {type} argName filename
- * @return:
+ * @param {blob} argBlob blob对像
+ * @param {string} argName filename
+ * @returns {file}
  */
-export const blobToFile = async (argBlob, argName = Date.now()) => {
-  argBlob.lastModifiedDate = new Date()
-  argBlob.name = argName
-  return argBlob
+export const blobToFile = (argBlob, argName = Date.now()) => {
+  let file = new File([argBlob], argBlob.name || argName, {
+    type: argBlob.type,
+  })
+  return file
+}
+/**
+ * @function
+ * @description 下载文件
+ * @param {type} argBlob blob对像/file对象/dataUrl
+ * @param {type} argName filename
+ * @param {type} argDelTime 移除dateUrl时间
+ */
+export const dlFile = (argData, argName = Date.now(), argDelTime = 10000) => {
+  let downNode = document.createElement('a')
+  downNode.download = argName
+  // 字符内容转换为blob地址
+  let href = ''
+  if (typeof argData === 'string') {
+    if (argData.startsWith('blob:')) {
+      href = argData
+    }
+    argData = new Blob([argData])
+  }
+  href = href || URL.createObjectURL(argData)
+  downNode.href = href
+  setTimeout(() => {
+    URL.revokeObjectURL(href)
+  }, argDelTime)
+  document.body.appendChild(downNode)
+  downNode.click()
+  document.body.removeChild(downNode)
 }
 
 /**
@@ -926,7 +964,7 @@ export const getRandomColor = function () {
 /**
  * @function
  * @description px转vw
- * @param {type} argPx blob对像
+ * @param {type} argPx px
  * @param {type} argWith px对应最大宽度
  * @param {type} argNum 保留小数
  * @param {type} argUnit 单位 'vw'||'%'
@@ -1077,4 +1115,35 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
     }
   })
   return timeText
+}
+/**
+ * @function
+ * @description 容量单位转换
+ * @param {object} argData byte数据
+ * @param {string} argNum 保留小数位
+ * @param {string} argIndex 起始单位偏移eg: 0:b 1:k 2:m
+ * @param {string} argRate 进制
+ * @returns {any} 计算结果
+ */
+export const formatSize = (
+  argData,
+  argNum = 2,
+  argIndex = 0,
+  argRate = 1024
+) => {
+  let list = ['B', 'K', 'M', 'G', 'T', 'P']
+  if (!argData) {
+    return '0' + list[argIndex]
+  }
+  let len = list.length
+  let nowIndex = len - 1
+  let temData
+  for (let i = 0; i < len; i++) {
+    temData = argData / Math.pow(argRate, i)
+    if (temData < argRate) {
+      nowIndex = argIndex + i
+      break
+    }
+  }
+  return toFixed(temData, argNum, 'number') + list[nowIndex]
 }
