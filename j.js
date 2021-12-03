@@ -763,19 +763,15 @@ export const blobToBase64 = async (argBlob) => {
  * @date 2020-03-01
  * @param {any} argData 要处理的数据
  * @param {any} argNum 要保留位数
+ * @param {any} argType 返回类型，默认返回字符串
  * @returns {any} 返回处理好的数据
  */
 export const toFixed = (argData, argNum = 2, argType = 'string') => {
   if (isNaN(argData)) {
-    return ''
+    return argType === 'string' ? '' : 0
   }
-  let rate = Math.pow(10, argNum)
-  let data = (Math.round(+argData * rate) / rate).toFixed(argNum)
-  if (argType === 'number') {
-    return +data
-  } else {
-    return data
-  }
+  let data = (+argData).toFixed(argNum)
+  return argType === 'string' ? data : +data
 }
 /**
  * 描述
@@ -1146,4 +1142,20 @@ export const formatSize = (
     }
   }
   return toFixed(temData, argNum, 'number') + list[nowIndex]
+}
+/**
+ * @function
+ * @description 数量单位转换k/w
+ * @param {object} argData 数据
+ * @param {string} argNum 保留小数位
+ * @returns {any} 计算结果
+ */
+export const formatNumber = (argData, argNum = 2) => {
+  if (argData < 1000) {
+    return argData
+  } else if (argData < 10000) {
+    return toFixed(argData / 1000, argNum, 'number') + 'k'
+  } else {
+    return toFixed(argData / 10000, argNum, 'number') + 'w'
+  }
 }
