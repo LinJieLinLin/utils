@@ -1159,3 +1159,27 @@ export const formatNumber = (argData, argNum = 2) => {
     return toFixed(argData / 10000, argNum, 'number') + 'w'
   }
 }
+
+/**
+ * @function
+ * @description 获取音视频时长
+ * @param {object} argFile 单视频数据，string时为链接
+ * @returns {number} 时长
+ */
+export const getDuration = async (argFile)=> {
+  let filePath
+  if(typeof argFile==='string'){
+    filePath = argFile
+  }else{
+    filePath = URL.createObjectURL(argFile)
+  }   
+  return new Promise((resolve) => {
+    const audio = new Audio(filePath)
+    audio.addEventListener('loadedmetadata', function (e) {
+      if (filePath.startsWith('blob:')) {
+        URL.revokeObjectURL(filePath)
+      }
+      return resolve(audio.duration)
+    })
+  })
+},
