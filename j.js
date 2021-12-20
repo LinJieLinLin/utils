@@ -147,11 +147,11 @@ export const getUrlParamObj = (
     argData = temArr.pop()
     return JSON.parse(
       '{"' +
-        decodeURIComponent(argData)
-          .replace(/"/g, '\\"')
-          .replace(/&/g, '","')
-          .replace(/=/g, '":"') +
-        '"}'
+      decodeURIComponent(argData)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"') +
+      '"}'
     )
   } catch (e) {
     console.error('转换失败', e)
@@ -578,7 +578,7 @@ export const isJson = (argData) => {
     if (typeof JSON.parse(argData || '') === 'object') {
       return true
     }
-  } catch (e) {}
+  } catch (e) { }
   return false
 }
 /**
@@ -606,7 +606,7 @@ export const isFile = (argData) => {
  * @returns {string} uuid
  */
 export const uuid = () => {
-  function S4() {
+  function S4 () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
   return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()
@@ -1166,20 +1166,22 @@ export const formatNumber = (argData, argNum = 2) => {
  * @param {object} argFile 单视频数据，string时为链接
  * @returns {number} 时长
  */
-export const getDuration = async (argFile)=> {
+export const getDuration = async (argFile) => {
   let filePath
-  if(typeof argFile==='string'){
+  if (typeof argFile === 'string') {
     filePath = argFile
-  }else{
+  } else {
     filePath = URL.createObjectURL(argFile)
-  }   
+  }
   return new Promise((resolve) => {
     const audio = new Audio(filePath)
     audio.addEventListener('loadedmetadata', function (e) {
       if (filePath.startsWith('blob:')) {
         URL.revokeObjectURL(filePath)
       }
-      return resolve(audio.duration)
+      const duration = audio.duration
+      audio.src = ''
+      return resolve(duration)
     })
   })
 },
