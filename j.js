@@ -138,24 +138,18 @@ export const getUrlParam = (argName, argUrl = window.location.search) => {
 export const getUrlParamObj = (
   argData = window.location.search || window.location.hash
 ) => {
+  const res = {}
   try {
     argData = decodeURIComponent(argData)
     let temArr = argData.split('?')
-    if (temArr.length < 2 || !argData.match('=')) {
-      return {}
-    }
     argData = temArr.pop()
-    return JSON.parse(
-      '{"' +
-        decodeURIComponent(argData)
-          .replace(/"/g, '\\"')
-          .replace(/&/g, '","')
-          .replace(/=/g, '":"') +
-        '"}'
-    )
+    argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key, value) => {
+      res[key] = value
+    })
+    return res
   } catch (e) {
     console.error('转换失败', e)
-    return {}
+    return res
   }
   // let temObj = new URLSearchParams(argData)
   // let resObj = {}
