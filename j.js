@@ -147,11 +147,11 @@ export const getUrlParamObj = (
     argData = temArr.pop()
     return JSON.parse(
       '{"' +
-      decodeURIComponent(argData)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"') +
-      '"}'
+        decodeURIComponent(argData)
+          .replace(/"/g, '\\"')
+          .replace(/&/g, '","')
+          .replace(/=/g, '":"') +
+        '"}'
     )
   } catch (e) {
     console.error('转换失败', e)
@@ -578,7 +578,7 @@ export const isJson = (argData) => {
     if (typeof JSON.parse(argData || '') === 'object') {
       return true
     }
-  } catch (e) { }
+  } catch (e) {}
   return false
 }
 /**
@@ -606,7 +606,7 @@ export const isFile = (argData) => {
  * @returns {string} uuid
  */
 export const uuid = () => {
-  function S4 () {
+  function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
   return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()
@@ -1032,9 +1032,8 @@ export const setStorage = (argKey, argData) => {
  * @description 秒转倒计时
  * @param {number} argData 秒数
  * @param {string} argType 's,m,h,d,M,y 对应 秒 分 时 天 月 年'
- * @param {string} argKey 要获取的key
  * @param {object} argOption 额外的处理
- * @param {Array} argOption.sing ['年', '月', '天', '时', '分', '秒']
+ * @param {Array} argOption.unit 单位['年', '月', '天', '时', '分', '秒']
  * @returns {string} 保存的数据
  */
 export const secondToTime = (argData, argType = 'y', argOption = {}) => {
@@ -1043,36 +1042,36 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
     {
       size: 1,
       type: 's',
-      sign: ':',
+      unit: '',
       index: 0,
     },
     {
       size: 60,
-      sign: ':',
+      unit: ':',
       type: 'm',
       index: 1,
     },
     {
       size: 60,
-      sign: ':',
+      unit: ':',
       type: 'h',
       index: 2,
     },
     {
       size: 24,
-      sign: ':',
+      unit: ':',
       type: 'd',
       index: 3,
     },
     {
       size: 30,
-      sign: ':',
+      unit: ':',
       type: 'M',
       index: 4,
     },
     {
       size: 365,
-      sign: ':',
+      unit: ':',
       type: 'y',
       index: 5,
     },
@@ -1080,7 +1079,7 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
   let temLen = list.length
   let second = argData
   let size = 1
-  let signList = argOption.sign || ['年', '月', '天', '时', '分', '秒']
+  let unitList = argOption.unit || ['年', '月', '天', '时', '分', '秒']
   let index = 0
   for (let i = 0; i < temLen; i++) {
     let lastSize = size
@@ -1107,7 +1106,7 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
       // console.error(v)
     } else {
       isZero = false
-      timeText += v + signList[index + k]
+      timeText += v + unitList[index + k]
     }
   })
   return timeText
@@ -1163,7 +1162,7 @@ export const formatNumber = (argData, argNum = 2) => {
 /**
  * @function
  * @description 获取音视频时长
- * @param {object} argFile 单视频数据，string时为链接
+ * @param {object} argFile 音视频数据，string时为链接
  * @returns {number} 时长
  */
 export const getDuration = async (argFile) => {
@@ -1184,4 +1183,4 @@ export const getDuration = async (argFile) => {
       return resolve(duration)
     })
   })
-},
+}
