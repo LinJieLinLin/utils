@@ -572,7 +572,7 @@ export const isJson = (argData) => {
     if (typeof JSON.parse(argData || '') === 'object') {
       return true
     }
-  } catch (e) {}
+  } catch (e) { }
   return false
 }
 /**
@@ -600,7 +600,7 @@ export const isFile = (argData) => {
  * @returns {string} uuid
  */
 export const uuid = () => {
-  function S4() {
+  function S4 () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
   return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()
@@ -850,7 +850,7 @@ export const blobToFile = (argBlob, argName = Date.now()) => {
 /**
  * @function
  * @description 下载文件
- * @param {type} argBlob blob对像/file对象/dataUrl
+ * @param {type} argBlob blob对像/file对象/dataUrl/base64
  * @param {type} argName filename
  * @param {type} argDelTime 移除dateUrl时间
  */
@@ -861,6 +861,8 @@ export const dlFile = (argData, argName = Date.now(), argDelTime = 10000) => {
   let href = ''
   if (typeof argData === 'string') {
     if (argData.startsWith('blob:')) {
+      href = argData
+    } else if (argData.startsWith('data:image')) {
       href = argData
     }
     argData = new Blob([argData])
