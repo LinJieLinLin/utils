@@ -2,3 +2,4 @@
 /dist
 /project.js
 /struct.js
+/.nyc_output

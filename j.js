@@ -4,7 +4,12 @@
  * @author linj
  * @description 公共函数
  */
-
+// eslint-disable-next-line no-use-before-define
+if (typeof window === 'undefined') {
+  var window = {
+    location: {},
+  }
+}
 /**
  * @function
  * @description 正则收集
@@ -572,7 +577,7 @@ export const isJson = (argData) => {
     if (typeof JSON.parse(argData || '') === 'object') {
       return true
     }
-  } catch (e) { }
+  } catch (e) {}
   return false
 }
 /**
@@ -600,7 +605,7 @@ export const isFile = (argData) => {
  * @returns {string} uuid
  */
 export const uuid = () => {
-  function S4 () {
+  function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
   return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()

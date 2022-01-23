@@ -1,11 +1,12 @@
 {
   "name": "lj-utils",
   "version": "0.1.10",
-  "description": "uni-app project utils",
+  "description": "uni-app utils",
   "main": "index.js",
   "keywords": [
     "utils",
     "uni-app",
+    "js",
     "vue"
   ],
   "author": "linjielinlin",
@@ -14,6 +15,10 @@
   "private": false,
   "scripts": {
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
+    "test": "mocha ./test/mocha/*.js --require @babel/register --bail",
+    "testWatch": "mocha mocha ./test/mocha/*.js --require @babel/register --bail --watch",
+    "html": "nyc --reporter=html --report-dir=./dist/coverage mocha mocha ./test/mocha/*.js --require @babel/register --bail",
+    "text": "nyc --reporter=text mocha mocha ./test/mocha/*.js --require @babel/register --bail",
     "rundoc": "jsdoc -c jsdoc.json && cd dist & http-server -d dist -p 1000 -c-1 -o",
     "z": "echo '小改动' &&npm version patch",
     "y": "echo '特性更新' &&npm version minor",
@@ -21,11 +26,17 @@
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
   "dependencies": {
+    "chai": "^4.1.2",
     "crypto-js": "^4.1.1",
     "docdash": "^1.2.0",
-    "js-base64": "^3.7.2"
+    "js-base64": "^3.7.2",
+    "mocha": "^9.1.4",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/register": "^7.16.9",
+    "eslint-plugin-mocha": "^10.0.3",
     "jsdoc": "^3.6.6"
   },
   "browserslist": [
@@ -39,5 +50,26 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env"
+      ]
+    ],
+    "plugins": [
+      "@babel/plugin-transform-runtime"
+    ]
+  },
+  "eslintConfig": {
+    "plugins": [
+      "mocha"
+    ],
+    "extends": [
+      "plugin:mocha/recommended"
+    ],
+    "globals": {
+      "window": true
+    }
   }
 }
