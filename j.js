@@ -4,11 +4,16 @@
  * @author linj
  * @description 公共函数
  */
+//  globalThis for ie
 // eslint-disable-next-line no-use-before-define
-if (typeof window === 'undefined') {
-  var window = {
-    location: {},
+if (typeof globalThis === 'undefined') {
+  // eslint-disable-next-line no-use-before-define
+  if (typeof window === 'undefined') {
+    var window = {
+      location: {},
+    }
   }
+  var globalThis = window
 }
 /**
  * @function
@@ -70,16 +75,16 @@ export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
     console.error('argCheck请传入string当前为：' + argCheck)
     return ''
   }
-  var temKey = argCheck.toString().split('.')
-  var temLen = temKey.length
+  const temKey = argCheck.toString().split('.')
+  const temLen = temKey.length
   if (!argData) {
     return argValue
   }
   if (temLen > 1) {
-    for (var i = 0; i < temLen - 1; i++) {
+    for (const i = 0; i < temLen - 1; i++) {
       if (typeof argData[temKey[i]] !== 'object') {
         if (argSetValueForce) {
-          console.error('赋值失败：', argData)
+          console.error('赋值失败：', argData, i)
         }
         return argValue
       }
@@ -127,7 +132,7 @@ export const setUrlParams = (argParams, noMark) => {
  * @param {string} argUrl url数据
  * @returns {string}
  */
-export const getUrlParam = (argName, argUrl = window.location.search) => {
+export const getUrlParam = (argName, argUrl = globalThis.location.search) => {
   let result = argUrl.match(new RegExp('[?&]' + argName + '=([^&]+)', 'i'))
   if (!result) {
     return ''
@@ -141,7 +146,7 @@ export const getUrlParam = (argName, argUrl = window.location.search) => {
  * @returns {object}
  */
 export const getUrlParamObj = (
-  argData = window.location.search || window.location.hash
+  argData = globalThis.location.search || globalThis.location.hash
 ) => {
   const res = {}
   try {
@@ -171,7 +176,11 @@ export const getUrlParamObj = (
  * @param  {} value 要替换的value
  * @param  {} url 要替换的网址,默认location.href
  */
-export const replaceUrlParam = (name, value, url = window.location.href) => {
+export const replaceUrlParam = (
+  name,
+  value,
+  url = globalThis.location.href
+) => {
   let reg = new RegExp('([?]|&)(' + name + '=)([^&#]*)([&]?|$)', 'img')
   let r = url.match(reg)
   let search = url.split('?')
@@ -299,7 +308,7 @@ export const formatTime = (
     }
   }
   date = new Date(+date)
-  var o = {
+  const o = {
     'M+': date.getMonth() + 1,
     'D+': date.getDate(),
     'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12,
@@ -309,7 +318,7 @@ export const formatTime = (
     'q+': Math.floor((date.getMonth() + 3) / 3),
     S: date.getMilliseconds(),
   }
-  var week = {
+  const week = {
     0: '\u65e5',
     1: '\u4e00',
     2: '\u4e8c',
@@ -408,7 +417,7 @@ export const remInit = (argBaseSize = 16, argWidth = 375) => {
   // 初始化
   setRem()
   // 改变窗口大小时重新设置 rem
-  window.onresize = () => {
+  globalThis.onresize = () => {
     setRem()
   }
 }
@@ -574,9 +583,7 @@ export const randomInt = (min = 0, max) => {
  */
 export const isJson = (argData) => {
   try {
-    if (typeof JSON.parse(argData || '') === 'object') {
-      return true
-    }
+    return typeof JSON.parse(argData || '') === 'object'
   } catch (e) {}
   return false
 }
@@ -589,6 +596,7 @@ export const isJson = (argData) => {
 export const isBlob = (argData) => {
   return argData instanceof Blob
 }
+
 /**
  * @function
  * @description 判断是否是File
@@ -648,7 +656,7 @@ export const getInfo = () => {
     isIos: platform.match('ios') && true,
     isAndroid: platform.match('android') && true,
     isSafari: ua.indexOf('safari') > -1 && ua.indexOf('chrome') < 1,
-    isIE: !!window.ActiveXObject || 'ActiveXObject' in window,
+    isIE: !!globalThis.ActiveXObject || 'ActiveXObject' in globalThis,
   }
   if (info.ua.match('msie')) {
     let IE = info.ua.match(/msie\s([0-9]*)/)
@@ -800,12 +808,12 @@ export const blobUrlToFile = async (argData) => {
 let isOnline = true
 // #ifdef H5
 // 断网监听
-if (window && window.addEventListener) {
-  window.addEventListener('online', function () {
+if (globalThis && globalThis.addEventListener) {
+  globalThis.addEventListener('online', function () {
     console.error('onLine')
     isOnline = true
   })
-  window.addEventListener('offline', function () {
+  globalThis.addEventListener('offline', function () {
     console.error('offLine')
     isOnline = false
   })
@@ -1164,7 +1172,7 @@ export const formatNumber = (argData, argNum = 2) => {
  * @function
  * @description 获取音视频时长
  * @param {object} argFile 音视频数据，string时为链接
- * @returns {number} 时长
+ * @returns {number} 时长单位秒
  */
 export const getDuration = async (argFile) => {
   let filePath
@@ -1173,7 +1181,7 @@ export const getDuration = async (argFile) => {
   } else {
     filePath = URL.createObjectURL(argFile)
   }
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const audio = new Audio(filePath)
     audio.addEventListener('loadedmetadata', function (e) {
       if (filePath.startsWith('blob:')) {
@@ -1183,5 +1191,17 @@ export const getDuration = async (argFile) => {
       audio.src = ''
       return resolve(duration)
     })
+    setTimeout(() => {
+      return reject(new Error('读取时长超时'))
+    }, 5000)
   })
 }
+
+/**
+ * @function
+ * @description 判断质数
+ * @param {object} argValue 要判断的数据
+ * @returns {boolean} 结果
+ */
+export const isPrime = (argValue) =>
+  !/^.?$|^(..+?)\1+$/.test('.'.repeat(argValue))
