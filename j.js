@@ -81,7 +81,7 @@ export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
     return argValue
   }
   if (temLen > 1) {
-    for (const i = 0; i < temLen - 1; i++) {
+    for (let i = 0; i < temLen - 1; i++) {
       if (typeof argData[temKey[i]] !== 'object') {
         if (argSetValueForce) {
           console.error('赋值失败：', argData, i)
