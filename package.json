@@ -43,7 +43,7 @@
     "jsdoc": "^3.6.6"
   },
   "peerDependencies": {
-    "eslint-plugin-mocha": "^10.0.3",
+    "eslint-plugin-mocha": "^10.0.3"
   },
   "browserslist": [
     "> 1%",
