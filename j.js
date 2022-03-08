@@ -13,6 +13,10 @@ if (typeof globalThis === 'undefined') {
       location: {},
       document: {
         getElementsByTagName: () => [{ innerText: '' }],
+        documentElement: {
+          clientWidth: 375,
+          style: {},
+        },
       },
     }
   }
@@ -311,7 +315,7 @@ export const formatTime = (
     }
   }
   date = new Date(+date)
-  const o = {
+  const fmtMap = {
     'M+': date.getMonth() + 1,
     'D+': date.getDate(),
     'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12,
@@ -330,27 +334,30 @@ export const formatTime = (
     5: '\u4e94',
     6: '\u516d',
   }
-  if (/(Y+)/.test(fmt)) {
+  const temY = fmt.match(/(Y+)/)
+  if (temY) {
     fmt = fmt.replace(
-      RegExp.$1,
-      (date.getFullYear() + '').substr(4 - RegExp.$1.length)
+      temY[0],
+      (date.getFullYear() + '').substring(4 - temY[0].length)
     )
   }
-  if (/(E+)/.test(fmt)) {
+  const temWeek = fmt.match(/(E+)/)
+  if (temWeek) {
+    const temWeekName = ['', '\u5468']
     fmt = fmt.replace(
-      RegExp.$1,
-      (RegExp.$1.length > 1
-        ? RegExp.$1.length > 2
-          ? '\u661f\u671f'
-          : '\u5468'
-        : '') + week[date.getDay() + '']
+      temWeek[0],
+      (temWeekName[temWeek[0].length] || '\u661f\u671f') +
+        week[date.getDay() + '']
     )
   }
-  for (var k in o) {
-    if (new RegExp('(' + k + ')').test(fmt)) {
+  for (var k in fmtMap) {
+    let temMatch = fmt.match(new RegExp('(' + k + ')'))
+    if (temMatch) {
       fmt = fmt.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+        temMatch[0],
+        temMatch[0].length === 1
+          ? fmtMap[k]
+          : ('00' + fmtMap[k]).substring(('' + fmtMap[k]).length)
       )
     }
   }
@@ -400,7 +407,8 @@ export const friendlyTime = (
         (diff < 86400 && Math.floor(diff / 3600) + '小时前'))) ||
     (dayDiff === 1 && '昨天') ||
     (dayDiff < 7 && dayDiff + '天前') ||
-    (dayDiff < 31 && Math.ceil(dayDiff / 7) + '周前')
+    (dayDiff < 31 && Math.ceil(dayDiff / 7) + '周前') ||
+    (dayDiff < 365 && Math.ceil(dayDiff / 31) + '月前')
   )
 }
 
@@ -413,9 +421,16 @@ export const remInit = (argBaseSize = 16, argWidth = 375) => {
   // 设置 rem 函数
   const setRem = () => {
     // 当前页面宽度相对于 argWidth 宽的缩放比例，可根据自己需要修改。
-    const scale = document.documentElement.clientWidth / argWidth
+    const scale =
+      safeData(globalThis, 'document.documentElement.clientWidth', argWidth) /
+      argWidth
     // 设置页面根节点字体大小
-    document.documentElement.style.fontSize = argBaseSize * scale + 'px'
+    safeData(
+      globalThis,
+      'document.documentElement.style.fontSize',
+      argBaseSize * scale + 'px',
+      true
+    )
   }
   // 初始化
   setRem()
@@ -478,7 +493,7 @@ export const isIdCard = (code) => {
   ) {
     tip = '身份证号格式错误'
     pass = false
-  } else if (!city[code.substr(0, 2)]) {
+  } else if (!city[code.substring(0, 2)]) {
     tip = '地址编码错误'
     pass = false
   } else {
@@ -518,7 +533,7 @@ export const getCookie = (argName) => {
   for (let i = 0; i < cookie.length; i += 1) {
     let name = cookie[i].split('=')
     if (argName === name[0]) {
-      return unescape(name[1] || '')
+      return decodeURIComponent(name[1] || '')
     }
   }
   return ''
@@ -542,7 +557,7 @@ export const setCookie = (argName, argValue, argTime = 24) => {
   document.cookie =
     argName +
     '=' +
-    escape(argValue) +
+    encodeURIComponent(argValue) +
     ';path=/;expires=' +
     exp.toGMTString() +
     ';domain=' +
@@ -617,7 +632,7 @@ export const isFile = (argData) => {
  */
 export const uuid = () => {
   function S4() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substringing(1)
   }
   return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()
 }
@@ -697,9 +712,9 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
       start += '*'
     }
     argData =
-      argData.substr(0, argStart) +
+      argData.substring(0, argStart) +
       start +
-      argData.substr(temLen - argEnd, temLen)
+      argData.substring(temLen - argEnd, temLen)
   }
   return argData
 }
@@ -780,7 +795,7 @@ export const toFixed = (argData, argNum = 2, argType = 'string') => {
   if (isNaN(argData)) {
     return argType === 'string' ? '' : 0
   }
-  let data = (Math.round(argData*Math.pow(10,argNum))/Math.pow(10,argNum))
+  let data = Math.round(argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
   // let data = (+argData).toFixed(argNum)
   return argType === 'string' ? data : +data
 }
@@ -966,7 +981,8 @@ export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
  */
 export const getRandomColor = function () {
   return (
-    '#' + ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6)
+    '#' +
+    ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substring(-6)
   )
 }
 

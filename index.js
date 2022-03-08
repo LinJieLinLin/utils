@@ -1,2 +1,2 @@
-import * as j from 'j.js'
+import * as j from './j.js'
 export default j

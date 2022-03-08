@@ -14,8 +14,12 @@ describe('j.js', function () {
     global.window = {
       location: {},
       document: {
-        getElementsByTagName:()=>[{innerText:''}]
-      }
+        getElementsByTagName: () => [{ innerText: '' }],
+        documentElement: {
+          clientWidth: 375,
+          style: {},
+        },
+      },
     }
   })
 
@@ -123,6 +127,35 @@ describe('j.js', function () {
     it('rmbPrice', function () {
       const fn = j.rmbPrice
       expect(fn(1.55)).to.equal('￥1.55')
+      expect(fn(1.55,1)).to.equal('￥1.6')
+    })
+    it('formatTime', function () {
+      const fn = j.formatTime
+      expect(fn(new Date('2022/11/12 00:00:00'))).to.equal('2022-11-12 00:00:00')
+      expect(fn(new Date('2022/11/12 00:00:00'),'YYYY')).to.equal('2022')
+      expect(fn(new Date('2022/11/12 00:00:00'),'YYYY-MM')).to.equal('2022-11')
+      expect(fn(null,'YYYY-MM','--')).to.equal('--')
+      expect(fn(0,'YYYY-MM','')).to.equal('1970-01')
+      expect(fn(1646752738,'YYYY-MM','')).to.equal('2022-03')
+      expect(fn(1646752738123,'YYYY-MM S','')).to.equal('2022-03 123')
+      expect(fn(1646752738123,'YYYY-MM E qq季度','')).to.equal('2022-03 周二 01季度')
+    })
+    it('friendlyTime', function () {
+      const fn = j.friendlyTime
+      expect(fn()).to.equal('刚刚')
+      expect(fn(+Date.now()-61*1000)).to.equal('1分钟前')
+      expect(fn(+Date.now()-121*1000)).to.equal('2分钟前')
+      expect(fn(+Date.now()-61*60*1000)).to.equal('1小时前')
+      expect(fn(+Date.now()-121*60*1000)).to.equal('2小时前')
+      expect(fn(+Date.now()-24*60*60*1000)).to.equal('昨天')
+      expect(fn(+Date.now()-2*24*60*60*1000)).to.equal('2天前')
+      expect(fn(+Date.now()-7*24*60*60*1000)).to.equal('1周前')
+      expect(fn('','','--')).to.equal('--')
+      expect(fn(0,'YYYY','--')).to.equal('1970')
+    })
+    it('remInit', function () {
+      const fn = j.remInit
+      expect(fn()).to.equal(undefined)
     })
     // it('demo', function () {
     //   const fn = j.demo
