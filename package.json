@@ -33,13 +33,13 @@
     "nyc": "^15.1.0"
   },
   "devDependencies": {
-    "docdash": "^1.2.0",
+    "@babel/core": "^7.13.0",
     "@babel/plugin-transform-runtime": "^7.16.10",
     "@babel/preset-env": "^7.16.11",
     "@babel/register": "^7.16.9",
-    "@babel/core":"^7.13.0",
+    "docdash": "^1.2.0",
+    "eslint": "^7.0.0",
     "eslint-plugin-mocha": "^10.0.3",
-    "eslint":"^7.0.0",
     "jsdoc": "^3.6.6"
   },
   "peerDependencies": {
@@ -68,6 +68,10 @@
     ]
   },
   "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
     "plugins": [
       "mocha"
     ],

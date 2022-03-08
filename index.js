@@ -1,3 +1,2 @@
-export default {
-  name: 'lj-utils',
-}
+import * as j from 'j.js'
+export default j

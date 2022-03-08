@@ -9,8 +9,11 @@
 if (typeof globalThis === 'undefined') {
   // eslint-disable-next-line no-use-before-define
   if (typeof window === 'undefined') {
-    var window = {
+    var window = global.window || {
       location: {},
+      document: {
+        getElementsByTagName: () => [{ innerText: '' }],
+      },
     }
   }
   var globalThis = window
@@ -224,7 +227,7 @@ export const replaceUrlParam = (
 /**
  * @function
  * @description 转义html标签
- * @param  {} argHtml 需要转义的文本
+ * @param  {string} argHtml 需要转义的文本
  */
 export const encodeHtml = (argHtml) => {
   if (!argHtml || argHtml.length === 0) {
@@ -265,7 +268,7 @@ export const decodeHtml = (argHtml) => {
  * @param  {} argTitle 标题
  */
 export const setTitle = (argTitle) => {
-  document.getElementsByTagName('title')[0].innerText = argTitle
+  globalThis.document.getElementsByTagName('title')[0].innerText = argTitle
 }
 
 /**
@@ -769,7 +772,7 @@ export const blobToBase64 = async (argBlob) => {
  * @description toFixed处理
  * @date 2020-03-01
  * @param {any} argData 要处理的数据
- * @param {any} argNum 要保留位数
+ * @param {any} argNum 要保留位数,默认返回2位小数
  * @param {any} argType 返回类型，默认返回字符串
  * @returns {any} 返回处理好的数据
  */
@@ -777,7 +780,8 @@ export const toFixed = (argData, argNum = 2, argType = 'string') => {
   if (isNaN(argData)) {
     return argType === 'string' ? '' : 0
   }
-  let data = (+argData).toFixed(argNum)
+  let data = (Math.round(argData*Math.pow(10,argNum))/Math.pow(10,argNum))
+  // let data = (+argData).toFixed(argNum)
   return argType === 'string' ? data : +data
 }
 /**
