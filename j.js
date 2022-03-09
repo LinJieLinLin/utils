@@ -446,6 +446,7 @@ export const remInit = (argBaseSize = 16, argWidth = 375) => {
  * @param  {string} code 身份证号码
  */
 export const isIdCard = (code) => {
+  code = ''+code
   let city = {
     11: '北京',
     12: '天津',
@@ -529,7 +530,7 @@ export const isIdCard = (code) => {
  * @param  {string} argName 要获取的值
  */
 export const getCookie = (argName) => {
-  let cookie = document.cookie.split('; ')
+  let cookie = globalThis.document.cookie.split('; ')
   for (let i = 0; i < cookie.length; i += 1) {
     let name = cookie[i].split('=')
     if (argName === name[0]) {
@@ -546,15 +547,18 @@ export const getCookie = (argName) => {
  * @param  {string} argValue 要设置的value
  * @param  {string} argTime 过期时间/时 默认24小时
  */
-export const setCookie = (argName, argValue, argTime = 24) => {
+export const setCookie = (argName, argValue='', argTime = 24) => {
+  if(typeof argName!=='string'){
+    return
+  }
   let now = new Date()
   let offset = 8
   let utc = now.getTime() + now.getTimezoneOffset() * 60000
   let nd = utc + 3600000 * offset
   let exp = new Date(nd)
-  let domain = document.domain
+  let domain = globalThis.document.domain
   exp.setTime(exp.getTime() + argTime * 60 * 60 * 1000)
-  document.cookie =
+  globalThis.document.cookie =
     argName +
     '=' +
     encodeURIComponent(argValue) +
@@ -569,7 +573,7 @@ export const setCookie = (argName, argValue, argTime = 24) => {
  * @description 清除cookie
  * @param  {string} argName 要清除的值
  */
-export const delCookie = (argName) => {
+export const delCookie = (argName='') => {
   setCookie(argName, '', -1)
 }
 /**
@@ -630,9 +634,9 @@ export const isFile = (argData) => {
  * @description 获取简单uuid
  * @returns {string} uuid
  */
-export const uuid = () => {
+export const getUuid = () => {
   function S4() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substringing(1)
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
   return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + Date.now()
 }
@@ -657,11 +661,11 @@ export const uuid = () => {
  */
 export const getInfo = () => {
   let info = {}
-  let ua = navigator.userAgent.toLowerCase()
+  let ua = globalThis.navigator.userAgent.toLowerCase()
   let platform = safeData(
-    navigator,
+    globalThis.navigator,
     'userAgentData.platform',
-    navigator.platform
+    ''
   ).toLowerCase()
   info = {
     ua: ua,
@@ -686,7 +690,7 @@ export const getInfo = () => {
     info.isMobile &&
     ua.toLowerCase().indexOf('applewebkit') &&
     ua.indexOf('chrome') < 1
-  info = Object.assign({}, navigator, info)
+  info = Object.assign({}, globalThis.navigator, info)
   return info
 }
 
@@ -694,11 +698,10 @@ export const getInfo = () => {
  * 描述
  * @function
  * @description 数据中间加星号
- * @date 2019-11-01
- * @param {any} argData 要处理的数据
- * @param {any} argStart=3 前端显示多少位
- * @param {any} argEnd=4 后面显示多少位
- * @returns {any} 返回处理好的数据
+ * @param {string} argData 要处理的数据
+ * @param {number} argStart=3 前端显示多少位
+ * @param {number} argEnd=4 后面显示多少位
+ * @returns {string} 返回处理好的数据
  */
 export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
   if (typeof argData !== 'string') {

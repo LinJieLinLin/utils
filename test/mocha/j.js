@@ -6,14 +6,25 @@ import { safeData } from 'lj-utils/j';
  * @Date: 2022-01-21 11:54:25
  * @description: no
  */
-import { expect } from 'chai'
-import j from '../../index'
-
+import { expect } from 'chai';
+import j from '../../index';
+const {
+  Blob,
+} = require('buffer');
 describe('j.js', function () {
   before(function () {
+    global.Blob = Blob
+    global.File = Blob
     global.window = {
       location: {},
+      navigator:{
+        userAgent:'sbb msie mobile',
+        userAgentData:{
+          platform:'msie'
+        }
+      },
       document: {
+        cookie: 'uid=1; 1=1; a=2; b=B; c=c',
         getElementsByTagName: () => [{ innerText: '' }],
         documentElement: {
           clientWidth: 375,
@@ -127,35 +138,106 @@ describe('j.js', function () {
     it('rmbPrice', function () {
       const fn = j.rmbPrice
       expect(fn(1.55)).to.equal('￥1.55')
-      expect(fn(1.55,1)).to.equal('￥1.6')
+      expect(fn(1.55, 1)).to.equal('￥1.6')
     })
     it('formatTime', function () {
       const fn = j.formatTime
-      expect(fn(new Date('2022/11/12 00:00:00'))).to.equal('2022-11-12 00:00:00')
-      expect(fn(new Date('2022/11/12 00:00:00'),'YYYY')).to.equal('2022')
-      expect(fn(new Date('2022/11/12 00:00:00'),'YYYY-MM')).to.equal('2022-11')
-      expect(fn(null,'YYYY-MM','--')).to.equal('--')
-      expect(fn(0,'YYYY-MM','')).to.equal('1970-01')
-      expect(fn(1646752738,'YYYY-MM','')).to.equal('2022-03')
-      expect(fn(1646752738123,'YYYY-MM S','')).to.equal('2022-03 123')
-      expect(fn(1646752738123,'YYYY-MM E qq季度','')).to.equal('2022-03 周二 01季度')
+      expect(fn(new Date('2022/11/12 00:00:00'))).to.equal(
+        '2022-11-12 00:00:00'
+      )
+      expect(fn(new Date('2022/11/12 00:00:00'), 'YYYY')).to.equal('2022')
+      expect(fn(new Date('2022/11/12 00:00:00'), 'YYYY-MM')).to.equal('2022-11')
+      expect(fn(null, 'YYYY-MM', '--')).to.equal('--')
+      expect(fn(0, 'YYYY-MM', '')).to.equal('1970-01')
+      expect(fn(1646752738, 'YYYY-MM', '')).to.equal('2022-03')
+      expect(fn(1646752738123, 'YYYY-MM S', '')).to.equal('2022-03 123')
+      expect(fn(1646752738123, 'YYYY-MM E qq季度', '')).to.equal(
+        '2022-03 周二 01季度'
+      )
     })
     it('friendlyTime', function () {
       const fn = j.friendlyTime
       expect(fn()).to.equal('刚刚')
-      expect(fn(+Date.now()-61*1000)).to.equal('1分钟前')
-      expect(fn(+Date.now()-121*1000)).to.equal('2分钟前')
-      expect(fn(+Date.now()-61*60*1000)).to.equal('1小时前')
-      expect(fn(+Date.now()-121*60*1000)).to.equal('2小时前')
-      expect(fn(+Date.now()-24*60*60*1000)).to.equal('昨天')
-      expect(fn(+Date.now()-2*24*60*60*1000)).to.equal('2天前')
-      expect(fn(+Date.now()-7*24*60*60*1000)).to.equal('1周前')
-      expect(fn('','','--')).to.equal('--')
-      expect(fn(0,'YYYY','--')).to.equal('1970')
+      expect(fn(+Date.now() - 61 * 1000)).to.equal('1分钟前')
+      expect(fn(+Date.now() - 121 * 1000)).to.equal('2分钟前')
+      expect(fn(+Date.now() - 61 * 60 * 1000)).to.equal('1小时前')
+      expect(fn(+Date.now() - 121 * 60 * 1000)).to.equal('2小时前')
+      expect(fn(+Date.now() - 24 * 60 * 60 * 1000)).to.equal('昨天')
+      expect(fn(+Date.now() - 2 * 24 * 60 * 60 * 1000)).to.equal('2天前')
+      expect(fn(+Date.now() - 7 * 24 * 60 * 60 * 1000)).to.equal('1周前')
+      expect(fn('', '', '--')).to.equal('--')
+      expect(fn(0, 'YYYY', '--')).to.equal('1970')
     })
     it('remInit', function () {
       const fn = j.remInit
       expect(fn()).to.equal(undefined)
+    })
+    it('isIdCard', function () {
+      const fn = j.isIdCard
+      expect(fn()).to.equal(false)
+      expect(fn(4409)).to.equal(false)
+      expect(fn('440921199011199999')).to.equal(false)
+      expect(fn('490921199011199999')).to.equal(false)
+      expect(fn('350525198512095316')).to.equal(true)
+      expect(fn('441425196509103096')).to.equal(true)
+    })
+    it('getCookie', function () {
+      const fn = j.getCookie
+      expect(fn(1)).to.equal('')
+      expect(fn('1')).to.equal('1')
+      expect(fn('a')).to.equal('2')
+      expect(fn('aa')).to.equal('')
+    })
+    it('setCookie', function () {
+      const fn = j.setCookie
+      expect(fn()).to.equal(undefined)
+      expect(fn(1)).to.equal(undefined)
+      expect(fn(1, 1)).to.equal(undefined)
+      expect(fn(1, 1, 1)).to.equal(undefined)
+    })
+    it('delCookie', function () {
+      const fn = j.delCookie
+      expect(fn('1')).to.equal(undefined)
+    })
+    it('sleep', function () {
+      const fn = j.sleep
+      expect(fn(1000)).to.be.a('promise')
+    })
+    it('randomInt', function () {
+      const fn = j.randomInt
+      expect(fn(0,0)).to.be.a('number')
+      expect(fn(1,1)).to.equal(1)
+    })
+    it('isJson', function () {
+      const fn = j.isJson
+      expect(fn()).to.equal(false)
+      expect(fn(1)).to.equal(false)
+      expect(fn('{}')).to.equal(true)
+    })
+    it('isBlob', function () {
+      const fn = j.isBlob
+      expect(fn(1)).to.equal(false)
+      expect(fn(new Blob([1]))).to.equal(true)
+    })
+    it('isFile', function () {
+      const fn = j.isFile
+      expect(fn(1)).to.equal(false)
+      expect(fn(new Blob([1]))).to.equal(true)
+    })
+    it('getUuid', function () {
+      const fn = j.getUuid
+      expect(fn()).to.be.a('string')
+    })
+    it('getInfo', function () {
+      const fn = j.getInfo
+      expect(fn()).to.be.a('object')
+    })
+    it('hideInfo', function () {
+      const fn = j.hideInfo
+      expect(fn()).to.equal('')
+      expect(fn('123',1,1)).to.equal('1*3')
+      expect(fn('12',1,1)).to.equal('12')
+      expect(fn('15920385216')).to.equal('159****5216')
     })
     // it('demo', function () {
     //   const fn = j.demo
