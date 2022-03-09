@@ -727,8 +727,8 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
  * @function
  * @description 10进制转62进制
  * @date 2020-03-01
- * @param {any} argData 要处理的数据
- * @returns {any} 返回处理好的数据
+ * @param {number} argData 要处理的数据
+ * @returns {string} 返回处理好的数据
  */
 export const string10to62 = (argData) => {
   var chars =
@@ -749,8 +749,8 @@ export const string10to62 = (argData) => {
  * @function
  * @description 62进制转10进制
  * @date 2020-03-01
- * @param {any} argData 要处理的数据
- * @returns {any} 返回处理好的数据
+ * @param {string} argData 要处理的数据
+ * @returns {number} 返回处理好的数据
  */
 export const string62to10 = (argData) => {
   argData = String(argData)
@@ -790,8 +790,8 @@ export const blobToBase64 = async (argBlob) => {
  * @description toFixed处理
  * @date 2020-03-01
  * @param {any} argData 要处理的数据
- * @param {any} argNum 要保留位数,默认返回2位小数
- * @param {any} argType 返回类型，默认返回字符串
+ * @param {number} argNum 要保留位数,默认返回2位小数
+ * @param {string} argType 返回类型，默认返回字符串
  * @returns {any} 返回处理好的数据
  */
 export const toFixed = (argData, argNum = 2, argType = 'string') => {
@@ -799,7 +799,7 @@ export const toFixed = (argData, argNum = 2, argType = 'string') => {
     return argType === 'string' ? '' : 0
   }
   let data = Math.round(argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
-  // let data = (+argData).toFixed(argNum)
+  data = (+argData).toFixed(argNum)
   return argType === 'string' ? data : +data
 }
 /**

@@ -6,22 +6,37 @@ import { safeData } from 'lj-utils/j';
  * @Date: 2022-01-21 11:54:25
  * @description: no
  */
-import { expect } from 'chai';
-import j from '../../index';
-const {
-  Blob,
-} = require('buffer');
+import { expect } from 'chai'
+import j from '../../index'
+const { Blob } = require('buffer')
 describe('j.js', function () {
   before(function () {
     global.Blob = Blob
     global.File = Blob
+    global.FileReader = function () {
+      return {
+        onload(){
+
+        },
+        onerror(){
+          return 1
+        },
+        readAsDataURL: function (argData) {
+          if (j.isBlob(argData)) {
+            return this.onload({ target: { result: 'base64' } })
+          } else {
+            return this.onerror()
+          }
+        },
+      }
+    }
     global.window = {
       location: {},
-      navigator:{
-        userAgent:'sbb msie mobile',
-        userAgentData:{
-          platform:'msie'
-        }
+      navigator: {
+        userAgent: 'sbb msie mobile',
+        userAgentData: {
+          platform: 'msie',
+        },
       },
       document: {
         cookie: 'uid=1; 1=1; a=2; b=B; c=c',
@@ -205,8 +220,8 @@ describe('j.js', function () {
     })
     it('randomInt', function () {
       const fn = j.randomInt
-      expect(fn(0,0)).to.be.a('number')
-      expect(fn(1,1)).to.equal(1)
+      expect(fn(0, 0)).to.be.a('number')
+      expect(fn(1, 1)).to.equal(1)
     })
     it('isJson', function () {
       const fn = j.isJson
@@ -235,9 +250,32 @@ describe('j.js', function () {
     it('hideInfo', function () {
       const fn = j.hideInfo
       expect(fn()).to.equal('')
-      expect(fn('123',1,1)).to.equal('1*3')
-      expect(fn('12',1,1)).to.equal('12')
+      expect(fn('123', 1, 1)).to.equal('1*3')
+      expect(fn('12', 1, 1)).to.equal('12')
       expect(fn('15920385216')).to.equal('159****5216')
+    })
+    it('string10to62', function () {
+      const fn = j.string10to62
+      expect(fn(123)).to.equal('1Z')
+    })
+    it('string62to10', function () {
+      const fn = j.string62to10
+      expect(fn('1Z')).to.equal(123)
+    })
+    it('blobToBase64', async function () {
+      const fn = j.blobToBase64
+      expect(await fn(new Blob([1]))).to.equal(undefined)
+      expect(await fn()).to.equal(undefined)
+    })
+    it('toFixed', function () {
+      const fn = j.toFixed
+      expect(fn(1,2,'number')).to.equal(1)
+      expect(fn({})).to.equal('')
+      expect(fn('a')).to.equal('')
+      expect(fn(1.456)).to.equal('1.46')
+      expect(fn(1.456,1)).to.equal('1.5')
+      expect(fn(1.000,1)).to.equal('1.0')
+      expect(fn(1.000,1,'number')).to.equal(1)
     })
     // it('demo', function () {
     //   const fn = j.demo
