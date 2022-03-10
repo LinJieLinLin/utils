@@ -4,24 +4,6 @@
  * @author linj
  * @description 公共函数
  */
-//  globalThis for ie
-// eslint-disable-next-line no-use-before-define
-if (typeof globalThis === 'undefined') {
-  // eslint-disable-next-line no-use-before-define
-  if (typeof window === 'undefined') {
-    var window = global.window || {
-      location: {},
-      document: {
-        getElementsByTagName: () => [{ innerText: '' }],
-        documentElement: {
-          clientWidth: 375,
-          style: {},
-        },
-      },
-    }
-  }
-  var globalThis = window
-}
 /**
  * @function
  * @description 正则收集
@@ -532,7 +514,7 @@ export const isIdCard = (code) => {
 export const getCookie = (argName) => {
   let cookie = globalThis.document.cookie.split('; ')
   for (let i = 0; i < cookie.length; i += 1) {
-    let name = cookie[i].split('=')
+    let name = (''+cookie[i]).split('=')
     if (argName === name[0]) {
       return decodeURIComponent(name[1] || '')
     }
@@ -832,11 +814,11 @@ let isOnline = true
 // 断网监听
 if (globalThis && globalThis.addEventListener) {
   globalThis.addEventListener('online', function () {
-    console.error('onLine')
+    console.log('onLine')
     isOnline = true
   })
   globalThis.addEventListener('offline', function () {
-    console.error('offLine')
+    console.log('offLine')
     isOnline = false
   })
 }
@@ -860,7 +842,7 @@ export const getNetworkStatus = () => {
 export const dataURLtoBlob = (argData) => {
   var arr = argData.split(',')
   var mime = arr[0].match(/:(.*?);/)[1]
-  var bstr = atob(arr[1])
+  var bstr = globalThis.atob(arr[1])  
   var n = bstr.length
   var u8arr = new Uint8Array(n)
   while (n--) {

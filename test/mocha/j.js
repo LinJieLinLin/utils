@@ -6,13 +6,30 @@ import { safeData } from 'lj-utils/j';
  * @Date: 2022-01-21 11:54:25
  * @description: no
  */
-import { expect } from 'chai'
-import j from '../../index'
-const { Blob } = require('buffer')
+import chai from 'chai';
+import j from '../../index';
+var chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
+const { expect } = chai
+const {Blob} = require('buffer')
 describe('j.js', function () {
   before(function () {
     global.Blob = Blob
     global.File = Blob
+    global.XMLHttpRequest = function(){
+      this.status=200
+      this.response = '1'
+      this.open=function(type,data,isFalse){
+        this.data = data
+      }
+      this.send=function(){
+        if(j.isBlob(this.data)){
+          return this.onload()
+        }else{
+          return this.error(new Error('非blob'))
+        }
+      }
+    }
     global.FileReader = function () {
       return {
         onload(){
@@ -30,13 +47,16 @@ describe('j.js', function () {
         },
       }
     }
-    global.window = {
+    global.globalThis = {
       location: {},
       navigator: {
         userAgent: 'sbb msie mobile',
         userAgentData: {
           platform: 'msie',
         },
+      },
+      addEventListener(argName,argCb){
+        return argCb()
       },
       document: {
         cookie: 'uid=1; 1=1; a=2; b=B; c=c',
@@ -231,7 +251,7 @@ describe('j.js', function () {
     })
     it('isBlob', function () {
       const fn = j.isBlob
-      expect(fn(1)).to.equal(false)
+      expect(fn({a:1})).to.equal(false)
       expect(fn(new Blob([1]))).to.equal(true)
     })
     it('isFile', function () {
@@ -276,6 +296,16 @@ describe('j.js', function () {
       expect(fn(1.456,1)).to.equal('1.5')
       expect(fn(1.000,1)).to.equal('1.0')
       expect(fn(1.000,1,'number')).to.equal(1)
+    })
+     it('blobUrlToFile', async function () {
+      const fn = j.blobUrlToFile
+      expect(await fn(new Blob([1]))).to.equal('1')
+      expect(fn()).to.be.rejectedWith()
+      expect(fn(123)).to.be.rejectedWith()
+    })
+     it('getNetworkStatus', function () {
+      const fn = j.getNetworkStatus
+      expect(fn()).to.equal(false)
     })
     // it('demo', function () {
     //   const fn = j.demo
