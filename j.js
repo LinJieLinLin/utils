@@ -428,7 +428,7 @@ export const remInit = (argBaseSize = 16, argWidth = 375) => {
  * @param  {string} code 身份证号码
  */
 export const isIdCard = (code) => {
-  code = ''+code
+  code = '' + code
   let city = {
     11: '北京',
     12: '天津',
@@ -514,7 +514,7 @@ export const isIdCard = (code) => {
 export const getCookie = (argName) => {
   let cookie = globalThis.document.cookie.split('; ')
   for (let i = 0; i < cookie.length; i += 1) {
-    let name = (''+cookie[i]).split('=')
+    let name = ('' + cookie[i]).split('=')
     if (argName === name[0]) {
       return decodeURIComponent(name[1] || '')
     }
@@ -529,8 +529,8 @@ export const getCookie = (argName) => {
  * @param  {string} argValue 要设置的value
  * @param  {string} argTime 过期时间/时 默认24小时
  */
-export const setCookie = (argName, argValue='', argTime = 24) => {
-  if(typeof argName!=='string'){
+export const setCookie = (argName, argValue = '', argTime = 24) => {
+  if (typeof argName !== 'string') {
     return
   }
   let now = new Date()
@@ -555,7 +555,7 @@ export const setCookie = (argName, argValue='', argTime = 24) => {
  * @description 清除cookie
  * @param  {string} argName 要清除的值
  */
-export const delCookie = (argName='') => {
+export const delCookie = (argName = '') => {
   setCookie(argName, '', -1)
 }
 /**
@@ -813,14 +813,14 @@ let isOnline = true
 // #ifdef H5
 // 断网监听
 if (globalThis && globalThis.addEventListener) {
-  globalThis.addEventListener('online', function () {
-    console.log('onLine')
-    isOnline = true
-  })
   globalThis.addEventListener('offline', function () {
     console.log('offLine')
     isOnline = false
   })
+  globalThis.addEventListener('online', function () {
+    console.log('onLine')
+    isOnline = true
+  })  
 }
 // #endif
 
@@ -837,12 +837,15 @@ export const getNetworkStatus = () => {
  * @function
  * @description 图片dataUrl base64转blob对象
  * @param {string} argData dataUrl
- * @returns {blob}
+ * @returns {blob|boolean}
  */
 export const dataURLtoBlob = (argData) => {
+  if (!argData.match(/;base64,/)) {
+    return false
+  }
   var arr = argData.split(',')
   var mime = arr[0].match(/:(.*?);/)[1]
-  var bstr = globalThis.atob(arr[1])  
+  var bstr = globalThis.atob(arr[1])
   var n = bstr.length
   var u8arr = new Uint8Array(n)
   while (n--) {
@@ -872,11 +875,12 @@ export const blobToFile = (argBlob, argName = Date.now()) => {
  * @param {type} argDelTime 移除dateUrl时间
  */
 export const dlFile = (argData, argName = Date.now(), argDelTime = 10000) => {
-  let downNode = document.createElement('a')
+  let downNode = globalThis.document.createElement('a')
   downNode.download = argName
   // 字符内容转换为blob地址
   let href = ''
   if (typeof argData === 'string') {
+
     if (argData.startsWith('blob:')) {
       href = argData
     } else if (argData.startsWith('data:image')) {
@@ -889,9 +893,9 @@ export const dlFile = (argData, argName = Date.now(), argDelTime = 10000) => {
   setTimeout(() => {
     URL.revokeObjectURL(href)
   }, argDelTime)
-  document.body.appendChild(downNode)
+  globalThis.document.body.appendChild(downNode)
   downNode.click()
-  document.body.removeChild(downNode)
+  globalThis.document.body.removeChild(downNode)
 }
 
 /**

@@ -6,36 +6,38 @@ import { safeData } from 'lj-utils/j';
  * @Date: 2022-01-21 11:54:25
  * @description: no
  */
-import chai from 'chai';
-import j from '../../index';
-var chaiAsPromised = require("chai-as-promised");
-chai.use(chaiAsPromised);
+import chai from 'chai'
+import j from '../../index'
+var chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
 const { expect } = chai
-const {Blob} = require('buffer')
+const { Blob } = require('buffer')
 describe('j.js', function () {
   before(function () {
+    // mock
     global.Blob = Blob
-    global.File = Blob
-    global.XMLHttpRequest = function(){
-      this.status=200
+    // mock
+    global.File = function (a, b, c) {
+      return new Blob([a])
+    }
+    global.XMLHttpRequest = function () {
+      this.status = 200
       this.response = '1'
-      this.open=function(type,data,isFalse){
+      this.open = function (type, data, isFalse) {
         this.data = data
       }
-      this.send=function(){
-        if(j.isBlob(this.data)){
+      this.send = function () {
+        if (j.isBlob(this.data)) {
           return this.onload()
-        }else{
+        } else {
           return this.error(new Error('非blob'))
         }
       }
     }
     global.FileReader = function () {
       return {
-        onload(){
-
-        },
-        onerror(){
+        onload() {},
+        onerror() {
           return 1
         },
         readAsDataURL: function (argData) {
@@ -49,18 +51,33 @@ describe('j.js', function () {
     }
     global.globalThis = {
       location: {},
+      atob: (data) => data,
       navigator: {
         userAgent: 'sbb msie mobile',
         userAgentData: {
           platform: 'msie',
         },
       },
-      addEventListener(argName,argCb){
+      addEventListener(argName, argCb) {
         return argCb()
       },
       document: {
         cookie: 'uid=1; 1=1; a=2; b=B; c=c',
         getElementsByTagName: () => [{ innerText: '' }],
+        createElement(a) {
+          return {
+            download: 1,
+            href: '',
+            click() {
+              return true
+            },
+          }
+        },
+        body: {
+          appendChild: (a) => a,
+          removeChild: (a) => a,
+        },
+
         documentElement: {
           clientWidth: 375,
           style: {},
@@ -249,15 +266,14 @@ describe('j.js', function () {
       expect(fn(1)).to.equal(false)
       expect(fn('{}')).to.equal(true)
     })
-    it('isBlob', function () {
+    it('isBlobMock', function () {
       const fn = j.isBlob
-      expect(fn({a:1})).to.equal(false)
+      expect(fn({ a: 1 })).to.equal(false)
       expect(fn(new Blob([1]))).to.equal(true)
     })
-    it('isFile', function () {
+    it('isFileMock', function () {
       const fn = j.isFile
       expect(fn(1)).to.equal(false)
-      expect(fn(new Blob([1]))).to.equal(true)
     })
     it('getUuid', function () {
       const fn = j.getUuid
@@ -289,23 +305,38 @@ describe('j.js', function () {
     })
     it('toFixed', function () {
       const fn = j.toFixed
-      expect(fn(1,2,'number')).to.equal(1)
+      expect(fn(1, 2, 'number')).to.equal(1)
       expect(fn({})).to.equal('')
       expect(fn('a')).to.equal('')
       expect(fn(1.456)).to.equal('1.46')
-      expect(fn(1.456,1)).to.equal('1.5')
-      expect(fn(1.000,1)).to.equal('1.0')
-      expect(fn(1.000,1,'number')).to.equal(1)
+      expect(fn(1.456, 1)).to.equal('1.5')
+      expect(fn(1.0, 1)).to.equal('1.0')
+      expect(fn(1.0, 1, 'number')).to.equal(1)
     })
-     it('blobUrlToFile', async function () {
+    it('blobUrlToFile', async function () {
       const fn = j.blobUrlToFile
       expect(await fn(new Blob([1]))).to.equal('1')
       expect(fn()).to.be.rejectedWith()
       expect(fn(123)).to.be.rejectedWith()
     })
-     it('getNetworkStatus', function () {
+    it('getNetworkStatusMock', function () {
       const fn = j.getNetworkStatus
-      expect(fn()).to.equal(false)
+      expect(fn()).to.equal(true)
+    })
+    it('dataURLtoBlobMock', function () {
+      const fn = j.dataURLtoBlob
+      expect(fn('aGk=')).to.equal(false)
+      expect(fn('aGk=')).to.equal(false)
+      expect(j.isBlob(fn('data:image/jpeg;base64,/9j/4AAQSkZJ'))).to.equal(true)
+    })
+    it('blobToFileMock', function () {
+      const fn = j.blobToFile
+      expect(j.isBlob(fn(new Blob()))).to.equal(true)
+    })
+    it('dlFileMock', function () {
+      const fn = j.dlFile
+      expect(fn('hi')).to.equal(undefined)
+      expect(fn(new Blob([1]))).to.equal(undefined)
     })
     // it('demo', function () {
     //   const fn = j.demo
