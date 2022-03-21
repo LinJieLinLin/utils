@@ -17,13 +17,14 @@
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
     "test": "mocha ./test/mocha/*.js --require @babel/register --bail",
     "testWatch": "mocha ./test/mocha/*.js --require @babel/register --bail --watch",
-    "html": "nyc --reporter=html --report-dir=./dist/coverage mocha ./test/mocha/*.js --require @babel/register --bail",
+    "textHtml": "nyc --reporter=html --report-dir=./dist/coverage mocha ./test/mocha/*.js --require @babel/register --bail",
     "text": "nyc --reporter=text mocha ./test/mocha/*.js --require @babel/register --bail",
     "build": "npm run doc && npm run html",
     "rundoc": "jsdoc -c jsdoc.json && cd dist & http-server -d dist -p 1000 -c-1 -o",
     "z": "echo '小改动' &&npm version patch",
     "y": "echo '特性更新' &&npm version minor",
     "x": "echo '大改动' &&npm version major",
+    "preinstall": "echo 'install'",
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
   "dependencies": {
@@ -53,7 +54,7 @@
     "not ie <= 8"
   ],
   "engines": {
-    "node": ">=14.15.3"
+    "node": ">=16.13.0"
   },
   "engineStrict":true,
   "repository": {
