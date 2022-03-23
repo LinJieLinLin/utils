@@ -1,6 +1,6 @@
 {
   "name": "lj-utils",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "uni-app utils",
   "main": "index.js",
   "keywords": [
