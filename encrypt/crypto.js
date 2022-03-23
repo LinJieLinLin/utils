@@ -1,7 +1,7 @@
 /**
  * @module
  * @author linj
- * @description 公共函数 小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
+ * @description 需安装crypto-js依赖，小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
  */
 import CryptoJS from 'crypto-js'
 let key = 'by'

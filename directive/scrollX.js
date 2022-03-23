@@ -21,13 +21,6 @@ const on = (function () {
   }
 })()
 
-/**
- * 功能：移除dom绑定的事件
- * 参数：element(dom节点)
- *      event(事件名称)
- *      handler(回调函数)
- * 返回：无
- * */
 const off = (function () {
   if (document.removeEventListener) {
     return function (el, event, handler) {

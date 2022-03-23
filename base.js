@@ -2,10 +2,9 @@ import { safeData } from './data'
 import { isJson } from './is'
 
 /**
- * 公共函数
- * @module
+ * @module index
  * @author linj
- * @description 公共函数
+ * @description 公共函数，使用'lj-utils'引入
  */
 let isOnline = true
 // #ifdef H5

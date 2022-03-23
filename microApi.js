@@ -1,9 +1,7 @@
 /**
  * @module
  * @author linj
- * @email: 993353454@qq.com
- * @Date: 2020-12-15 11:07:31
- * @description:微信小程序公共函数
+ * @description 微信小程序/uniapp/taro公共函数
  */
 
 /* eslint-disable no-constant-condition,no-undef */
@@ -40,7 +38,6 @@ const L = new Loading(() => {
 // 函数节流
 const throttle = new Throttle()
 /**
- * @static
  * @description 默认拦截函数obj
  */
 const interceptors = {

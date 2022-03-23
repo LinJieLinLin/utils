@@ -1,13 +1,13 @@
 /**
  * @class
- * @classdesc 通用loading
+ * @classdesc 通用延时loading
  */
 class Loading {
   // 请求数
   requestNum = 0
   delay = 300
   // 计时
-  timmer = null
+  timer = null
   // 临时时间
   temTime = null
   // 临时开始时间
@@ -38,7 +38,7 @@ class Loading {
     if (isAdd) {
       if (!this.requestNum) {
         this.temTime = +new Date()
-        this.timmer = setTimeout(() => {
+        this.timer = setTimeout(() => {
           this.temStartTime = +new Date()
           console.info(
             '显示loading用时：',
@@ -55,7 +55,7 @@ class Loading {
       }
     }
     if (!this.requestNum) {
-      clearTimeout(this.timmer)
+      clearTimeout(this.timer)
       setTimeout(() => {
         if (this.temStartTime) {
           console.info(

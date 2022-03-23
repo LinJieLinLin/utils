@@ -1,3 +1,6 @@
+/**
+ * @description flyio配置，按需复制一份处理
+ */
 import fly from 'flyio'
 import Loading from './class/Loading'
 import { Toast } from 'vant'
@@ -19,7 +22,7 @@ const showLoading = () => {
     // 持续展示 toast
     duration: 0,
     // 禁用背景点击
-    forbidClick: true
+    forbidClick: true,
     // 背景
     // mask: true,
     // loadingType: 'spinner'
@@ -30,7 +33,7 @@ const hideLoading = () => {
 }
 let L = new Loading(showLoading, hideLoading)
 // 添加请求拦截器
-fly.interceptors.request.use(request => {
+fly.interceptors.request.use((request) => {
   L.loading(1)
   // 给所有请求添加自定义header
   // request.headers['X-Tag'] = 'flyio'
@@ -50,7 +53,7 @@ fly.interceptors.request.use(request => {
 
 // 添加响应拦截器，响应拦截器会在then/catch处理之前执行
 fly.interceptors.response.use(
-  async res => {
+  async (res) => {
     L.loading()
     console.log('响应拦截:', res)
     // const data = JSON.parse(res.data)
@@ -71,7 +74,7 @@ fly.interceptors.response.use(
         return Promise.reject(data.data)
     }
   },
-  async err => {
+  async (err) => {
     L.loading()
     // 发生网络错误后会走到这里
     console.log('http err:', err)
@@ -94,31 +97,31 @@ fly.interceptors.response.use(
     return Promise.reject(err)
   }
 )
-export const post = argData => {
+export const post = (argData) => {
   if (!argData) {
     return
   }
   return fly.request(argData.url, argData.params, {
     method: 'post',
-    config: argData.config
+    config: argData.config,
   })
 }
-export const get = argData => {
+export const get = (argData) => {
   if (!argData) {
     return
   }
   return fly.request(argData.url, argData.params, {
     method: 'get',
-    config: argData.config
+    config: argData.config,
   })
 }
-export const request = argData => {
+export const request = (argData) => {
   if (!argData) {
     return
   }
   return fly.request(argData.url, argData.params, {
     method: argData.method,
-    config: argData.config
+    config: argData.config,
   })
 }
 export default fly

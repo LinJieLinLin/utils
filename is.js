@@ -1,8 +1,7 @@
 /**
  * 判断函数
- * @module
+ * @module index
  * @author linj
- * @description 判断函数
  */
 /**
  * @function

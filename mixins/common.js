@@ -1,3 +1,7 @@
+/**
+ * @author linj
+ * @description vue2.X公共mixins
+ */
 import { mapState, mapMutations } from 'vuex'
 const init = (argOptions) => {
   console.log('mixin init', argOptions)

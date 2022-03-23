@@ -1,8 +1,7 @@
 /**
  * 类型转换相关处理
- * @module
+ * @module index
  * @author linj
- * @description 类型转换相关处理
  */
 
 import { toFixed } from './data'

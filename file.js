@@ -1,8 +1,7 @@
 /**
  * 文件相关处理
- * @module
+ * @module index
  * @author linj
- * @description 文件相关处理
  */
 /**
  * 描述
@@ -12,7 +11,7 @@
  * @param {any} argBlob 要处理的数据
  * @returns {any} 返回base64
  */
- export const blobToBase64 = async (argBlob) => {
+export const blobToBase64 = async (argBlob) => {
   // eslint-disable-next-line no-undef
   const fileReader = new FileReader()
   // readAsDataURL

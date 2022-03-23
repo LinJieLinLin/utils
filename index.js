@@ -1,4 +1,3 @@
-// import { sleep as s } from './j.js'
 export { isPrime, isJson, isBlob, isFile, isIdCard } from './is.js'
 export {
   getNetworkStatus,

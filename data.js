@@ -1,8 +1,7 @@
 /**
  * 类字符串/参数处理
- * @module
+ * @module index
  * @author linj
- * @description 类字符串/参数处理
  */
 /**
  * @function
@@ -13,7 +12,7 @@
  * @param  {Boolean} argSetValueForce [是否强制赋值argValue]
  * @returns {any}
  */
- export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
+export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
   if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
     console.error('argCheck请传入string当前为：' + argCheck)
     return ''
@@ -52,7 +51,7 @@
  * @param {string} argType 返回类型，默认返回字符串
  * @returns {any} 返回处理好的数据
  */
- export const toFixed = (argData, argNum = 2, argType = 'string') => {
+export const toFixed = (argData, argNum = 2, argType = 'string') => {
   if (isNaN(argData)) {
     return argType === 'string' ? '' : 0
   }
@@ -299,7 +298,7 @@ export const decodeHtml = (argHtml) => {
  * @param {number} argEnd=4 后面显示多少位
  * @returns {string} 返回处理好的数据
  */
- export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
+export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
   if (typeof argData !== 'string') {
     argData = argData.toString()
   }
@@ -322,7 +321,7 @@ export const decodeHtml = (argHtml) => {
  * @description 获取简单uuid
  * @returns {string} uuid
  */
- export const getUuid = () => {
+export const getUuid = () => {
   function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
@@ -334,7 +333,7 @@ export const decodeHtml = (argHtml) => {
  * @param  {number} min 最小值
  * @param  {number} max 最大值
  */
- export const randomInt = (min = 0, max = 100) => {
+export const randomInt = (min = 0, max = 100) => {
   min = Math.ceil(min)
   max = Math.floor(max)
   // 含最大值，含最小值
