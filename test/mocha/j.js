@@ -1,13 +1,13 @@
 /*
 import { getRegexp } from './../j';
-import { safeData } from 'lj-utils/j';
+import { safeData } from 'lj-utils';
  * @author: linj
  * @email: 993353454@qq.com
  * @Date: 2022-01-21 11:54:25
  * @description: no
  */
 import chai from 'chai'
-import j from '../../index'
+import * as j from '../../index'
 var chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 const { expect } = chai
@@ -28,7 +28,7 @@ describe('j.js', function () {
       }
       this.send = function () {
         if (j.isBlob(this.data)) {
-          return this.onload({target:{result:1}})
+          return this.onload({ target: { result: 1 } })
         } else {
           return this.error(new Error('非blob'))
         }
@@ -61,18 +61,16 @@ describe('j.js', function () {
       addEventListener(argName, argCb) {
         return argCb()
       },
-      localStorage:{
-        getItem(argData){
+      localStorage: {
+        getItem(argData) {
           return argData
         },
-        setItem(){
-          
-        }
+        setItem() {},
       },
       document: {
         cookie: 'uid=1; 1=1; a=2; b=B; c=c',
-        getElementById:()=>{},
-        getElementsByTagName: () => [{ innerText: '',appendChild(){} }],
+        getElementById: () => {},
+        getElementsByTagName: () => [{ innerText: '', appendChild() {} }],
         createElement(a) {
           return {
             download: 1,
@@ -162,18 +160,14 @@ describe('j.js', function () {
     })
     it('replaceUrlParam', function () {
       const fn = j.replaceUrlParam
-      expect(fn('a', 1)).to.equal(
-        '?a=1'
-      )
+      expect(fn('a', 1)).to.equal('?a=1')
       expect(fn('a', null, 'www.baidu.com?a=2&b=1')).to.equal(
         'www.baidu.com?b=1'
       )
       expect(fn('b', null, 'www.baidu.com?a=2&b=1')).to.equal(
         'www.baidu.com?a=2'
       )
-      expect(fn('a', null, 'www.baidu.com?a=2')).to.equal(
-        'www.baidu.com'
-      )
+      expect(fn('a', null, 'www.baidu.com?a=2')).to.equal('www.baidu.com')
       expect(fn('a', 1, 'www.baidu.com?a=2&b=1')).to.equal(
         'www.baidu.com?a=1&b=1'
       )
@@ -240,7 +234,7 @@ describe('j.js', function () {
       const fn = j.friendlyTime
       expect(fn()).to.equal('刚刚')
       expect(fn({})).to.equal('--')
-      expect(fn(Math.floor(+Date.now()/1000))).to.equal('刚刚')
+      expect(fn(Math.floor(+Date.now() / 1000))).to.equal('刚刚')
       expect(fn(+Date.now() - 61 * 1000)).to.equal('1分钟前')
       expect(fn(+Date.now() - 121 * 1000)).to.equal('2分钟前')
       expect(fn(+Date.now() - 61 * 60 * 1000)).to.equal('1小时前')
@@ -385,24 +379,24 @@ describe('j.js', function () {
     it('px2vw', function () {
       const fn = j.px2vw
       expect(fn(375)).to.equal('100vw')
-      expect(fn(70,375)).to.equal('18.666667vw')
-      expect(fn(70,375,2)).to.equal('18.67vw')
-      expect(fn(70,375,2,'rem')).to.equal('18.67rem')
+      expect(fn(70, 375)).to.equal('18.666667vw')
+      expect(fn(70, 375, 2)).to.equal('18.67vw')
+      expect(fn(70, 375, 2, 'rem')).to.equal('18.67rem')
     })
     it('toLine', function () {
       const fn = j.toLine
       expect(fn('AbC')).to.equal('_ab_c')
-      expect(fn('AbC','-')).to.equal('-ab-c')
+      expect(fn('AbC', '-')).to.equal('-ab-c')
     })
     it('toHump', function () {
       const fn = j.toHump
       expect(fn('_ab')).to.equal('Ab')
-      expect(fn('_ab-c','-')).to.equal('_abC')
+      expect(fn('_ab-c', '-')).to.equal('_abC')
     })
     it('setStorageMock', function () {
       const fn = j.setStorage
-      expect(fn('key','1')).to.equal('1')
-      expect(fn('key',{})).to.equal('{}')
+      expect(fn('key', '1')).to.equal('1')
+      expect(fn('key', {})).to.equal('{}')
     })
     it('getStorageMock', function () {
       const fn = j.getStorage
@@ -414,8 +408,10 @@ describe('j.js', function () {
       const fn = j.secondToTime
       expect(fn(1)).to.equal('01秒')
       expect(fn(60)).to.equal('01分00秒')
-      expect(fn(70,'s')).to.equal('70秒')
-      expect(fn(70,'s',{unit:['Y','M','d','h','m','s']})).to.equal('70s')
+      expect(fn(70, 's')).to.equal('70秒')
+      expect(fn(70, 's', { unit: ['Y', 'M', 'd', 'h', 'm', 's'] })).to.equal(
+        '70s'
+      )
       expect(fn(3600)).to.equal('01时00分00秒')
       expect(fn(103600)).to.equal('01天04时46分40秒')
       expect(fn(1103600)).to.equal('12天18时33分20秒')
@@ -427,10 +423,12 @@ describe('j.js', function () {
       expect(fn(1)).to.equal('1B')
       expect(fn()).to.equal('0B')
       expect(fn(1100)).to.equal('1.07K')
-      expect(fn(1100,3)).to.equal('1.074K')
-      expect(fn(1100,3,1)).to.equal('1.074M')
-      expect(fn(1100,3,1,1000)).to.equal('1.1M')
-      expect(fn(1100,3,1,1000,['b','k','m','g','t','p'])).to.equal('1.1m')
+      expect(fn(1100, 3)).to.equal('1.074K')
+      expect(fn(1100, 3, 1)).to.equal('1.074M')
+      expect(fn(1100, 3, 1, 1000)).to.equal('1.1M')
+      expect(fn(1100, 3, 1, 1000, ['b', 'k', 'm', 'g', 't', 'p'])).to.equal(
+        '1.1m'
+      )
       expect(fn(11111111110000000)).to.equal('9.87P')
     })
     it('formatNumber', function () {

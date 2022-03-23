@@ -57,6 +57,12 @@
         "target": "_blank",
         "class": "menu-item",
         "id": "Gitee"
+      },
+      "coverage": {
+        "href": "../coverage/index.html",
+        "target": "_blank",
+        "class": "menu-item",
+        "id": "coverage"
       }
     },
     "scopeInOutputPath": false,

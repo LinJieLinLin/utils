@@ -9,15 +9,11 @@
 /* eslint-disable no-constant-condition,no-undef */
 import Loading from './class/Loading'
 import Throttle from './class/Throttle'
-import {
-  sleep,
-  safeData,
-  isJson,
-  setUrlParams,
-  dataURLtoBlob,
-  blobToFile,
-} from './j'
 import { decode, encode } from './encrypt/base64'
+import { isJson } from './is'
+import { safeData, setUrlParams } from './data'
+import { blobToFile, dataURLtoBlob } from './file'
+import { sleep } from './base'
 let frame = ''
 let app = {}
 let appConfig = {

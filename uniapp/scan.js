@@ -1,4 +1,6 @@
-
+/**
+ * @description uni webviewH5 获取H5+扫码SDK
+ */
 'use strict'
 // https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.0.1.52.js
 !(function (e, n) {

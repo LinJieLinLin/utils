@@ -56,7 +56,7 @@
   "engines": {
     "node": ">=16.13.0"
   },
-  "engineStrict":true,
+  "engineStrict": true,
   "repository": {
     "type": "git",
     "url": "https://gitee.com/uni-pro/utils.git"

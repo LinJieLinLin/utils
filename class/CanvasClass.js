@@ -2,7 +2,7 @@
  * @class
  * @classdesc canvas
  */
-import { sleep } from '../j'
+import { sleep } from '../base'
 import { P } from '../microApi'
 class CanvasClass {
   scale = 4

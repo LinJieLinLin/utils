@@ -1,2 +1,51 @@
-import * as j from './j.js'
-export default j
+// import { sleep as s } from './j.js'
+export { isPrime, isJson, isBlob, isFile, isIdCard } from './is.js'
+export {
+  getNetworkStatus,
+  getRegexp,
+  setTitle,
+  remInit,
+  getCookie,
+  setCookie,
+  delCookie,
+  setStorage,
+  getStorage,
+  getRandomColor,
+  getInfo,
+  sleep,
+} from './base.js'
+export {
+  blobToBase64,
+  blobUrlToFile,
+  dataURLtoBlob,
+  blobToFile,
+  dlFile,
+  getDuration,
+  loadFile,
+} from './file.js'
+export {
+  toFixed,
+  toLine,
+  toHump,
+  string10to62,
+  string62to10,
+  setUrlParams,
+  getUrlParam,
+  getUrlParamObj,
+  replaceUrlParam,
+  encodeHtml,
+  decodeHtml,
+  hideInfo,
+  safeData,
+  getUuid,
+  randomInt,
+} from './data'
+export {
+  rmbPrice,
+  formatTime,
+  friendlyTime,
+  px2vw,
+  secondToTime,
+  formatSize,
+  formatNumber,
+} from './transform'
