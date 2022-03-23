@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>encrypt/crypto - lj-utils</title>
+    <title>data - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -46,7 +46,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">encrypt/crypto</h1>
+    <h1 class="page-title">data</h1>
     
 
     
@@ -69,7 +69,7 @@
         <div class="container-overview">
         
             
-                <div class="description usertext"><p>公共函数 小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可</p></div>
+                <div class="description usertext"><p>类字符串/参数处理</p></div>
             
 
             
@@ -83,7 +83,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line1">line 1</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -183,7 +183,7 @@
 
     
 
-    <h4 class="name" id=".aesInit"><span class="type-signature">(static) </span>aesInit<span class="signature">(argKey, argIv)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".decodeHtml"><span class="type-signature">(static) </span>decodeHtml<span class="signature">(argHtml)</span><span class="type-signature"></span></h4>
 
     
 
@@ -195,7 +195,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line15">line 15</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -235,7 +235,7 @@
 
 
 <div class="description usertext">
-    <p>aes初始化,选定aes加密码方式后，先执行初始化</p>
+    <p>反转义html标签</p>
 </div>
 
 
@@ -273,15 +273,10 @@
 
         <tr>
             
-                <td class="name"><code>argKey</code></td>
+                <td class="name"><code>argHtml</code></td>
             
 
             <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
             
             </td>
 
@@ -289,30 +284,7 @@
 
             
 
-            <td class="description last"><p>密钥</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>argIv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>密钥偏移量</p></td>
+            <td class="description last"><p>需要反转义的文本</p></td>
         </tr>
 
     
@@ -342,7 +314,7 @@
 
     
 
-    <h4 class="name" id=".deAes"><span class="type-signature">(static) </span>deAes<span class="signature">(word)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".encodeHtml"><span class="type-signature">(static) </span>encodeHtml<span class="signature">(argHtml)</span><span class="type-signature"></span></h4>
 
     
 
@@ -354,7 +326,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line47">line 47</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line261">line 261</a>
     </li></ul></dd>
     
 
@@ -394,7 +366,7 @@
 
 
 <div class="description usertext">
-    <p>aes解密</p>
+    <p>转义html标签</p>
 </div>
 
 
@@ -432,7 +404,7 @@
 
         <tr>
             
-                <td class="name"><code>word</code></td>
+                <td class="name"><code>argHtml</code></td>
             
 
             <td class="type">
@@ -448,7 +420,166 @@
 
             
 
-            <td class="description last"><p>待解密内容</p></td>
+            <td class="description last"><p>需要转义的文本</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getUrlParam"><span class="type-signature">(static) </span>getUrlParam<span class="signature">(argName, argUrl)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line163">line 163</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>获取url参数</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要获取的key</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>url数据</p></td>
         </tr>
 
     
@@ -473,10 +604,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>已解密内容</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -500,7 +627,7 @@
 
     
 
-    <h4 class="name" id=".deBase64"><span class="type-signature">(static) </span>deBase64<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".getUrlParamObj"><span class="type-signature">(static) </span>getUrlParamObj<span class="signature">(argData)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
 
@@ -512,7 +639,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line83">line 83</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -552,7 +679,7 @@
 
 
 <div class="description usertext">
-    <p>base64 解密</p>
+    <p>获取所有url参数，eg: a=1&amp;b=2 to {a:1,b:2}</p>
 </div>
 
 
@@ -606,7 +733,7 @@
 
             
 
-            <td class="description last"><p>待解密内容</p></td>
+            <td class="description last"><p>要处理的数据</p></td>
         </tr>
 
     
@@ -631,10 +758,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>已解密内容</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -643,7 +766,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
     </dd>
@@ -658,7 +781,7 @@
 
     
 
-    <h4 class="name" id=".decode"><span class="type-signature">(static) </span>decode<span class="signature">(argData, argType)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".getUuid"><span class="type-signature">(static) </span>getUuid<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -670,7 +793,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line113">line 113</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line325">line 325</a>
     </li></ul></dd>
     
 
@@ -710,7 +833,1225 @@
 
 
 <div class="description usertext">
-    <p>解密</p>
+    <p>获取简单uuid</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>uuid</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".hideInfo"><span class="type-signature">(static) </span>hideInfo<span class="signature">(argData, argStart, argEnd)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line302">line 302</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>数据中间加星号</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>要处理的数据</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argStart</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>3</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>前端显示多少位</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argEnd</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>4</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>后面显示多少位</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>返回处理好的数据</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".randomInt"><span class="type-signature">(static) </span>randomInt<span class="signature">(min, max)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line337">line 337</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>获取随机数,含最大值，含最小值</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>最小值</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>最大值</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".replaceUrlParam"><span class="type-signature">(static) </span>replaceUrlParam<span class="signature">(name, value, url)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line210">line 210</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>通过正则匹配修改当前页面的url中的参数</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>key</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要替换的value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要替换的网址,默认location.href</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".safeData"><span class="type-signature">(static) </span>safeData<span class="signature">(argData, argCheck, argValue, argSetValueForce)</span><span class="type-signature"> &rarr; {any}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>数据安全访问</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>[原始数据]</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>[要返回的数据，用'.'连接，数组用'.+数字表示']</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argValue</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>[如果数据有误，返回的值，选填]</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argSetValueForce</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>[是否强制赋值argValue]</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">any</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".setUrlParams"><span class="type-signature">(static) </span>setUrlParams<span class="signature">(argParams, noMark)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line137">line 137</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>obj转url参数</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argParams</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>参数对象</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>noMark</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>默认带?,true时,不带</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".string10to62"><span class="type-signature">(static) </span>string10to62<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>10进制转62进制,用于短网址转换</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要处理的数据</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>返回处理好的数据</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".string62to10"><span class="type-signature">(static) </span>string62to10<span class="signature">(argData)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line118">line 118</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>62进制转10进制,用于短网址转换</p>
 </div>
 
 
@@ -764,7 +2105,188 @@
 
             
 
-            <td class="description last"><p>待解密内容</p></td>
+            <td class="description last"><p>要处理的数据</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>返回处理好的数据</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toFixed"><span class="type-signature">(static) </span>toFixed<span class="signature">(argData, argNum, argType)</span><span class="type-signature"> &rarr; {any}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>toFixed处理</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要处理的数据</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argNum</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要保留位数,默认返回2位小数</p></td>
         </tr>
 
     
@@ -787,7 +2309,7 @@
 
             
 
-            <td class="description last"><p>解密类型，默认base64</p></td>
+            <td class="description last"><p>返回类型，默认返回字符串</p></td>
         </tr>
 
     
@@ -813,7 +2335,7 @@
 
         
 <div class="param-desc">
-    <p>已解密内容</p>
+    <p>返回处理好的数据</p>
 </div>
 
 
@@ -824,7 +2346,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">any</span>
 
 
     </dd>
@@ -839,7 +2361,7 @@
 
     
 
-    <h4 class="name" id=".enAes"><span class="type-signature">(static) </span>enAes<span class="signature">(word)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".toHump"><span class="type-signature">(static) </span>toHump<span class="signature">(argData, argUnit)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -851,7 +2373,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line26">line 26</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -891,165 +2413,7 @@
 
 
 <div class="description usertext">
-    <p>aes加密</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>word</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>待加密内容</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>已加密内容</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".enBase64"><span class="type-signature">(static) </span>enBase64<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>base64 加密</p>
+    <p>下划线转驼峰</p>
 </div>
 
 
@@ -1103,7 +2467,30 @@
 
             
 
-            <td class="description last"><p>待加密内容</p></td>
+            <td class="description last"><p>要转换数据</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argUnit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>要转换的字符，默认“_”</p></td>
         </tr>
 
     
@@ -1128,10 +2515,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>已加密内容</p>
-</div>
-
 
 
 <dl class="param-type">
@@ -1155,7 +2538,7 @@
 
     
 
-    <h4 class="name" id=".encode"><span class="type-signature">(static) </span>encode<span class="signature">(argData, argType)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".toLine"><span class="type-signature">(static) </span>toLine<span class="signature">(argData, argUnit)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -1167,7 +2550,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line97">line 97</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -1207,7 +2590,7 @@
 
 
 <div class="description usertext">
-    <p>加密</p>
+    <p>驼峰转下划线</p>
 </div>
 
 
@@ -1261,14 +2644,14 @@
 
             
 
-            <td class="description last"><p>待加密内容</p></td>
+            <td class="description last"><p>要转换数据</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>argType</code></td>
+                <td class="name"><code>argUnit</code></td>
             
 
             <td class="type">
@@ -1284,7 +2667,7 @@
 
             
 
-            <td class="description last"><p>加密类型，默认base64</p></td>
+            <td class="description last"><p>要转换的字符，默认“_”</p></td>
         </tr>
 
     
@@ -1309,168 +2692,6 @@
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    <p>已加密内容</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".md5"><span class="type-signature">(static) </span>md5<span class="signature">(argData)</span><span class="type-signature"> &rarr; {string}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="encrypt_crypto.js.html">encrypt/crypto.js</a>, <a href="encrypt_crypto.js.html#line64">line 64</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>md5 加密</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>argData</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>待加密内容</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>已加密内容</p>
-</div>
-
 
 
 <dl class="param-type">
