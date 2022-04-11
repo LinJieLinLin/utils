@@ -6,15 +6,20 @@
 /**
  * @function
  * @description 数据安全访问
- * @param  {object|Array} argData  [原始数据]
+ * @param  {any} argData  [原始数据]
  * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
- * @param  {*} argValue [如果数据有误，返回的值，选填]
- * @param  {Boolean} argSetValueForce [是否强制赋值argValue]
+ * @param  {any} argValue [如果数据有误，返回的值，选填]
+ * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue]
  * @returns {any}
  */
-export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
+export const safeData = (
+  argData: any,
+  argCheck: string,
+  argValue: any,
+  argSetValueForce?: boolean | 0 | 1
+): any => {
   if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
-    console.error('argCheck请传入string当前为：' + argCheck)
+    console.error('argCheck请传入string当前为:' + argCheck)
     return ''
   }
   const temKey = argCheck.toString().split('.')
@@ -46,16 +51,18 @@ export const safeData = (argData, argCheck, argValue, argSetValueForce) => {
  * @function
  * @description toFixed处理
  * @date 2020-03-01
- * @param {any} argData 要处理的数据
+ * @param {string|number} argData 要处理的数据
  * @param {number} argNum 要保留位数,默认返回2位小数
  * @param {string} argType 返回类型，默认返回字符串
- * @returns {any} 返回处理好的数据
+ * @returns {string|number} 返回处理好的数据
  */
-export const toFixed = (argData, argNum = 2, argType = 'string') => {
-  if (isNaN(argData)) {
-    return argType === 'string' ? '' : 0
-  }
-  let data = Math.round(argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
+export const toFixed = (
+  argData: string | number,
+  argNum: number = 2,
+  argType: string = 'string'
+): string | number => {
+  let data: number | string =
+    Math.round(+argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
   data = (+argData).toFixed(argNum)
   return argType === 'string' ? data : +data
 }
@@ -66,8 +73,8 @@ export const toFixed = (argData, argNum = 2, argType = 'string') => {
  * @param {string} argUnit 要转换的字符，默认“_”
  * @return {string}
  */
-export const toLine = (argName, argData = '_') => {
-  return argName.replace(/([A-Z])/g, argData + '$1').toLowerCase()
+export const toLine = (argData: string, argUnit: string = '_'): string => {
+  return argData.replace(/([A-Z])/g, argUnit + '$1').toLowerCase()
 }
 
 /**
@@ -77,10 +84,10 @@ export const toLine = (argName, argData = '_') => {
  * @param {string} argUnit 要转换的字符，默认“_”
  * @return {string}
  */
-export const toHump = (argData, argUnit = '_') => {
+export const toHump = (argData: string, argUnit: string = '_'): string => {
   return argData.replace(
     new RegExp('\\' + argUnit + '(\\w)', 'g'),
-    (all, letter) => {
+    (_, letter) => {
       return letter.toUpperCase()
     }
   )
@@ -90,15 +97,15 @@ export const toHump = (argData, argUnit = '_') => {
  * @function
  * @description 10进制转62进制,用于短网址转换
  * @date 2020-03-01
- * @param {number} argData 要处理的数据
+ * @param {number|string} argData 要处理的数据
  * @returns {string} 返回处理好的数据
  */
-export const string10to62 = (argData) => {
-  var chars =
+export const string10to62 = (argData: number | string): string => {
+  let chars =
     '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split('')
-  var radix = chars.length
-  var data = +argData
-  var arr = []
+  let radix = chars.length
+  let data = +argData
+  let arr = []
   do {
     let mod = data % radix
     data = (data - mod) / radix
@@ -114,26 +121,26 @@ export const string10to62 = (argData) => {
  * @param {string} argData 要处理的数据
  * @returns {number} 返回处理好的数据
  */
-export const string62to10 = (argData) => {
-  argData = String(argData)
-  var chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'
-  var radix = chars.length
-  var len = argData.length
-  var i = 0
-  var resNum = 0
+export const string62to10 = (argData: string): number => {
+  let chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'
+  let radix = chars.length
+  let len = argData.length
+  let i = 0
+  let resNum = 0
   while (i < len) {
-    resNum += Math.pow(radix, i++) * chars.indexOf(argData.charAt(len - i) || 0)
+    resNum +=
+      Math.pow(radix, i++) * chars.indexOf(argData.charAt(len - i) || '0')
   }
   return resNum
 }
 /**
  * @description obj转url参数
  * @function
- * @param {object} argParams 参数对象
+ * @param {any} argParams 参数对象
  * @param {boolean} noMark 默认带?,true时,不带
  * @returns {string}
  */
-export const setUrlParams = (argParams, noMark) => {
+export const setUrlParams = (argParams: any, noMark: boolean): string => {
   let re = ''
   if (!noMark) {
     re = '?'
@@ -160,9 +167,9 @@ export const setUrlParams = (argParams, noMark) => {
  * @returns {string}
  */
 export const getUrlParam = (
-  argName,
-  argUrl = globalThis.location.search || ''
-) => {
+  argName: string,
+  argUrl: string = globalThis.location.search || ''
+): string => {
   let result = argUrl.match(new RegExp('[?&]' + argName + '=([^&]+)', 'i'))
   if (!result) {
     return ''
@@ -173,18 +180,19 @@ export const getUrlParam = (
  * @description 获取所有url参数，eg: a=1&b=2 to {a:1,b:2}
  * @function
  * @param {string} argData 要处理的数据
- * @returns {object}
+ * @returns {any}
  */
 export const getUrlParamObj = (
-  argData = globalThis.location.search || globalThis.location.hash
-) => {
-  const res = {}
+  argData: string = globalThis.location.search || globalThis.location.hash
+): any => {
+  const res: any = {}
   try {
     argData = decodeURIComponent(argData)
     let temArr = argData.split('?')
-    argData = temArr.pop()
-    argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key, value) => {
+    argData = temArr.pop() || ''
+    argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key: string, value) => {
       res[key] = value
+      return ''
     })
     return res
   } catch (e) {
@@ -202,19 +210,20 @@ export const getUrlParamObj = (
 /**
  * @description 通过正则匹配修改当前页面的url中的参数
  * @function
- * @param  {} name key
- * @param  {} value 要替换的value
- * @param  {} url 要替换的网址,默认location.href
+ * @param  {string} name key
+ * @param  {string} value 要替换的value
+ * @param  {string} url 要替换的网址,默认location.href
+ * @returns {string}
  */
 export const replaceUrlParam = (
-  name,
-  value,
-  url = globalThis.location.href || ''
-) => {
+  name: string,
+  value: string,
+  url: string = globalThis.location.href || ''
+): string => {
   let reg = new RegExp('([?]|&)(' + name + '=)([^&#]*)([&]?|$)', 'img')
   let r = url.match(reg)
   let search = url.split('?')
-  let strValue = url
+  let strValue: string = url
   if (value === undefined || value === null) {
     if (r != null) {
       strValue = url.replace(reg, function () {
@@ -256,17 +265,18 @@ export const replaceUrlParam = (
  * @function
  * @description 转义html标签
  * @param  {string} argHtml 需要转义的文本
+ * @returns {string}
  */
-export const encodeHtml = (argHtml) => {
+export const encodeHtml = (argHtml: string): string => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
   argHtml = argHtml.replace(/&/g, '&amp;')
   argHtml = argHtml.replace(/</g, '&lt;')
   argHtml = argHtml.replace(/>/g, '&gt;')
-  argHtml = argHtml.replace(/ /g, '&nbsp;')
   argHtml = argHtml.replace(/'/g, '&#39;')
   argHtml = argHtml.replace(/"/g, '&quot;')
+  argHtml = argHtml.replace(/ /g, '&nbsp;')
   argHtml = argHtml.replace(/\n/g, '<br>')
   return argHtml
 }
@@ -274,18 +284,19 @@ export const encodeHtml = (argHtml) => {
 /**
  * @function
  * @description 反转义html标签
- * @param  {} argHtml 需要反转义的文本
+ * @param  {string} argHtml 需要反转义的文本
+ * @returns {string}
  */
-export const decodeHtml = (argHtml) => {
+export const decodeHtml = (argHtml: string): string => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
   argHtml = argHtml.replace(/&amp;/g, '&')
   argHtml = argHtml.replace(/&lt;/g, '<')
   argHtml = argHtml.replace(/&gt;/g, '>')
-  argHtml = argHtml.replace(/&nbsp;/g, ' ')
   argHtml = argHtml.replace(/&#39;/g, "'")
   argHtml = argHtml.replace(/&quot;/g, '"')
+  argHtml = argHtml.replace(/&nbsp;/g, ' ')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml
 }
@@ -298,10 +309,11 @@ export const decodeHtml = (argHtml) => {
  * @param {number} argEnd=4 后面显示多少位
  * @returns {string} 返回处理好的数据
  */
-export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
-  if (typeof argData !== 'string') {
-    argData = argData.toString()
-  }
+export const hideInfo = (
+  argData: string = '',
+  argStart: number = 3,
+  argEnd: number = 4
+): string => {
   let temLen = argData.length
   let temSL = argData.length - argEnd - argStart
   let start = ''
@@ -321,7 +333,7 @@ export const hideInfo = (argData = '', argStart = 3, argEnd = 4) => {
  * @description 获取简单uuid
  * @returns {string} uuid
  */
-export const getUuid = () => {
+export const getUuid = (): string => {
   function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
   }
@@ -332,8 +344,9 @@ export const getUuid = () => {
  * @description 获取随机数,含最大值，含最小值
  * @param  {number} min 最小值
  * @param  {number} max 最大值
+ * @returns {number}
  */
-export const randomInt = (min = 0, max = 100) => {
+export const randomInt = (min: number = 0, max: number = 100): number => {
   min = Math.ceil(min)
   max = Math.floor(max)
   // 含最大值，含最小值

@@ -6,10 +6,10 @@
 /**
  * @function
  * @description 判断质数
- * @param {object} argValue 要判断的数据
+ * @param {number} argValue 要判断的数据
  * @returns {boolean} 结果
  */
-export const isPrime = (argValue) =>
+export const isPrime = (argValue: number): boolean =>
   !/^.?$|^(..+?)\1+$/.test('.'.repeat(argValue))
 /**
  * @function
@@ -17,7 +17,7 @@ export const isPrime = (argValue) =>
  * @param  {any} argData 数据
  * @returns {boolean}
  */
-export const isJson = (argData) => {
+export const isJson = (argData: any): boolean => {
   try {
     return typeof JSON.parse(argData || '') === 'object'
   } catch (e) {}
@@ -29,7 +29,7 @@ export const isJson = (argData) => {
  * @param  {any} argData 数据
  * @returns {boolean}
  */
-export const isBlob = (argData) => {
+export const isBlob = (argData: any): boolean => {
   return argData instanceof Blob
 }
 
@@ -39,18 +39,18 @@ export const isBlob = (argData) => {
  * @param  {any} argData 数据
  * @returns {boolean}
  */
-export const isFile = (argData) => {
+export const isFile = (argData: any): boolean => {
   return argData instanceof File
 }
 /**
  * @function
  * @description 是否为正确的身份证号码
  * @param  {string} code 身份证号码
+ * @returns {boolean}
  */
-export const isIdCard = (code) => {
-  code = '' + code
+export const isIdCard = (code: string): boolean => {
   let tip = ''
-  let city = {
+  let city: { [key: number]: string } = {
     11: '北京',
     12: '天津',
     13: '河北',
@@ -96,13 +96,13 @@ export const isIdCard = (code) => {
   ) {
     tip = '身份证号格式错误'
     pass = false
-  } else if (!city[code.substring(0, 2)]) {
+  } else if (!city[+code.substring(0, 2)]) {
     tip = '地址编码错误'
     pass = false
   } else {
     // 18位身份证需要验证最后一位校验位
     if (code.length === 18) {
-      code = code.split('')
+      const codeArr = code.split('')
       // ∑(ai×Wi)(mod 11)
       // 加权因子
       let factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
@@ -112,7 +112,7 @@ export const isIdCard = (code) => {
       let ai = 0
       let wi = 0
       for (let i = 0; i < 17; i++) {
-        ai = code[i]
+        ai = Number(codeArr[i])
         wi = factor[i]
         sum += ai * wi
       }

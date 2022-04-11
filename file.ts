@@ -8,13 +8,12 @@
  * @function
  * @description blob转base64
  * @date 2020-03-01
- * @param {any} argBlob 要处理的数据
- * @returns {any} 返回base64
+ * @param {Blob} argBlob 要处理的数据
+ * @returns {Promise} 返回base64
  */
-export const blobToBase64 = async (argBlob) => {
+export const blobToBase64 = async (argBlob: Blob): Promise<any> => {
   // eslint-disable-next-line no-undef
   const fileReader = new FileReader()
-  // readAsDataURL
   fileReader.readAsDataURL(argBlob)
   fileReader.onload = (e) => {
     return Promise.resolve(e.target.result)
@@ -28,10 +27,10 @@ export const blobToBase64 = async (argBlob) => {
  * @function
  * @description blobUrl 转 file文件
  * @date 2020-03-01
- * @param {any} argData blobUrl
- * @returns {any} 返回文件流
+ * @param {string} argData blobUrl
+ * @returns {Promise} 返回文件流
  */
-export const blobUrlToFile = async (argData) => {
+export const blobUrlToFile = async (argData: string): Promise<any> => {
   return new Promise(function (resolve, reject) {
     // eslint-disable-next-line no-undef
     var xhr = new XMLHttpRequest()
@@ -42,7 +41,7 @@ export const blobUrlToFile = async (argData) => {
         return resolve(this.response)
       }
     }
-    xhr.error = (err) => {
+    xhr.onerror = (err) => {
       return reject(err)
     }
     xhr.send()
@@ -53,9 +52,9 @@ export const blobUrlToFile = async (argData) => {
  * @function
  * @description 图片dataUrl base64转blob对象
  * @param {string} argData dataUrl
- * @returns {blob|boolean}
+ * @returns {Blob|boolean}
  */
-export const dataURLtoBlob = (argData) => {
+export const dataURLtoBlob = (argData: string): Blob | boolean => {
   if (!argData.match(/;base64,/)) {
     return false
   }
@@ -73,12 +72,15 @@ export const dataURLtoBlob = (argData) => {
 /**
  * @function
  * @description blob转file对象
- * @param {blob} argBlob blob对像
+ * @param {Blob} argBlob blob对像
  * @param {string} argName filename
- * @returns {file}
+ * @returns {File}
  */
-export const blobToFile = (argBlob, argName = Date.now()) => {
-  let file = new File([argBlob], argBlob.name || argName, {
+export const blobToFile = (
+  argBlob: Blob,
+  argName: string = Date.now().toString()
+): File => {
+  let file = new File([argBlob], argName, {
     type: argBlob.type,
   })
   return file
@@ -86,11 +88,15 @@ export const blobToFile = (argBlob, argName = Date.now()) => {
 /**
  * @function
  * @description 下载文件
- * @param {type} argBlob blob对像/file对象/dataUrl/base64
- * @param {type} argName filename
- * @param {type} argDelTime 移除dateUrl时间
+ * @param {string|Blob|File} argData blob对像/file对象/dataUrl/base64
+ * @param {string} argName filename
+ * @param {number} argDelTime 移除dateUrl时间
  */
-export const dlFile = (argData, argName = Date.now(), argDelTime = 10000) => {
+export const dlFile = (
+  argData: string | Blob | File,
+  argName: string = Date.now().toString(),
+  argDelTime: number = 10000
+) => {
   let downNode = globalThis.document.createElement('a')
   downNode.download = argName
   // 字符内容转换为blob地址
@@ -115,11 +121,13 @@ export const dlFile = (argData, argName = Date.now(), argDelTime = 10000) => {
 /**
  * @function
  * @description 获取音视频时长
- * @param {object} argFile 音视频数据，string时为链接
- * @returns {number} 时长单位秒
+ * @param {Blob|File|string} argFile 音视频数据，string时为链接
+ * @returns {Promise} 时长单位秒
  */
-export const getDuration = async (argFile) => {
-  let filePath
+export const getDuration = async (
+  argFile: Blob | File | string
+): Promise<any> => {
+  let filePath: string
   if (typeof argFile === 'string') {
     filePath = argFile
   } else {
@@ -143,15 +151,19 @@ export const getDuration = async (argFile) => {
 /**
  * @function
  * @description 动态加载html文件标签
- * @param {type} argUrl 要加载的url
- * @param {type} argType 加载类型 js/css
- * @param {type} argOptions{
+ * @param {string} argUrl 要加载的url
+ * @param {string} argType 加载类型 js/css
+ * @param {object} argOptions{
  * disCheck:'不检查是否有相同标签'
  * force:'如果有相同标签，先删除再添加'
  * } 是否强制添加
- * @return promise
+ * @return {Promise}
  */
-export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
+export const loadFile = (
+  argUrl: string,
+  argType: 'js' | 'css' = 'js',
+  argOptions: { [key: string]: any } = {}
+): Promise<any> => {
   let temId = argType + '-' + argUrl.split('/').pop()
   let head = globalThis.document.getElementsByTagName('head')[0]
   let nodeTag = null
@@ -162,7 +174,7 @@ export const loadFile = (argUrl, argType = 'js', argOptions = {}) => {
       if (argOptions.force) {
         head.removeChild(checkTag)
       } else {
-        return { msg: '已存在，中断加载！' }
+        return Promise.resolve({ msg: '已存在，中断加载！' })
       }
     }
   }

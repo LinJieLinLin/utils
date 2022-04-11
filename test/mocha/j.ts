@@ -164,6 +164,9 @@ describe('j.js', function () {
       expect(fn('a', null, 'www.baidu.com?a=2&b=1')).to.equal(
         'www.baidu.com?b=1'
       )
+      expect(fn('a', undefined, 'www.baidu.com?a=2&b=1')).to.equal(
+        'www.baidu.com?b=1'
+      )
       expect(fn('b', null, 'www.baidu.com?a=2&b=1')).to.equal(
         'www.baidu.com?a=2'
       )
@@ -287,21 +290,6 @@ describe('j.js', function () {
       expect(fn()).to.be.a('number')
       expect(fn(0, 0)).to.be.a('number')
       expect(fn(1, 1)).to.equal(1)
-    })
-    it('isJson', function () {
-      const fn = j.isJson
-      expect(fn()).to.equal(false)
-      expect(fn(1)).to.equal(false)
-      expect(fn('{}')).to.equal(true)
-    })
-    it('isBlobMock', function () {
-      const fn = j.isBlob
-      expect(fn({ a: 1 })).to.equal(false)
-      expect(fn(new Blob([1]))).to.equal(true)
-    })
-    it('isFileMock', function () {
-      const fn = j.isFile
-      expect(fn(1)).to.equal(false)
     })
     it('getUuid', function () {
       const fn = j.getUuid

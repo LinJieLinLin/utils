@@ -2,10 +2,9 @@
 
 ## 介绍
 
-lj-utils 为本人整理的一些公共 JS
+lj-utils 为本人整理的一些公共 JS,DOC:
 
 > github [https://github.com/LinJieLinLin/utils](https://github.com/LinJieLinLin/utils)
-
 > gitee [https://gitee.com/uni-pro/utils](https://gitee.com/uni-pro/utils)
 
 ## 安装教程
@@ -18,9 +17,7 @@ lj-utils 为本人整理的一些公共 JS
 ## 使用说明
 
 > 在线访问 latest： [https://linjielinlin.github.io/utils/lj-utils/index.html](https://linjielinlin.github.io/utils/lj-utils/index.html)
-
-> 或在线访问 [http://unidemo.lj4.top/lj-utils/index.html](http://unidemo.lj4.top/lj-utils/index.html)
-
+> 或在线访问 [http://lj4.top/lj-utils/index.html](http://lj4.top/lj-utils/index.html)
 > 若编译失败，在 vue.config.js 添加：
 
 ``` js

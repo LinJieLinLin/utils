@@ -9,40 +9,47 @@ import { toFixed } from './data'
 /**
  * @function
  * @description 显示人民币价格
- * @param  {} argData 价格
- * @param  {} argRate=0 保留多少位小数
+ * @param  {number} argData 价格
+ * @param  {number} argRate -1 保留多少位小数
+ * @param  {string} argUnit ￥ 单位
  * @returns {string} eg: ￥100
  */
-export const rmbPrice = (argData, argRate = -1) => {
+export const rmbPrice = (
+  argData: number,
+  argRate: number = -1,
+  argUnit: string = '￥'
+): string => {
   if (typeof argData !== 'number') {
     return argData || '--'
   }
   if (argRate > -1) {
-    argData = argData.toFixed(argRate)
+    argData = +toFixed(argData, argRate)
   }
-  return '￥' + argData
+  return argUnit + argData
 }
 
 /**
  * @description 日期格式化显示
  * @function
- * @param  {number} date 时间对象\时间戳，默认当前时间
+ * @param  {string|number|Date} date 时间对象\时间戳，默认当前时间
  * @param  {string} fmt 格式化符串，默认'YYYY-MM-DD HH:mm:ss' E为星期数，EEE:星期一 q为季度，S为毫秒数
  * @param  {string} emptyTip date为false时，默认''
  * @returns {string}
  */
 export const formatTime = (
-  date = +new Date(),
-  fmt = 'YYYY-MM-DD HH:mm:ss',
-  emptyTip = ''
-) => {
+  date: string | number | Date = +new Date(),
+  fmt: string = 'YYYY-MM-DD HH:mm:ss',
+  emptyTip: string = ''
+): string => {
   if (!date && date !== 0) {
     return emptyTip
   }
+  if (isNaN(+date)) {
+    return emptyTip
+  }
   if (typeof date === 'number') {
-    date = '' + date
-    if (date.length === 10) {
-      date += '000'
+    if (date.toString().length === 10) {
+      date = date * 1000
     }
   }
   date = new Date(+date)
@@ -98,23 +105,25 @@ export const formatTime = (
 /**
  * @description 日期格式化友好显示 刚刚 x分钟前 ...，超过一年的按 fmt来格式化
  * @function
- * @param  {number} date 时间对象\时间戳，默认当前时间
+ * @param  {string|number|Date} date 时间对象\时间戳，默认当前时间
  * @param  {string} fmt 格式化符串，默认'YYYY-MM-DD HH:mm:ss'
  * @param  {string} emptyTip date为false时，默认''
  * @returns {string}
  */
 export const friendlyTime = (
-  date = +new Date(),
-  fmt = 'YYYY-MM-DD HH:mm:ss',
-  emptyTip = ''
-) => {
+  date: string | number | Date = +new Date(),
+  fmt: string = 'YYYY-MM-DD HH:mm:ss',
+  emptyTip: string = ''
+): string => {
   if (!date && date !== 0) {
     return emptyTip
   }
+  if (isNaN(+date)) {
+    return emptyTip
+  }
   if (typeof date === 'number') {
-    date = '' + date
-    if (date.length === 10) {
-      date += '000'
+    if (date.toString().length === 10) {
+      date = date * 1000
     }
   }
   date = new Date(+date)
@@ -125,7 +134,7 @@ export const friendlyTime = (
     !isNaN(date.getTime())
   if (!isValidDate) {
     // console.error('not a valid date')
-    return '--'
+    return emptyTip || '--'
   }
   if (isNaN(dayDiff) || dayDiff < 0 || dayDiff >= 365) {
     return formatTime(date, fmt)
@@ -146,25 +155,33 @@ export const friendlyTime = (
 /**
  * @function
  * @description px转vw
- * @param {type} argPx px
- * @param {type} argWith px对应最大宽度
- * @param {type} argNum 保留小数
- * @param {type} argUnit 单位 'vw'||'%'
- * @return:
+ * @param {number} argPx px
+ * @param {number} argWith px对应最大宽度
+ * @param {number} argNum 保留小数
+ * @param {string} argUnit 单位 'vw'||'%'
+ * @return {string}
  */
-export const px2vw = (argPx, argWith = 375, argNum = 6, argUnit = 'vw') => {
-  return +((100 / argWith) * argPx).toFixed(argNum) + argUnit
+export const px2vw = (
+  argPx: number,
+  argWith: number = 375,
+  argNum: number = 6,
+  argUnit: string = 'vw'
+): string => {
+  return +toFixed((100 / argWith) * argPx, argNum) + argUnit
 }
 /**
  * @function
  * @description 秒转倒计时
  * @param {number} argData 秒数
  * @param {string} argType 's,m,h,d,M,y 对应 秒 分 时 天 月 年'
- * @param {object} argOption 额外的处理
- * @param {Array} argOption.unit 单位['年', '月', '天', '时', '分', '秒']
- * @returns {string} 保存的数据
+ * @param {{unit?:string[]}} argOption 额外的处理argOption.unit 单位['年', '月', '天', '时', '分', '秒']
+ * @returns {string}
  */
-export const secondToTime = (argData, argType = 'y', argOption = {}) => {
+export const secondToTime = (
+  argData: number,
+  argType: string = 'y',
+  argOption: { unit?: string[] } = {}
+): string => {
   let res = []
   let list = [
     {
@@ -207,12 +224,12 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
   let temLen = list.length
   let second = argData
   let size = 1
-  let unitList = argOption.unit || ['年', '月', '天', '时', '分', '秒']
+  let unitList = argOption?.unit || ['年', '月', '天', '时', '分', '秒']
   let index = 0
   for (let i = 0; i < temLen; i++) {
     let lastSize = size
     if (argType === list[i].type) {
-      let temTime = Math.floor(second / lastSize)
+      let temTime: number | string = Math.floor(second / lastSize)
       if (temTime < 10) {
         temTime = '0' + temTime
       }
@@ -221,7 +238,7 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
       break
     }
     size = size * list[i + 1].size
-    let time = Math.floor((second % size) / lastSize)
+    let time: number | string = Math.floor((second % size) / lastSize)
     if (time < 10) {
       time = '0' + time
     }
@@ -242,26 +259,27 @@ export const secondToTime = (argData, argType = 'y', argOption = {}) => {
 /**
  * @function
  * @description 容量单位转换
- * @param {object} argData byte数据
- * @param {string} argNum 保留小数位
- * @param {string} argIndex 起始单位偏移eg: 0:b 1:k 2:m
- * @param {string} argRate 进制
- * @returns {any} 计算结果
+ * @param {number} argData byte数据
+ * @param {number} argNum 保留小数位
+ * @param {number} argIndex 起始单位偏移eg: 0:b 1:k 2:m
+ * @param {number} argRate 进制
+ * @param {string[]} unit 进制
+ * @returns {string} 计算结果
  */
 export const formatSize = (
-  argData,
-  argNum = 2,
-  argIndex = 0,
-  argRate = 1024,
-  unit = ['B', 'K', 'M', 'G', 'T', 'P']
-) => {
+  argData: number,
+  argNum: number = 2,
+  argIndex: number = 0,
+  argRate: number = 1024,
+  unit: string[] = ['B', 'K', 'M', 'G', 'T', 'P']
+): string => {
   let list = unit
   if (!argData) {
     return '0' + list[argIndex]
   }
   let len = list.length
   let nowIndex = len - 1
-  let temData
+  let temData: number
   for (let i = 0; i < len; i++) {
     temData = argData / Math.pow(argRate, i)
     if (temData < argRate) {
@@ -274,13 +292,13 @@ export const formatSize = (
 /**
  * @function
  * @description 数量单位转换k/w
- * @param {object} argData 数据
- * @param {string} argNum 保留小数位
- * @returns {any} 计算结果
+ * @param {number} argData 数据
+ * @param {number} argNum 保留小数位
+ * @returns {string} 计算结果
  */
-export const formatNumber = (argData, argNum = 2) => {
+export const formatNumber = (argData: number, argNum: number = 2): string => {
   if (argData < 1000) {
-    return argData
+    return argData.toString()
   } else if (argData < 10000) {
     return toFixed(argData / 1000, argNum, 'number') + 'k'
   } else {

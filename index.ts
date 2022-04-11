@@ -1,4 +1,4 @@
-export { isPrime, isJson, isBlob, isFile, isIdCard } from './is.js'
+export { isPrime, isJson, isBlob, isFile, isIdCard } from './is'
 export {
   getNetworkStatus,
   getRegexp,
@@ -12,7 +12,7 @@ export {
   getRandomColor,
   getInfo,
   sleep,
-} from './base.js'
+} from './base'
 export {
   blobToBase64,
   blobUrlToFile,
@@ -21,7 +21,7 @@ export {
   dlFile,
   getDuration,
   loadFile,
-} from './file.js'
+} from './file'
 export {
   toFixed,
   toLine,
