@@ -111,10 +111,6 @@ describe('j.js', function () {
     // runs after each test in this block
   })
   describe('j.js', function () {
-    it('getRegexp', function () {
-      const regexp = j.getRegexp()
-      expect(regexp).to.be.a('object')
-    })
     it('safeData', function () {
       const obj = { b: '', c: 0, d: { a: 1, b: 2 } }
       const fn = j.safeData
@@ -204,10 +200,7 @@ describe('j.js', function () {
         )
       ).to.equal('<a href="https://baidu.com?a=1&b=2"></a>')
     })
-    it('setTitle', function () {
-      const fn = j.setTitle
-      expect(fn('title')).to.equal(undefined)
-    })
+
     it('rmbPrice', function () {
       const fn = j.rmbPrice
       expect(fn()).to.equal('--')
@@ -249,10 +242,7 @@ describe('j.js', function () {
       expect(fn('', '', '--')).to.equal('--')
       expect(fn(0, 'YYYY', '--')).to.equal('1970')
     })
-    it('remInit', function () {
-      const fn = j.remInit
-      expect(fn()).to.equal(undefined)
-    })
+
     it('isIdCard', function () {
       const fn = j.isIdCard
       expect(fn()).to.equal(false)
@@ -262,29 +252,7 @@ describe('j.js', function () {
       expect(fn('350525198512095316')).to.equal(true)
       expect(fn('441425196509103096')).to.equal(true)
     })
-    it('getCookieMock', function () {
-      const fn = j.getCookie
-      expect(fn(1)).to.equal('')
-      expect(fn('1')).to.equal('1')
-      expect(fn('a')).to.equal('2')
-      expect(fn('aa')).to.equal('')
-    })
-    it('setCookieMock', function () {
-      const fn = j.setCookie
-      expect(fn()).to.equal(undefined)
-      expect(fn(1)).to.equal(undefined)
-      expect(fn(1, 1)).to.equal(undefined)
-      expect(fn(1, 1, 1)).to.equal(undefined)
-    })
-    it('delCookieMock', function () {
-      const fn = j.delCookie
-      expect(fn('1')).to.equal(undefined)
-      expect(fn()).to.equal(undefined)
-    })
-    it('sleep', function () {
-      const fn = j.sleep
-      expect(fn(1000)).to.be.a('promise')
-    })
+
     it('randomInt', function () {
       const fn = j.randomInt
       expect(fn()).to.be.a('number')
@@ -295,10 +263,7 @@ describe('j.js', function () {
       const fn = j.getUuid
       expect(fn()).to.be.a('string')
     })
-    it('getInfoMock', function () {
-      const fn = j.getInfo
-      expect(fn()).to.be.a('object')
-    })
+
     it('hideInfo', function () {
       const fn = j.hideInfo
       expect(fn()).to.equal('')
@@ -360,10 +325,7 @@ describe('j.js', function () {
       const fn = j.loadFile
       expect(fn('www.baidu.com/a.js')).to.be.a('promise')
     })
-    it('getRandomColor', function () {
-      const fn = j.getRandomColor
-      expect(fn()).to.be.a('string')
-    })
+
     it('px2vw', function () {
       const fn = j.px2vw
       expect(fn(375)).to.equal('100vw')
@@ -381,17 +343,7 @@ describe('j.js', function () {
       expect(fn('_ab')).to.equal('Ab')
       expect(fn('_ab-c', '-')).to.equal('_abC')
     })
-    it('setStorageMock', function () {
-      const fn = j.setStorage
-      expect(fn('key', '1')).to.equal('1')
-      expect(fn('key', {})).to.equal('{}')
-    })
-    it('getStorageMock', function () {
-      const fn = j.getStorage
-      expect(fn('key')).to.equal('key')
-      expect(fn('')).to.equal('')
-      expect(fn('{}')).to.be.a('object')
-    })
+
     it('secondToTime', function () {
       const fn = j.secondToTime
       expect(fn(1)).to.equal('01秒')

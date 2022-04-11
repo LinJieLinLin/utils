@@ -13,7 +13,13 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    // 导出声明
+    "declaration": true,
+    // 导出声明目录
+    "declarationDir": "./build",
+    "outDir": "./build",
+    "rootDir": "./src",
     "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts"]
 }

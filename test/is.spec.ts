@@ -1,5 +1,5 @@
-import * as j from '../index'
-describe('add function', () => {
+import * as j from '../src/is'
+describe('is', () => {
   it('isJson', function () {
     const fn = j.isJson
     expect(fn(1)).toBe(false)

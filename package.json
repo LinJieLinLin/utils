@@ -14,7 +14,9 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "b": "tsc",
     "test": "jest",
+    "t": "jest ./test/base.spec.ts",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
     "test1": "mocha ./test/mocha/*.js --require @babel/register --bail",
     "testWatch": "mocha ./test/mocha/*.js --require @babel/register --bail --watch",
@@ -38,11 +40,13 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/register": "^7.16.9",
     "@types/jest": "^27.4.1",
+    "@types/jsdom": "^16.2.14",
     "docdash": "^1.2.0",
     "eslint": "^7.0.0",
     "jest": "^27.5.1",
     "jest-html-reporters": "^3.0.6",
     "jsdoc": "^3.6.6",
+    "jsdom": "^19.0.0",
     "lodash-es": "^4.17.21",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
