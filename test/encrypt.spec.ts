@@ -14,10 +14,12 @@ describe('encrypt', () => {
   it('enBase64', function () {
     const fn = j.enBase64
     expect(fn('1')).toBe('MQ==')
+    expect(base64.enBase64('1')).toBe('MQ==')
   })
   it('deBase64', function () {
     const fn = j.deBase64
     expect(fn('MQ==')).toBe('1')
+    expect(base64.deBase64('MQ==')).toBe('1')
   })
   it('encode', function () {
     const fn = j.encode
@@ -29,7 +31,15 @@ describe('encrypt', () => {
   })
   it('key by', function () {
     const fn = j.enAes
-    expect(fn('123')).toBe('F5776BAB0E4C5007304E16245A7192A4')
-    expect(j.deAes('F5776BAB0E4C5007304E16245A7192A4')).toBe('123')
+    expect(j.deAes(fn('中国'))).toBe('中国')
+    expect(j.decode(j.encode('中国', 'aes'), 'aes')).toBe('中国')
+  })
+  it('aesInit', function () {
+    const fn = j.aesInit
+    expect(j.deAes(j.enAes('中国'))).toBe('中国')
+    expect(j.decode(j.encode('中国', 'aes'), 'aes')).toBe('中国')
+    let temEncode = j.enAes('中国')
+    expect(fn('key', 'key123')).toBe(undefined)
+    expect(j.deAes(temEncode)).not.toBe('中国')
   })
 })

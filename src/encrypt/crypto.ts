@@ -4,7 +4,7 @@
  * @description 需安装crypto-js依赖，小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
  */
 import CryptoJS from 'crypto-js'
-let key = CryptoJS.enc.Utf8.parse('by')
+let key = 'by'
 let iv = CryptoJS.enc.Utf8.parse('linj')
 /**
  * @function
@@ -13,8 +13,8 @@ let iv = CryptoJS.enc.Utf8.parse('linj')
  * @param {string} argIv 密钥偏移量
  */
 export function aesInit(argKey: string, argIv: string) {
-  key = CryptoJS.enc.Utf8.parse(argKey) // 十六位十六进制数作为密钥
-  iv = CryptoJS.enc.Utf8.parse(argIv) // 十六位十六进制数作为密钥偏移量
+  key = argKey //密钥
+  iv = CryptoJS.enc.Utf8.parse(argIv) // 十六进制数作为密钥偏移量
 }
 
 /**
@@ -23,33 +23,24 @@ export function aesInit(argKey: string, argIv: string) {
  * @param {string | number} word 待加密内容
  * @returns {string} 已加密内容
  */
-export const enAes = (word: string | number): string => {
-  let wordStr = CryptoJS.enc.Utf8.parse(word as string)
-  let encrypted = CryptoJS.AES.encrypt(wordStr, key, {
+export const enAes = (word: string | number): string =>
+  CryptoJS.AES.encrypt(word.toString(), key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7,
-  })
-  return encrypted.ciphertext.toString().toUpperCase()
-}
+  }).toString()
 /**
  * @function
  * @description aes解密
  * @param {string} word 待解密内容
  * @returns {string} 已解密内容
  */
-export const deAes = (word: string): string => {
-  let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
-  let wordStr = CryptoJS.enc.Base64.stringify(encryptedHexStr)
-  let decrypt = CryptoJS.AES.decrypt(wordStr, key, {
+export const deAes = (word: string): string =>
+  CryptoJS.AES.decrypt(word, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7,
-  })
-  let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
-  console.log(word, wordStr, decryptedStr)
-  return decryptedStr.toString()
-}
+  }).toString(CryptoJS.enc.Utf8)
 /**
  * @function
  * @description md5 加密
