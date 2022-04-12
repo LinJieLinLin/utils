@@ -4,8 +4,8 @@
  * @Date: 2022-04-12 16:34:42
  * @description: no
  */
-import * as j from '../src/encrypt/crypto'
-import * as base64 from '../src/encrypt/base64'
+import * as j from '../encrypt/crypto'
+import * as base64 from '../encrypt/base64'
 describe('encrypt', () => {
   it('md5', function () {
     const fn = j.md5

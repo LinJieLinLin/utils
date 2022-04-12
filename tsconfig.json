@@ -11,20 +11,21 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"]
     },
     // 导出声明
     "declaration": true,
     // 导出声明目录
     "declarationDir": "./build",
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "./",
     "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["./**/*.ts"],
+  "exclude": ["./test/**/*", "./node_modules/**/*"],
   // typeDoc https://typedoc.org/
   "typedocOptions": {
-    "entryPoints": ["src/index.ts"],
+    "entryPoints": ["./index.ts"],
     "out": "dist/lj-utils"
   }
 }

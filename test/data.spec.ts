@@ -4,7 +4,7 @@
  * @Date: 2022-04-12 09:11:14
  * @description: no
  */
-import * as j from '../src/data'
+import * as j from '../data'
 describe('data', () => {
   it('safeData', function () {
     const obj: { [key: string]: any } = { b: '', c: 0, d: { a: 1, b: 2 } }

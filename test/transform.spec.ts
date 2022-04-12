@@ -4,7 +4,7 @@
  * @Date: 2022-04-12 10:58:56
  * @description: no
  */
-import * as j from '../src/transform'
+import * as j from '../transform'
 describe('is', () => {
   it('rmbPrice', function () {
     const fn = j.rmbPrice

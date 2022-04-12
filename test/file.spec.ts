@@ -4,7 +4,7 @@
  * @Date: 2022-04-12 11:20:33
  * @description: no
  */
-import * as j from '../src'
+import * as j from '../index'
 describe('is', () => {
   beforeEach(() => {
     global.URL.createObjectURL = jest.fn((blob): string => {

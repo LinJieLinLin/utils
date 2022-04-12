@@ -4,20 +4,20 @@ module.exports = {
   testEnvironment: 'jsdom',
   coverageDirectory: 'coverage',
   moduleNameMapper: {
-    '@/([^\\.]*)$': '<rootDir>/src/$1',
+    '@/([^\\.]*)$': '<rootDir>/$1',
   },
-  // reporters: [
-  //   'default',
-  //   [
-  //     'jest-html-reporters',
-  //     {
-  //       publicPath: './dist/coverage',
-  //       filename: 'index.html',
-  //       openReport: false,
-  //     },
-  //   ],
-  // ],
+  reporters: [
+    'default',
+    [
+      'jest-html-reporters',
+      {
+        publicPath: './dist/coverage',
+        filename: 'index.html',
+        openReport: false,
+      },
+    ],
+  ],
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
-  // coverageProvider: 'v8',
+  coverageProvider: 'v8',
   moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
 }
