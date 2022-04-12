@@ -13,15 +13,15 @@ export {
   getInfo,
   sleep,
 } from './base'
-// export {
-//   blobToBase64,
-//   blobUrlToFile,
-//   dataURLtoBlob,
-//   blobToFile,
-//   dlFile,
-//   getDuration,
-//   loadFile,
-// } from './file'
+export {
+  blobToBase64,
+  blobUrlToFile,
+  dataURLtoBlob,
+  blobToFile,
+  dlFile,
+  getDuration,
+  loadFile,
+} from './file'
 export {
   toFixed,
   toLine,

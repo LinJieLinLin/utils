@@ -3,6 +3,9 @@
  * @module index
  * @author linj
  */
+
+import { safeData } from './data'
+
 /**
  * 描述
  * @function
@@ -16,7 +19,7 @@ export const blobToBase64 = async (argBlob: Blob): Promise<any> => {
   const fileReader = new FileReader()
   fileReader.readAsDataURL(argBlob)
   fileReader.onload = (e) => {
-    return Promise.resolve(e.target.result)
+    return Promise.resolve(e && e.target && e.target.result)
   }
   fileReader.onerror = () => {
     return Promise.reject(new Error('文件流异常'))
@@ -58,11 +61,14 @@ export const dataURLtoBlob = (argData: string): Blob | boolean => {
   if (!argData.match(/;base64,/)) {
     return false
   }
-  var arr = argData.split(',')
-  var mime = arr[0].match(/:(.*?);/)[1]
-  var bstr = globalThis.atob(arr[1])
-  var n = bstr.length
-  var u8arr = new Uint8Array(n)
+  let arr = argData.split(',')
+  let mime: string = safeData(arr[0].match(/:(.*?);/), '1', '')
+  if (!mime) {
+    return false
+  }
+  let bstr = globalThis.atob(arr[1])
+  let n = bstr.length
+  let u8arr = new Uint8Array(n)
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n)
   }
@@ -166,7 +172,7 @@ export const loadFile = (
 ): Promise<any> => {
   let temId = argType + '-' + argUrl.split('/').pop()
   let head = globalThis.document.getElementsByTagName('head')[0]
-  let nodeTag = null
+  let nodeTag: HTMLLinkElement | HTMLScriptElement
   if (!argOptions.disCheck) {
     let checkTag = globalThis.document.getElementById(temId)
     // 已经存在对应tag
@@ -192,18 +198,25 @@ export const loadFile = (
       break
     default:
       console.error('暂不支持：' + argType)
-      return
+      return Promise.reject({ msg: '暂不支持：' + argType })
   }
   nodeTag.id = temId
   head.appendChild(nodeTag)
   return new Promise((resolve) => {
-    if (nodeTag.readyState) {
-      nodeTag.onreadystatechange = function () {
-        if (
-          nodeTag.readyState === 'loaded' ||
-          nodeTag.readyState === 'complete'
-        ) {
-          nodeTag.onreadystatechange = null
+    if ((nodeTag as unknown as Document).readyState) {
+      // ljTodo 2022-04-12 11:53:50
+      // nodeTag.onreadystatechange = function () {
+      //   if (
+      //     nodeTag.readyState === 'loaded' ||
+      //     nodeTag.readyState === 'complete'
+      //   ) {
+      //     nodeTag.onreadystatechange = null
+      //     return resolve(argUrl)
+      //   }
+      // }
+      ;(nodeTag as unknown as Document).onreadystatechange = function () {
+        if ((nodeTag as unknown as Document).readyState === 'complete') {
+          ;(nodeTag as unknown as Document).onreadystatechange = null
           return resolve(argUrl)
         }
       }

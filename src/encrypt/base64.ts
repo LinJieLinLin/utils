@@ -10,7 +10,7 @@ import { Base64 } from 'js-base64'
  * @param {string} argData 待加密内容
  * @returns {string} 已加密内容
  */
-export const enBase64 = (argData) => {
+export const enBase64 = (argData: string): string => {
   argData = argData || ''
   var base64 = Base64.encode(argData)
   return base64
@@ -21,7 +21,7 @@ export const enBase64 = (argData) => {
  * @param {string} argData 待解密内容
  * @returns {string} 已解密内容
  */
-export const deBase64 = (argData) => {
+export const deBase64 = (argData: string): string => {
   try {
     argData = argData || ''
     var base64 = Base64.decode(argData)

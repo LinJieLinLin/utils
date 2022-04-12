@@ -15,7 +15,7 @@
 export const safeData = (
   argData: any,
   argCheck: string,
-  argValue: any = undefined,
+  argValue?: any,
   argSetValueForce?: boolean | 0 | 1
 ): any => {
   if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
@@ -31,7 +31,7 @@ export const safeData = (
     for (let i = 0; i < temLen - 1; i++) {
       if (typeof argData[temKey[i]] !== 'object') {
         if (argSetValueForce) {
-          console.error('赋值失败：', argData, i)
+          // console.error('赋值失败：', argData, i)
         }
         return argValue
       }
@@ -64,7 +64,7 @@ export const toFixed = (
 ): string | number => {
   let data: number | string =
     Math.round(+argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
-  data = (+argData).toFixed(argNum)
+  data = (+data || 0).toFixed(argNum)
   return argType === 'string' ? data : +data
 }
 /**
@@ -138,10 +138,10 @@ export const string62to10 = (argData: string): number => {
  * @description obj转url参数
  * @function
  * @param {any} argParams 参数对象
- * @param {boolean} noMark 默认带?,true时,不带
+ * @param {boolean?} noMark 默认带?,true时,不带
  * @returns {string}
  */
-export const setUrlParams = (argParams: any, noMark: boolean): string => {
+export const setUrlParams = (argParams: any, noMark?: boolean): string => {
   let re = ''
   if (!noMark) {
     re = '?'
@@ -212,13 +212,13 @@ export const getUrlParamObj = (
  * @description 通过正则匹配修改当前页面的url中的参数
  * @function
  * @param  {string} name key
- * @param  {string} value 要替换的value
+ * @param  {string | number| undefined | null} value 要替换的value
  * @param  {string} url 要替换的网址,默认location.href
  * @returns {string}
  */
 export const replaceUrlParam = (
   name: string,
-  value: string,
+  value: string | number | undefined | null,
   url: string = globalThis.location.href || ''
 ): string => {
   let reg = new RegExp('([?]|&)(' + name + '=)([^&#]*)([&]?|$)', 'img')
@@ -305,16 +305,17 @@ export const decodeHtml = (argHtml: string): string => {
  * 描述
  * @function
  * @description 数据中间加星号
- * @param {string} argData 要处理的数据
+ * @param {string|number} argData 要处理的数据
  * @param {number} argStart=3 前端显示多少位
  * @param {number} argEnd=4 后面显示多少位
  * @returns {string} 返回处理好的数据
  */
 export const hideInfo = (
-  argData: string = '',
+  argData: string | number = '',
   argStart: number = 3,
   argEnd: number = 4
 ): string => {
+  argData = String(argData)
   let temLen = argData.length
   let temSL = argData.length - argEnd - argStart
   let start = ''

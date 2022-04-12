@@ -10,21 +10,28 @@ import { safeData } from './data'
 /**
  * @function
  * @description 显示人民币价格
- * @param  {number} argData 价格
+ * @param  {unknown} argData 价格
  * @param  {number} argRate -1 保留多少位小数
  * @param  {string} argUnit ￥ 单位
+ * @param  {string} argDef 空数据默认值
  * @returns {string} eg: ￥100
  */
 export const rmbPrice = (
-  argData: number,
+  argData: unknown,
   argRate: number = -1,
-  argUnit: string = '￥'
+  argUnit: string = '￥',
+  argDef: string = '--'
 ): string => {
-  if (typeof argData !== 'number') {
-    return argData || '--'
+  if (typeof argData === 'string' || typeof argData === 'number') {
+    if (!argData && argData !== 0) {
+      return argDef
+    }
+  } else {
+    return argDef
   }
+  argData = Number(argData)
   if (argRate > -1) {
-    argData = +toFixed(argData, argRate)
+    argData = +toFixed(argData as number, argRate)
   }
   return argUnit + argData
 }
@@ -32,7 +39,7 @@ export const rmbPrice = (
 /**
  * @description 日期格式化显示
  * @function
- * @param  {string|number|Date} date 时间对象\时间戳，默认当前时间
+ * @param  {string|number} date 时间对象\时间戳，默认当前时间
  * @param  {string} fmt 格式化符串，默认'YYYY-MM-DD HH:mm:ss' E为星期数，EEE:星期一 q为季度，S为毫秒数
  * @param  {string} emptyTip date为false时，默认''
  * @returns {string}
@@ -175,7 +182,7 @@ export const px2vw = (
  * @description 秒转倒计时
  * @param {number} argData 秒数
  * @param {string} argType 's,m,h,d,M,y 对应 秒 分 时 天 月 年'
- * @param {{unit?:string[]}} argOption 额外的处理argOption.unit 单位['年', '月', '天', '时', '分', '秒']
+ * @param {object} argOption 额外的处理argOption.unit 单位['年', '月', '天', '时', '分', '秒']
  * @returns {string}
  */
 export const secondToTime = (
