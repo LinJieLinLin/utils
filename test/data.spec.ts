@@ -129,4 +129,11 @@ describe('data', () => {
     expect(typeof fn(0, 0)).toBe('number')
     expect(fn(1, 1)).toBe(1)
   })
+  it('setEnv', function () {
+    expect(j.getEnv('a')).toBe('')
+    j.setEnv({ a: 1, b: 2 })
+    expect(j.getEnv('a')).toBe(1)
+    expect(j.getEnv('c')).toBe('')
+    expect(j.getEnv('b')).toBe(2)
+  })
 })

@@ -16,9 +16,9 @@
   "scripts": {
     "b": "./build.sh",
     "test": "jest",
-    "testWatch": "jest ./test/encrypt.spec.ts --watch --reporters=\"default\" ",
+    "testWatch": "jest ./test/class/Counter.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
-    "build": "npm run doc && npm run testHtml",
+    "build": "npm run doc",
     "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
     "z": "echo '小改动' &&npm version patch",
     "y": "echo '特性更新' &&npm version minor",
@@ -37,6 +37,8 @@
     "@babel/register": "^7.16.9",
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.23",
+    "@types/uni-app": "*",
     "docdash": "^1.2.0",
     "eslint": "^7.0.0",
     "jest": "^27.5.1",
@@ -82,8 +84,15 @@
     "extends": [
       "plugin:mocha/recommended"
     ],
+    "env": {
+      "wx": true
+    },
     "globals": {
-      "window": true
+      "window": true,
+      "taro": true,
+      "uni": true,
+      "wx": true,
+      "uniCloud": true
     }
   }
 }

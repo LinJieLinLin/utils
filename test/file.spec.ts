@@ -5,7 +5,8 @@
  * @description: no
  */
 import * as j from '../index'
-describe('is', () => {
+import { isBlob } from '../is'
+describe('file', () => {
   beforeEach(() => {
     global.URL.createObjectURL = jest.fn((blob): string => {
       return String(blob)
@@ -24,8 +25,7 @@ describe('is', () => {
   })
   it('dataURLtoBlob', function () {
     const fn = j.dataURLtoBlob
-    expect(fn('aGk=')).toBe(false)
-    expect(fn('aGk=')).toBe(false)
+    expect(isBlob(fn('aGk='))).toBe(true)
     expect(j.isBlob(fn('data:image/jpeg;base64,/9j/4AAQSkZJ'))).toBe(true)
   })
   it('blobToFile', function () {

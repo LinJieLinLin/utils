@@ -5,7 +5,7 @@
  * @description: no
  */
 import * as j from '../transform'
-describe('is', () => {
+describe('transform', () => {
   it('rmbPrice', function () {
     const fn = j.rmbPrice
     expect(fn({})).toBe('--')
