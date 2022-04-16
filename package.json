@@ -18,7 +18,7 @@
     "test": "jest",
     "testWatch": "jest ./test/microApi.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
-    "build": "npm run b&&npm run doc",
+    "build": "npm run b&&npm run doc&&npm run test",
     "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
     "z": "echo '小改动' &&npm version patch",
     "y": "echo '特性更新' &&npm version minor",
