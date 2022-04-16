@@ -26,25 +26,25 @@ import { AnyFn, AppConfig, Bool, Info, UploadFile } from './types'
 import { getInfo } from './base'
 import { AnyObject } from './types'
 import { getEnv, getUrlParamObj } from './data'
-let frame = ''
-let app: any
+// let frame = ''
+let app: AnyObject = {}
 let appConfig: AppConfig = {
   localEncrypt: false,
 }
-let ljCloud: any = ''
+let ljCloud: AnyObject = {}
 let isH5 = false
 // #ifdef  H5
 isH5 = true
 // #endif
 if (typeof uni !== 'undefined') {
   app = uni
-  frame = 'uni'
+  // frame = 'uni'
 } else if (typeof taro !== 'undefined') {
   app = taro
-  frame = 'taro'
+  // frame = 'taro'
 } else if (typeof wx !== 'undefined') {
   app = wx
-  frame = 'wx'
+  // frame = 'wx'
 }
 // 初始化loading
 const L = new Loading(() => {
@@ -69,15 +69,7 @@ const interceptors = {
 }
 
 /**
- * @description 获取unicloud DB,返回实例
- * @function
- */
-export const getDb = () => {
-  return ljCloud.database()
-}
-
-/**
- * @description 初始化配置
+ * @description 初始化配置(uniCloud/request拦截)
  * @function
  * @param {any} argConfig
  * @param {boolean} argConfig.localEncrypt 本地缓存是否加密
@@ -92,6 +84,13 @@ export const init = (argConfig?: AppConfig) => {
   if (argConfig?.requestCb && argConfig?.responseCb) {
     setRequest(argConfig?.requestCb, argConfig?.responseCb)
   }
+}
+/**
+ * @description 获取unicloud DB,返回实例
+ * @function
+ */
+export const getDb = () => {
+  return ljCloud.database && ljCloud.database()
 }
 /**
  * @description 显示loading
@@ -275,8 +274,8 @@ export const requestCloud = async (argOption: AnyObject) => {
  * @description 检查是否有更新
  */
 export const checkUpdate = () => {
-  console.log('检查更新，有更新会提示更新')
-  if (!app.getUpdateManager) {
+  // console.log('检查更新，有更新会提示更新')
+  if (!safeData(app, 'getUpdateManager')) {
     return
   }
   const updateManager = app.getUpdateManager()
@@ -391,13 +390,14 @@ export const getLocation = (
  * @param {number} scrollTop 滚动距离
  * @param {number} duration 时间
  * @param {any} ...arg 其他参数selector/offsetTop/success/fail/complete
+ * @returns {promise}
  */
 export const scrollTop = (
   scrollTop: number = 0,
   duration: number = 0,
   ...arg: any[]
 ) => {
-  app.pageScrollTo({
+  return P('pageScrollTo', {
     scrollTop: scrollTop,
     duration: duration,
     ...arg,
@@ -436,9 +436,10 @@ export const toast = async (
  * @param  {string} argTitle 标题
  */
 export const setTitle = (argTitle: string) => {
-  app.setNavigationBarTitle({
-    title: argTitle,
-  })
+  app.setNavigationBarTitle &&
+    app.setNavigationBarTitle({
+      title: argTitle,
+    })
 }
 
 /**
@@ -450,9 +451,9 @@ export const setTitle = (argTitle: string) => {
  * @param {boolean} argForce 是否取消节流非H5生效
  */
 export const toPage = (
-  argPage: string,
+  argPage: string = '',
   argParams: AnyObject = {},
-  argType: string | number,
+  argType: string | number = '',
   argForce: Bool = false,
   isLog: Bool = false
 ) => {
@@ -467,7 +468,8 @@ export const toPage = (
       )
     }
     // 后退处理
-    let pages = getCurrentPages() || []
+    let pages =
+      (typeof getCurrentPages !== 'undefined' && getCurrentPages()) || []
     if (!argPage || argPage === 'back') {
       if (isH5) {
         window.history.go(+('-' + (argType || 1)))
@@ -554,7 +556,8 @@ export const toPage = (
  * @returns {object}
  */
 export const getCurrentPage = (): AnyObject => {
-  var pages = getCurrentPages() || []
+  let pages =
+    (typeof getCurrentPages !== 'undefined' && getCurrentPages()) || []
   return pages[pages.length - 1] || {}
 }
 
@@ -562,15 +565,16 @@ export const getCurrentPage = (): AnyObject => {
  * @function
  * @description 获取当前页url
  * @param {boolean} argWithParams 是否附带参数
+ * @returns {string}
  */
-export const getCurrentPageUrl = (argWithParams: boolean) => {
-  var currentPage = getCurrentPage()
-  var url = currentPage.route
-  var options = currentPage.options
+export const getCurrentPageUrl = (argWithParams: boolean = true): string => {
+  let currentPage = getCurrentPage()
+  let url: string = currentPage.route || ''
+  let options = currentPage.options || {}
   if (argWithParams) {
     url += setUrlParams(options)
   }
-  return url
+  return url || ''
 }
 
 /**
@@ -634,7 +638,7 @@ export async function getUserInfo(argData: AnyObject): Promise<any> {
  */
 export const downloadImgs = async (
   argImgList: unknown,
-  argIsLocal: Bool
+  argIsLocal: Bool = false
 ): Promise<any> => {
   let isAuth = true
   let res = null
@@ -645,7 +649,7 @@ export const downloadImgs = async (
   imgList = argImgList as string[]
   if (!imgList.length) {
     console.log('参数有误！')
-    return
+    return Promise.reject(false)
   }
   L.loading(1)
   await checkSetting('writePhotosAlbum').catch((err) => {
@@ -697,11 +701,12 @@ export const downloadImgs = async (
     if (saveFail) {
       L.loading()
       toast('保存到相册失败，请重试！')
-      return
+      return Promise.reject(false)
     }
   }
   L.loading()
-  await toast('下载完成！')
+  toast('下载完成！')
+  return Promise.resolve(true)
 }
 /**
  * @function
@@ -1021,7 +1026,7 @@ export const P = (argApi: string, argOptions: AnyObject = {}): Promise<any> => {
     if (app[argApi]) {
       app[argApi](options)
     } else {
-      return Promise.reject('无此方法')
+      return reject('无此方法')
     }
   })
 }

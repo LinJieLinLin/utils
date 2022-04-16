@@ -16,7 +16,7 @@
   "scripts": {
     "b": "./build.sh",
     "test": "jest",
-    "testWatch": "jest ./test/class/Counter.spec.ts --watch --reporters=\"default\" ",
+    "testWatch": "jest ./test/microApi.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
     "build": "npm run doc",
     "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
