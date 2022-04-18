@@ -40,6 +40,7 @@ export {
   setEnv,
   getEnv,
   randomInt,
+  setLog,
 } from './data'
 export {
   rmbPrice,

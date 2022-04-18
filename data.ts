@@ -4,6 +4,8 @@
  * @author linj
  */
 
+import { getStorage } from './base'
+
 let ENV: AnyObject = {}
 /**
  * @function
@@ -373,4 +375,39 @@ export const setEnv = (env: AnyObject) => {
  */
 export const getEnv = (key: string): string => {
   return safeData(ENV, key, '')
+}
+/**
+ * @function
+ * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 debug
+ * @param {AnyObject} logConfig 重写配置
+ * @param {function} logConfig.error 错误日志回调（做额外处理用）
+ */
+export const setLog = (logConfig?: AnyObject) => {
+  // logLevel 1 error 2 warn 3 info 4 debug
+  const logLevel = +getStorage('logLevel') || getEnv('VUE_APP_LOG_LEVEL')
+  const logList = ['log', 'info', 'warn', 'error']
+  const log: AnyObject = {}
+  logList.forEach((v) => {
+    log[v] = (console as AnyObject)[v]
+  })
+  for (let key in logConfig) {
+    if ((console as AnyObject)[key]) {
+      ;(console as AnyObject)[key] = (...arg: any[]) => {
+        ;(log as AnyObject)[key](...arg, Error().stack?.split('\n')[2])
+        // 回调处理
+        logConfig[key] && logConfig[key](...arg, Error().stack?.split('\n')[2])
+      }
+    }
+  }
+  switch (logLevel) {
+    case 1:
+      console.warn = () => {}
+    case 2:
+      console.info = () => {}
+    case 3:
+      console.log = () => {}
+    default:
+      break
+  }
+  // return log
 }
