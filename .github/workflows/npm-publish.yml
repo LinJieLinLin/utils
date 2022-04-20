@@ -16,7 +16,6 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: https://registry.npmjs.org/
-      - run: npm i && npm run b && cd build
-      - run: npm publish
+      - run: npm i && npm run b && cd build && npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
