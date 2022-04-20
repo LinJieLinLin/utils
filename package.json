@@ -14,16 +14,15 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build",
+    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf {package.json,*.md} ./build/",
     "test": "jest",
     "testWatch": "jest ./test/microApi.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
     "build": "npm run b&&npm run doc&&npm run test",
     "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
-    "z": "cd static && npm version patch && cd ../ && npm version patch",
-    "y": "echo '特性更新' &&npm version minor",
-    "x": "echo '大改动' &&npm version major",
-    "preinstall": "echo 'install'",
+    "z": "npm version patch",
+    "y": "npm version minor",
+    "x": "npm version major",
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
   "dependencies": {
