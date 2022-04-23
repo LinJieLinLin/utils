@@ -14,7 +14,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf package.json *.md ./build/",
+    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf package.json *.md ./build/ &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
     "testWatch": "jest ./test/microApi.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
