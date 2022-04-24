@@ -5,6 +5,7 @@
  */
 
 import { getStorage } from './base'
+import { AnyObject } from './types'
 
 let ENV: AnyObject = {}
 /**
@@ -371,10 +372,14 @@ export const setEnv = (env: AnyObject) => {
  * @function
  * @description 获取env参数
  * @param  {string} key 要获取的值
- * @returns {string} 获取的值
+ * @returns {string|AnyObject} 获取的值
  */
-export const getEnv = (key: string): string => {
-  return safeData(ENV, key, '')
+export const getEnv = (key?: string): string | AnyObject => {
+  if (!key) {
+    return ENV
+  } else {
+    return safeData(ENV, key, '')
+  }
 }
 /**
  * @function
