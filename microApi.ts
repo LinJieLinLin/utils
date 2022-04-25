@@ -26,7 +26,6 @@ import { AnyFn, AppConfig, Bool, Info, UploadFile } from './types'
 import { getInfo } from './base'
 import { AnyObject } from './types'
 import { getEnv, getUrlParamObj } from './data'
-import { AnyObject } from './types'
 // let frame = ''
 let app: AnyObject = {}
 let appConfig: AppConfig = {
