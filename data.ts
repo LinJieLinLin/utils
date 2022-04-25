@@ -5,8 +5,10 @@
  */
 
 import { getStorage } from './base'
+import { Bool } from './types'
 
 let ENV: AnyObject = {}
+
 /**
  * @function
  * @description 数据安全访问
@@ -20,10 +22,10 @@ export const safeData = (
   argData: any,
   argCheck: string,
   argValue?: any,
-  argSetValueForce?: boolean | 0 | 1
+  argSetValueForce?: Bool
 ): any => {
   if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
-    console.error('argCheck请传入string当前为:' + argCheck)
+    console.warn('argCheck请传入string当前为:' + argCheck)
     return ''
   }
   const temKey = argCheck.toString().split('.')
@@ -35,7 +37,7 @@ export const safeData = (
     for (let i = 0; i < temLen - 1; i++) {
       if (typeof argData[temKey[i]] !== 'object') {
         if (argSetValueForce) {
-          // console.error('赋值失败：', argData, i)
+          console.warn('safeData setValue err：', argData, 'index:', i)
         }
         return argValue
       }
@@ -378,13 +380,13 @@ export const getEnv = (key: string): string => {
 }
 /**
  * @function
- * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 debug
+ * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 log 5 debug
  * @param {AnyObject} logConfig 重写配置
  * @param {function} logConfig.error 错误日志回调（做额外处理用）
  */
-export const setLog = (logConfig?: AnyObject) => {
-  // logLevel 1 error 2 warn 3 info 4 debug
-  const logLevel = +getStorage('logLevel') || getEnv('VUE_APP_LOG_LEVEL')
+export const setLog = (logLevel?: string | number, logConfig?: AnyObject) => {
+  // 1 error 2 warn 3 info 4 log 5 debug
+  logLevel = logLevel || getEnv('VUE_APP_LOG_LEVEL') || 4
   const logList = ['log', 'info', 'warn', 'error']
   const log: AnyObject = {}
   logList.forEach((v) => {
@@ -399,13 +401,15 @@ export const setLog = (logConfig?: AnyObject) => {
       }
     }
   }
-  switch (logLevel) {
+  switch (+logLevel) {
     case 1:
       console.warn = () => {}
     case 2:
       console.info = () => {}
     case 3:
       console.log = () => {}
+    case 4:
+      console.debug = () => {}
     default:
       break
   }

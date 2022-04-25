@@ -47,7 +47,7 @@ class Loading {
         this.#timer = setTimeout(() => {
           this.#showTime = +new Date()
           if (isLog) {
-            console.info(
+            console.debug(
               '显示loading用时:',
               (this.#showTime - this.#startTime) / 1000
             )
@@ -67,7 +67,7 @@ class Loading {
       setTimeout(() => {
         if (this.#showTime) {
           if (isLog) {
-            console.info(
+            console.debug(
               '显示loading时长:',
               (+new Date() - this.#showTime) / 1000
             )

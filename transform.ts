@@ -129,9 +129,9 @@ export const friendlyTime = (
   if (isNaN(+date)) {
     return emptyTip
   }
-  if (typeof date === 'number') {
+  if (typeof date === 'number' || typeof date === 'string') {
     if (date.toString().length === 10) {
-      date = date * 1000
+      date = date.toString() + '000'
     }
   }
   date = new Date(+date)
@@ -141,7 +141,7 @@ export const friendlyTime = (
     Object.prototype.toString.call(date) === '[object Date]' &&
     !isNaN(date.getTime())
   if (!isValidDate) {
-    // console.error('not a valid date')
+    console.warn('friendlyTime:', 'not a valid date')
     return emptyTip || '--'
   }
   if (isNaN(dayDiff) || dayDiff < 0 || dayDiff >= 365) {
@@ -256,7 +256,6 @@ export const secondToTime = (
   let isZero = true
   res.map((v, k) => {
     if (!+v && isZero) {
-      // console.error(v)
     } else {
       isZero = false
       timeText += v + unitList[index + k]

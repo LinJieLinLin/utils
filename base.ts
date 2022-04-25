@@ -12,11 +12,11 @@ let isOnline: boolean = true
 // 断网监听
 if (globalThis && globalThis.addEventListener) {
   globalThis.addEventListener('offline', function () {
-    // console.log('offLine')
+    console.debug('offLine')
     isOnline = false
   })
   globalThis.addEventListener('online', function () {
-    // console.log('onLine')
+    console.debug('onLine')
     isOnline = true
   })
 }
@@ -92,7 +92,7 @@ export const setTitle = (argTitle: string | number) => {
     var i = document.createElement('iframe')
     i.onload = function () {
       setTimeout(function () {
-        console.log('ios set title')
+        console.debug('apple setting title')
         i.remove()
       }, 10)
     }

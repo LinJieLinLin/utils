@@ -123,6 +123,6 @@ export const isIdCard = (code: string): boolean => {
       }
     }
   }
-  console.log(tip)
+  console.assert(!tip, tip)
   return pass
 }

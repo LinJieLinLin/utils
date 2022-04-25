@@ -38,7 +38,7 @@ fly.interceptors.request.use((request) => {
   // 给所有请求添加自定义header
   // request.headers['X-Tag'] = 'flyio'
   // 打印出请求体
-  console.log('请求拦截', request)
+  console.debug('请求拦截', request)
   if (request.config.noToast) {
     noToast = request.config.noToast
   } else {
@@ -55,7 +55,7 @@ fly.interceptors.request.use((request) => {
 fly.interceptors.response.use(
   async (res) => {
     L.loading()
-    console.log('响应拦截:', res)
+    console.debug('响应拦截:', res)
     // const data = JSON.parse(res.data)
     const data = res.data
     if (suCode.match(',' + data.code + ',')) {
@@ -77,10 +77,10 @@ fly.interceptors.response.use(
   async (err) => {
     L.loading()
     // 发生网络错误后会走到这里
-    console.log('http err:', err)
+    console.error('http err:', err)
     // 超时处理
     if (err && err.message && err.message.match('timeout')) {
-      console.log(err.message)
+      console.error(err.message)
       toast('请求超时！')
       return Promise.reject(err)
     }

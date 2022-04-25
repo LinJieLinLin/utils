@@ -26,6 +26,7 @@ import { AnyFn, AppConfig, Bool, Info, UploadFile } from './types'
 import { getInfo } from './base'
 import { AnyObject } from './types'
 import { getEnv, getUrlParamObj } from './data'
+import { AnyObject } from './types'
 // let frame = ''
 let app: AnyObject = {}
 let appConfig: AppConfig = {
@@ -169,7 +170,7 @@ export const request = async (
       method: argOption.method || 'GET',
       data: argOption.params,
       success(res: AnyObject = { data: {} }) {
-        console.log('响应数据：', res)
+        console.debug('response：', res)
         if (!argIsMock && getEnv('VUE_APP_LJAPITYPE') === 'set') {
           argOption.url = apiUrl
           argOption.params.data = JSON.stringify(res.data)
@@ -274,7 +275,7 @@ export const requestCloud = async (argOption: AnyObject) => {
  * @description 检查是否有更新
  */
 export const checkUpdate = () => {
-  // console.log('检查更新，有更新会提示更新')
+  console.debug('checking update')
   if (!safeData(app, 'getUpdateManager')) {
     return
   }
@@ -454,19 +455,10 @@ export const toPage = (
   argPage: string = '',
   argParams: AnyObject = {},
   argType: string | number = '',
-  argForce: Bool = false,
-  isLog: Bool = false
+  argForce: Bool = false
 ) => {
   const toPageFn = () => {
-    if (isLog) {
-      console.log(
-        'toPage params:',
-        argPage,
-        setUrlParams(argParams),
-        argType,
-        argForce
-      )
-    }
+    console.debug('toPage params:', argPage, argParams, argType, argForce)
     // 后退处理
     let pages =
       (typeof getCurrentPages !== 'undefined' && getCurrentPages()) || []
@@ -588,7 +580,7 @@ export const login = (): Promise<any> => {
       timeout: 5000,
       success: function (rs: AnyObject) {
         app.setStorageSync('code', rs.code)
-        console.info('login info:', rs)
+        console.debug('micro login info:', rs)
         return resolve(rs)
       },
       fail: function (err: unknown) {
@@ -607,7 +599,7 @@ export const login = (): Promise<any> => {
 export async function getUserInfo(argData: AnyObject): Promise<any> {
   L.loading(1)
   const _login = await login().catch((err) => {
-    console.log(err)
+    console.error(err)
     L.loading()
   })
   const setUserInfo = (argData: AnyObject) => {
@@ -621,7 +613,7 @@ export async function getUserInfo(argData: AnyObject): Promise<any> {
     return setUserInfo(argData.target)
   } else {
     const _checkSetting = await checkSetting('userInfo').catch((err) => {
-      console.log('未授权', err)
+      console.error('unAuthor', err)
       L.loading()
     })
     _checkSetting.code = _login.code
@@ -648,12 +640,12 @@ export const downloadImgs = async (
   }
   imgList = argImgList as string[]
   if (!imgList.length) {
-    console.log('参数有误！')
+    console.error('参数有误！')
     return Promise.reject(false)
   }
   L.loading(1)
   await checkSetting('writePhotosAlbum').catch((err) => {
-    console.error(err)
+    console.error('writePhotosAlbum error:', err)
     isAuth = false
     L.loading()
   })
@@ -696,7 +688,7 @@ export const downloadImgs = async (
       filePath: tempFilePath,
     }).catch((err) => {
       saveFail = true
-      console.error(err)
+      console.error('saveImageToPhotosAlbum error:', err)
     })
     if (saveFail) {
       L.loading()
@@ -748,18 +740,17 @@ export const uploadImgs = async (
     err = error
   })
   if (!res) {
-    console.error(err)
+    console.error('chooseImage error:', err)
     return Promise.reject(err)
   }
-  console.log('选择文件：', res)
+  console.debug('select files：', res)
   showLoading()
   // 按需压缩
   const tempFiles = res.tempFiles
   // 压缩图片
   const compressImage = async (argData: AnyObject) => {
-    console.error(argData.size, argMb)
     if (argData.size > argMb * 1024 * 1024) {
-      console.log('未压缩前：', argData)
+      console.debug('compressImage params：', argData)
       if (!isH5 && !argOptions.disCompress) {
         return P('compressImage', {
           src: argData.path,
@@ -770,7 +761,7 @@ export const uploadImgs = async (
         if (argData && argData.img) {
           return { path: null, file: null }
         }
-        console.log('canvas压缩Start')
+        console.debug('canvas compress start')
         var canvas = document.createElement('canvas')
         var img = argData.img
         let scaleRate
@@ -799,7 +790,7 @@ export const uploadImgs = async (
         } else {
           let blob = dataURLtoBlob(base64Url)
           var file = blobToFile(blob, argData.name)
-          console.warn(
+          console.debug(
             'old:',
             argData.size / 1024,
             'new:',
@@ -820,7 +811,6 @@ export const uploadImgs = async (
         return new Promise((resolve, reject) => {
           var img = new Image()
           img.src = argData.path
-          // console.warn(img)
           img.onload = function () {
             return resolve({
               img,
@@ -835,7 +825,7 @@ export const uploadImgs = async (
 
       let file = await getBase64Image(await loadImg(argData))
       if (safeData(file, 'file.size') > argMb * 1024 * 1024) {
-        console.log('二次压缩', file)
+        console.debug('二次压缩', file)
         // 控制质量
         argQuality = argQuality / 2
         file = await getBase64Image(await loadImg(file))
@@ -860,7 +850,7 @@ export const uploadImgs = async (
   const tempFilePathsFn = tempFiles.map(compressImage)
   let tempFilePaths: void | any[] = []
   tempFilePaths = await Promise.all(tempFilePathsFn).catch((error) => {
-    // console.error(error)
+    console.error('compressImage error:', error)
     err = error
   })
   hideLoading()
@@ -1001,7 +991,7 @@ export const setStorage = async (
     key: argKey,
     data: temData,
   }).catch((err) => {
-    console.error(err)
+    console.error('setStorage', err)
   })
   return res.data || res || ''
 }
@@ -1036,9 +1026,9 @@ export const P = (argApi: string, argOptions: AnyObject = {}): Promise<any> => {
  * @function
  * @description 微信实时日志记录
  * @date 2019-09-26
- * @returns {functions}
+ * @returns {AnyObject}
  */
-export const ljLog = () => {
+export const wxLog = (): AnyObject => {
   // logLevel 1 error 2 warn 3 info 4 debug
   const logLevel = +getStorageSync('logLevel')
   switch (logLevel) {
@@ -1057,31 +1047,26 @@ export const ljLog = () => {
       break
   }
   if (!wx) {
-    return
+    return {}
   }
-  const log = wx.getRealtimeLogManager ? wx.getRealtimeLogManager() : null
-  if (!log) {
-    console.log('实时日志未生效')
-    return null
+  let log: AnyObject | null = null
+  if (wx) {
+    log = wx.getRealtimeLogManager ? wx.getRealtimeLogManager() : null
   }
   return {
     debug() {
-      // console.log(arguments)
       if (!log) return
       log.debug.apply(log, arguments)
     },
     info() {
-      // console.log(arguments)
       if (!log) return
       log.info.apply(log, arguments)
     },
     warn() {
-      // console.log(arguments)
       if (!log) return
       log.warn.apply(log, arguments)
     },
     error() {
-      // console.log(arguments)
       if (!log) return
       log.error.apply(log, arguments)
     },
@@ -1176,38 +1161,6 @@ export const refresh = () => {
   nowPage.onShow && nowPage.onShow()
 }
 /**
- * @function
- * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 debug
- * @param {AnyObject} logConfig 重写配置
- * @param {function} logConfig.error 错误日志回调（做额外处理用）
+ * @param {AnyObject} App 返回 uni/wx/taro实例
  */
-export const setLog = (logConfig?: AnyObject) => {
-  // logLevel 1 error 2 warn 3 info 4 debug
-  const logLevel = +getStorageSync('logLevel') || getEnv('VUE_APP_LOG_LEVEL')
-  const logList = ['log', 'info', 'warn', 'error']
-  const log: AnyObject = {}
-  logList.forEach((v) => {
-    log[v] = (console as AnyObject)[v]
-  })
-  for (let key in logConfig) {
-    if ((console as AnyObject)[key]) {
-      ;(console as AnyObject)[key] = (...arg: any[]) => {
-        ;(log as AnyObject)[key](...arg, Error().stack?.split('\n')[2])
-        // 回调处理
-        logConfig[key] && logConfig[key](...arg, Error().stack?.split('\n')[2])
-      }
-    }
-  }
-  switch (logLevel) {
-    case 1:
-      console.warn = () => {}
-    case 2:
-      console.info = () => {}
-    case 3:
-      console.log = () => {}
-    default:
-      break
-  }
-  // return log
-}
 export const APP = app
