@@ -6,7 +6,7 @@ import { showLoading } from './../microApi';
  * L.loading(1)/L.loading(0) = L.show()/L.hide()
  */
 
-import { AnyFn } from '../types'
+import { AnyFn, Bool } from '../types'
 
 class Loading {
   // 请求数
@@ -14,8 +14,6 @@ class Loading {
   #delay = 300
   // 计时
   #timer: any
-  // 临时时间
-  #startTime = 0
   // 临时开始时间
   #showTime = 0
   showCb: AnyFn = () => {}
@@ -37,21 +35,14 @@ class Loading {
   }
   /**
    * @function
-   * @param {boolean|1} isAdd 是否增加一个请求loading
+   * @param {boolean} isAdd 是否增加一个请求loading
    * @description 是否增加一个请求loading，true +1,false -1
    */
-  loading(isAdd: boolean | 1 = false, isLog: boolean = false) {
+  loading(isAdd: Bool = false) {
     if (isAdd) {
       if (!this.loadNum) {
-        this.#startTime = +new Date()
         this.#timer = setTimeout(() => {
           this.#showTime = +new Date()
-          if (isLog) {
-            console.debug(
-              '显示loading用时:',
-              (this.#showTime - this.#startTime) / 1000
-            )
-          }
           this.showCb()
         }, this.#delay)
       }
@@ -66,12 +57,10 @@ class Loading {
       clearTimeout(this.#timer)
       setTimeout(() => {
         if (this.#showTime) {
-          if (isLog) {
-            console.debug(
-              '显示loading时长:',
-              (+new Date() - this.#showTime) / 1000
-            )
-          }
+          console.debug(
+            '显示loading时长:',
+            (+new Date() - this.#showTime) / 1000
+          )
         }
         this.hideCb()
       }, 0)
