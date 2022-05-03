@@ -23,7 +23,7 @@
     // "types": ["node", "jest", "@dcloudio/types"],
     "lib": ["esnext", "dom"]
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "mixins/*.js"],
   "exclude": ["./test/**/*", "./build/**/*", "./node_modules/**/*"],
   // typeDoc https://typedoc.org/
   "typedocOptions": {

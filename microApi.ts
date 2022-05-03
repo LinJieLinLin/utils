@@ -75,10 +75,12 @@ const interceptors = {
  * @param {boolean} argConfig.localEncrypt 本地缓存是否加密
  */
 export const init = (argConfig?: AppConfig) => {
+  console.debug('argConfig', argConfig)
   Object.assign(appConfig, argConfig)
   // 初始化uniCloud
   if (typeof uniCloud !== 'undefined' && appConfig?.uniCloud?.clientSecret) {
     ljCloud = uniCloud.init(appConfig.uniCloud)
+    console.debug('ljCloud:', ljCloud)
   }
   // 初始化拦截器
   if (argConfig?.requestCb && argConfig?.responseCb) {
@@ -1163,3 +1165,4 @@ export const refresh = () => {
  * @param {AnyObject} App 返回 uni/wx/taro实例
  */
 export const APP = app
+export const IS_H5 = isH5

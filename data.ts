@@ -8,7 +8,7 @@ import { getStorage } from './base'
 import { Bool } from './types'
 
 let ENV: AnyObject = {}
-
+let DATA_OBJECT: AnyObject = {}
 /**
  * @function
  * @description 数据安全访问
@@ -368,7 +368,6 @@ export const randomInt = (min: number = 0, max: number = 100): number => {
 export const setEnv = (env: AnyObject) => {
   ENV = env
 }
-
 /**
  * @function
  * @description 获取env参数
@@ -378,6 +377,46 @@ export const setEnv = (env: AnyObject) => {
 export const getEnv = (key: string): string => {
   return safeData(ENV, key, '')
 }
+
+/**
+ * @function
+ * @description 设置object参数,可做运行时缓存
+ * @param  {string} key 要设置的key
+ * @param  {AnyObject} data 要设置的值
+ * @returns {AnyObject}
+ */
+export const setObj = (key: string, data: AnyObject): AnyObject => {
+  if (!key) {
+    DATA_OBJECT = data
+  } else {
+    DATA_OBJECT[key] = data
+  }
+  return DATA_OBJECT
+}
+/**
+ * @function
+ * @description 获取object参数
+ * @param  {string} key 要获取的值
+ * @param  {string} argData 要合并的值
+ * @param  {boolean} isDeepCopy 是否深拷贝
+ * @returns {AnyObject} 获取的值
+ */
+export const getObj = (
+  key: string,
+  argData?: AnyObject,
+  isDeepCopy?: Bool
+): AnyObject => {
+  let res: AnyObject = safeData(DATA_OBJECT, key, {})
+  if (argData) {
+    res = Object.assign(res, argData)
+  }
+  if (!isDeepCopy) {
+    return res
+  } else {
+    return JSON.parse(JSON.stringify(res))
+  }
+}
+
 /**
  * @function
  * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 log 5 debug

@@ -39,6 +39,8 @@ export {
   getUuid,
   setEnv,
   getEnv,
+  getObj,
+  setObj,
   randomInt,
   setLog,
 } from './data'
