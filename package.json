@@ -26,6 +26,7 @@
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
   "dependencies": {
+    "@dcloudio/uni-app": "^3.0.0-alpha-3000020210521001",
     "crypto-js": "^4.1.1",
     "js-base64": "^3.7.2"
   },
