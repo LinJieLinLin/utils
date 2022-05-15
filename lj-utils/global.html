@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Loading.js - lj-utils</title>
+    <title>Global - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -46,120 +46,324 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Loading.js</h1>
+    <h1 class="page-title">Global</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
-import { showLoading } from './../microApi';
- * @class
- * @classdesc 通用延时loading
- * @example  const L = new.Loading(argShow,argHide,300)
- * L.loading(1)/L.loading(0) = L.show()/L.hide()
- */
-var __classPrivateFieldSet = (this &amp;&amp; this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var __classPrivateFieldGet = (this &amp;&amp; this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var _Loading_delay, _Loading_timer, _Loading_showTime;
-class Loading {
-    /**
-     * @function
-     * @param {function} argShow 显示loading 回调
-     * @param {function} argHide 隐藏loading 回调
-     * @param {number} [argDelay]=300 argDelay 延时 ms,不宜过长,默认300
-     */
-    constructor(argShow, argHide, argDelay = 300) {
-        // 请求数
-        Object.defineProperty(this, "loadNum", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 0
-        });
-        _Loading_delay.set(this, 300
-        // 计时
-        );
-        // 计时
-        _Loading_timer.set(this, void 0);
-        // 临时开始时间
-        _Loading_showTime.set(this, 0);
-        Object.defineProperty(this, "showCb", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: () => { }
-        });
-        Object.defineProperty(this, "hideCb", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: () => { }
-        });
-        if (typeof argShow === 'function') {
-            this.showCb = argShow;
-        }
-        if (typeof argHide === 'function') {
-            this.hideCb = argHide;
-        }
-        __classPrivateFieldSet(this, _Loading_delay, argDelay || 300, "f");
-    }
-    /**
-     * @function
-     * @param {boolean} isAdd 是否增加一个请求loading
-     * @description 是否增加一个请求loading，true +1,false -1
-     */
-    loading(isAdd = false) {
-        if (isAdd) {
-            if (!this.loadNum) {
-                __classPrivateFieldSet(this, _Loading_timer, setTimeout(() => {
-                    __classPrivateFieldSet(this, _Loading_showTime, +new Date(), "f");
-                    this.showCb();
-                }, __classPrivateFieldGet(this, _Loading_delay, "f")), "f");
-            }
-            this.loadNum++;
-        }
-        else {
-            this.loadNum--;
-            if (this.loadNum &lt; 0) {
-                this.loadNum = 0;
-            }
-        }
-        if (!this.loadNum) {
-            clearTimeout(__classPrivateFieldGet(this, _Loading_timer, "f"));
-            setTimeout(() => {
-                if (__classPrivateFieldGet(this, _Loading_showTime, "f")) {
-                    console.debug('显示loading时长:', (+new Date() - __classPrivateFieldGet(this, _Loading_showTime, "f")) / 1000);
-                }
-                this.hideCb();
-            }, 0);
-        }
-    }
-    show() {
-        this.loading(true);
-    }
-    hide() {
-        this.loading(false);
-    }
-}
-_Loading_delay = new WeakMap(), _Loading_timer = new WeakMap(), _Loading_showTime = new WeakMap();
-export default Loading;
-</code></pre>
-        </article>
-    </section>
+        <h2>
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="Loading"><span class="type-signature"></span>Loading<span class="signature">(argShow, argHide, argDelay<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_Loading.js.html">class/Loading.js</a>, <a href="class_Loading.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argShow</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>显示loading 回调</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argHide</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>隐藏loading 回调</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argDelay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>300</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>argDelay 延时 ms,不宜过长,默认300</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
