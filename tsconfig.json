@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es6",
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
-    "module": "esnext",
+    "module": "es6",
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
