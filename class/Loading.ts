@@ -1,12 +1,11 @@
+import { AnyFn, Bool } from '../types'
 /**
-import { showLoading } from './../microApi';
  * @class
  * @classdesc 通用延时loading
- * @example  const L = new.Loading(argShow,argHide,300)
- * L.loading(1)/L.loading(0) = L.show()/L.hide()
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
+ * @example  const L = new.Loading(argShow,argHide,300) L.loading(1)/L.loading(0) = L.show()/L.hide() *
  */
-
-import { AnyFn, Bool } from '../types'
 
 class Loading {
   // 请求数

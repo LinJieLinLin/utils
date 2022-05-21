@@ -1,12 +1,7 @@
-/*
- * @author: linj
- * @email: 993353454@qq.com
- * @Date: 2022-04-13 22:16:55
- * @description: no
- */
 /**
  * @module
- * @author linj
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-22 00:41:33
  * @description 微信小程序/uniapp/taro公共函数
  */
 

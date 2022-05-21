@@ -1,10 +1,10 @@
 /**
- * 类字符串/参数处理
  * @module index
- * @author linj
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
+ * @description 类字符串/参数处理
  */
 
-import { getStorage } from './base'
 import { Bool } from './types'
 
 let ENV: AnyObject = {}

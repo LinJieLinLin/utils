@@ -1,8 +1,9 @@
 import { AnyFn } from '../types'
-
 /**
  * @class
  * @classdesc new对象时可传入计数
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
  * @example
  * const counter = new Counter(60, () => {})
  * counter.start() 开始计时(可传入回调函数，返回当前计数)

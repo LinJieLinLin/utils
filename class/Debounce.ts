@@ -1,8 +1,9 @@
 import { AnyFn } from '../types'
-
 /**
  * @class
- * @classdesc 函数抖动
+ * @classdesc 处理函数抖动
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
  * @example  const db = new.Debounce(回调函数,等待时间,...回调函数的参数)
  */
 class Debounce {

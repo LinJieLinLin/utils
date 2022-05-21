@@ -1,6 +1,7 @@
 /**
  * @module
- * @author linj
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
  * @description 需安装crypto-js依赖，小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
  */
 import CryptoJS from 'crypto-js'

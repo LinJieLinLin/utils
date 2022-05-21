@@ -1,3 +1,10 @@
+/**
+ * @module index
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
+ * @description no
+ */
+
 import { safeData } from './data'
 import { isJson } from './is'
 import { Info } from './types'
@@ -73,6 +80,8 @@ export const getRegexp = (): object => {
       /^([\u4e00-\u9fa5]{1,50}|[\u4e00-\u9fa5]{1,25}[\s][\u4e00-\u9fa5]{1,24}|[a-zA-Z_\-.]{1,50}|[a-zA-Z_\-.]{1,25}[\s][a-zA-Z_\-.]{1,24})$/,
     // 匹配中文
     cn: /^[\u4e00-\u9fa5]*$/,
+    // 匹配ASCII,非中文之外的字符
+    ascii: /^[\x20-\x7E]+$/,
   }
 }
 

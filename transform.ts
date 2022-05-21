@@ -1,7 +1,8 @@
 /**
- * 类型转换相关处理
  * @module index
- * @author linj
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
+ * @description 类型转换相关处理
  */
 
 import { toFixed } from './data'

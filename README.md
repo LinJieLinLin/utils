@@ -1,24 +1,33 @@
-# utils
+# lj-utils
 
 ## 介绍
 
-lj-utils 为本人整理的一些公共 JS,DOC:
+lj-utils 为本人整理的
+lj-utils/index:公共 JS,
+lj-utils/microApi:uniapp、小程序相关
+lj-utils/mixins:vue mixins
+lj-utils/class:class
+lj-utils/hook:vue3 hook
 
-> github [https://github.com/LinJieLinLin/utils](https://github.com/LinJieLinLin/utils)
-> gitee [https://gitee.com/uni-pro/utils](https://gitee.com/uni-pro/utils)
+## 仓库
 
-## 安装教程
+### github [https://github.com/LinJieLinLin/utils](https://github.com/LinJieLinLin/utils)
 
-1. npm i lj-utils
-2. yarn add lj-utils
-3. clone 本仓库到项目内
-4. 按需 import 引入，如import {sleep} from 'lj-utils/index'，用多少引多少
+### gitee [https://gitee.com/uni-pro/utils](https://gitee.com/uni-pro/utils)
 
-## 使用说明
+## 安装教程(npm/yarn/pnpm)
 
-> 在线访问 latest： [https://linjielinlin.github.io/utils/lj-utils/index.html](https://linjielinlin.github.io/utils/lj-utils/index.html)
-> 或在线访问 [http://lj4.top/lj-utils/index.html](http://lj4.top/lj-utils/index.html)
-> 若编译失败，在 vue.config.js 添加：
+- npm i lj-utils
+- yarn add lj-utils
+- pnpm i lj-utils
+
+## 使用说明,按需 import 引入，如import {sleep} from 'lj-utils/index'/'lj-utils/microApi'...,根据文档用多少引多少
+
+### 在线访问 latest： [https://linjielinlin.github.io/utils/lj-utils/index.html](https://linjielinlin.github.io/utils/lj-utils/index.html)
+
+### 或在线访问 [http://lj4.top/utils/lj-utils/index.html](http://lj4.top/lj-utils/index.html)
+
+### 若编译失败，在 vue.config.js 添加以下代码
 
 ``` js
 transpileDependencies: ['lj-utils'],

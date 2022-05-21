@@ -4,6 +4,7 @@ import { P } from '../../microApi'
  * @class
  * @classdesc 小程序canvas海报处理
  */
+
 class CanvasClass {
   scale = 4
   ctx = 0

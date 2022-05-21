@@ -1,6 +1,8 @@
 /**
  * @class
- * @classdesc 函数节流
+ * @classdesc 处理函数节流
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
  * @example  const tr = new.Throttle(回调函数,等待时间,...回调函数的参数)
  */
 class Throttle {
