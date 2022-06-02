@@ -21,7 +21,6 @@ import { AnyFn, AppConfig, Bool, Info, UploadFile } from './types'
 import { getInfo } from './base'
 import { AnyObject } from './types'
 import { getEnv, getUrlParamObj } from './data'
-// let frame = ''
 let app: AnyObject = {}
 let appConfig: AppConfig = {
   localEncrypt: false,
@@ -33,13 +32,10 @@ isH5 = true
 // #endif
 if (typeof uni !== 'undefined') {
   app = uni
-  // frame = 'uni'
 } else if (typeof taro !== 'undefined') {
   app = taro
-  // frame = 'taro'
 } else if (typeof wx !== 'undefined') {
   app = wx
-  // frame = 'wx'
 }
 // 初始化loading
 const L = new Loading(() => {
@@ -87,7 +83,12 @@ export const init = (argConfig?: AppConfig) => {
  * @function
  */
 export const getDb = () => {
-  return ljCloud.database && ljCloud.database()
+  if (ljCloud.database) {
+    return ljCloud.database()
+  } else {
+    console.debug('ljCloud.database() is undefined')
+    return {}
+  }
 }
 /**
  * @description 显示loading
@@ -1156,6 +1157,65 @@ export const refresh = () => {
   nowPage.onReady && nowPage.onReady()
   nowPage.onShow && nowPage.onShow()
 }
+
+interface GetDomOptions {
+  id?: boolean
+  dataset?: boolean
+  rect?: boolean
+  size?: boolean
+  scrollOffset?: boolean
+  computedStyle?: any[]
+  context?: boolean
+  properties?: any[]
+}
+/**
+ * @description: 获取dom节点相关信息
+ * @param {object}  argThis: 当前this,
+ * @param {string} argId id/class
+ * @param {Boolean} getAll 是否获取全部 true时，返回数组
+ * @param {object} argOptions 修改默认返回具体参考：https://uniapp.dcloud.io/api/ui/nodes-info?id=nodesreffields
+ * @return: object/array
+ */
+export const getDom = async (
+  argThis: any,
+  argId: string,
+  getAll: Bool = false,
+  argOptions?: GetDomOptions
+) => {
+  let temOptions: GetDomOptions = {
+    id: true,
+    dataset: true,
+    rect: true,
+    size: true,
+    scrollOffset: true,
+    computedStyle: [],
+    context: true,
+    properties: [],
+  }
+  if (isH5) {
+    delete temOptions.properties
+  }
+  if (argOptions) {
+    Object.assign(temOptions, argOptions)
+  }
+  return new Promise((resolve, rejects) => {
+    let nodesRef
+    let temDom = uni.createSelectorQuery().in(argThis)
+    nodesRef = temDom[getAll ? 'selectAll' : 'select'](argId)
+    nodesRef
+      .fields(temOptions, (res) => {
+        if (getAll && Array.isArray(res) && res.length) {
+          resolve(res)
+        }
+        if (!getAll && res) {
+          resolve(res)
+        }
+        rejects(res)
+      })
+      .exec()
+  })
+}
+
 /**
  * @param {AnyObject} App 返回 uni/wx/taro实例
  */
