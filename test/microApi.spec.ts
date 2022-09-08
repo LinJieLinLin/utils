@@ -12,7 +12,7 @@ describe('microApi', () => {
   })
   it('getDb', function () {
     const fn = j.getDb
-    expect(typeof fn()).toBe('undefined')
+    expect(typeof fn()).toBe('object')
   })
   it('showLoading', function () {
     const fn = j.showLoading
