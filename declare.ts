@@ -6,3 +6,5 @@
 declare const taro: any
 declare const wx: any
 declare const uniCloud: any
+declare const getCurrentPages: any
+declare const uni: any

@@ -5,7 +5,7 @@
  * @description 类字符串/参数处理
  */
 
-import { Bool } from './types'
+import { AnyObject, Bool } from './types'
 
 let ENV: AnyObject = {}
 let DATA_OBJECT: AnyObject = {}

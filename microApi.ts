@@ -1203,7 +1203,7 @@ export const getDom = async (
     let temDom = uni.createSelectorQuery().in(argThis)
     nodesRef = temDom[getAll ? 'selectAll' : 'select'](argId)
     nodesRef
-      .fields(temOptions, (res) => {
+      .fields(temOptions, (res: any) => {
         if (getAll && Array.isArray(res) && res.length) {
           resolve(res)
         }
