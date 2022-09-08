@@ -38,6 +38,8 @@
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
     "docdash": "^1.2.0",
+    "esbuild": "^0.15.7",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^7.0.0",
     "jest": "^27.5.1",
     "jest-html-reporters": "^3.0.6",

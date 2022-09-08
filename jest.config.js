@@ -3,6 +3,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   coverageDirectory: 'coverage',
+  transform: {
+    '^.+\\.ts?$': 'esbuild-jest',
+  },
   moduleNameMapper: {
     '@/([^\\.]*)$': '<rootDir>/$1',
   },
