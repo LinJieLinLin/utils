@@ -44,7 +44,7 @@
     "collapse": false,
     "typedefs": true,
     "removeQuotes": "none",
-    "scripts": [],
+    "scripts": ["scripts/baidu.js"],
     "menu": {
       "Github repo": {
         "href": "https://github.com/LinJieLinLin/utils",

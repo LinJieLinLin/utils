@@ -17,7 +17,7 @@
     "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf package.json *.md ./build/ &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
     "testWatch": "jest ./test/microApi.spec.ts --watch --reporters=\"default\" ",
-    "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/",
+    "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/ && cp static/baidu.js dist/lj-utils/scripts/baidu.js",
     "build": "npm run b&&npm run doc&&npm run test",
     "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
     "z": "npm version patch",
