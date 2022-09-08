@@ -454,3 +454,22 @@ export const setLog = (logLevel?: string | number, logConfig?: AnyObject) => {
   }
   // return log
 }
+
+/**
+ * map 转为 list，list item 具体是什么取决于传入的 getItem 函数
+ * @param map
+ * @param getItem
+ * @return getItem()[]
+ */
+export function toList<V, K extends string, Item>(
+  map: Record<K, V>,
+  getItem: (key: K, value: V) => Item
+) {
+  const list = [] as Item[]
+  Object.keys(map).forEach((key: any) => {
+    // @ts-ignore, trust me.
+    const item = getItem(key, map[key])
+    list.push(item)
+  })
+  return list
+}
