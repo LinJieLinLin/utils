@@ -14,4 +14,10 @@ describe('is', () => {
     const fn = j.isFile
     expect(fn(1)).toBe(false)
   })
+  it('isIdCard', function () {
+    const fn = j.isIdCard
+    expect(fn('440921199909099999')).toBe(false)
+    expect(fn('4409211999090999ab')).toBe(false)
+    expect(fn('110101199003070')).toBe(false)
+  })
 })

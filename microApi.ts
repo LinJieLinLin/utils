@@ -526,9 +526,10 @@ export const toPage = (
           })
           return
         }
-        app.navigateTo({
-          url: temUrl,
-        })
+        app.navigateTo &&
+          app.navigateTo({
+            url: temUrl,
+          })
         break
     }
   }

@@ -189,6 +189,7 @@ export const setCookie = (
 export const delCookie = (argName: string = '') => {
   setCookie(argName, '', -1)
 }
+
 /**
  * @function
  * @description 检测浏览器状态，系统状态 *

@@ -47,10 +47,10 @@ describe('microApi', () => {
     const fn = j.setTitle
     expect(fn('title')).toBe(undefined)
   })
-  // it('toPage', function () {
-  //   const fn = j.toPage
-  //   expect(fn('title')).toBe(undefined)
-  // })
+  it('toPage', function () {
+    const fn = j.toPage
+    expect(fn('title')).toBe(undefined)
+  })
   it('getCurrentPage', function () {
     const fn = j.getCurrentPage
     expect(fn()).toStrictEqual({})

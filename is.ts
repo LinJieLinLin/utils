@@ -12,6 +12,7 @@
  */
 export const isPrime = (argValue: number): boolean =>
   !/^.?$|^(..+?)\1+$/.test('.'.repeat(argValue))
+
 /**
  * @function
  * @description 判断是否是JSON
@@ -43,6 +44,7 @@ export const isBlob = (argData: any): boolean => {
 export const isFile = (argData: any): boolean => {
   return argData instanceof File
 }
+
 /**
  * @function
  * @description 是否为正确的身份证号码

@@ -3,6 +3,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   coverageDirectory: 'coverage',
+  // 当句柄未正常关闭，显式报错
+  detectOpenHandles: true,
+  forceExit: true,
   transform: {
     '^.+\\.ts?$': 'esbuild-jest',
   },
@@ -20,6 +23,7 @@ module.exports = {
       },
     ],
   ],
+  collectCoverage: true,
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
   coverageProvider: 'v8',
   moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
