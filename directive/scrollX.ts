@@ -6,14 +6,14 @@
  * @description: 盒子滚动条拖拽用于父节点
  */
 const on = (function () {
-  if (document.addEventListener) {
-    return function (el, event, handler) {
+  if (typeof document.addEventListener === 'function') {
+    return function (el: any, event: string, handler: any) {
       if (el && event && handler) {
         el.addEventListener(event, handler, false)
       }
     }
   } else {
-    return function (el, event, handler) {
+    return function (el: any, event: string, handler: any) {
       if (el && event && handler) {
         el.attachEvent('on' + event, handler)
       }
@@ -22,14 +22,14 @@ const on = (function () {
 })()
 
 const off = (function () {
-  if (document.removeEventListener) {
-    return function (el, event, handler) {
+  if (typeof document.removeEventListener === 'function') {
+    return function (el: any, event: string, handler: any) {
       if (el && event) {
         el.removeEventListener(event, handler, false)
       }
     }
   } else {
-    return function (el, event, handler) {
+    return function (el: any, event: string, handler: any) {
       if (el && event) {
         el.detachEvent('on' + event, handler)
       }
@@ -38,7 +38,7 @@ const off = (function () {
 })()
 
 let targetDrag = {
-  // 托拽
+  // 拖拽
   isDown: false,
   position: {
     x: 0,
@@ -47,7 +47,7 @@ let targetDrag = {
 }
 
 // x轴拖动回调 鼠标按下
-const scrollMousedown = (event) => {
+const scrollMousedown = (event: any) => {
   targetDrag.isDown = true
   targetDrag.position.x = event.pageX
   targetDrag.position.y = event.pageY
@@ -67,13 +67,13 @@ const scrollMousemove = () => {
 }
 
 const scrollX = {
-  bind: function (el) {
+  bind: function (el: any) {
     // 鼠标按下
     on(el, 'mousedown', scrollMousedown)
     // 鼠标释放
     on(el, 'mouseup', scrollMouseup)
     // 鼠标拖拽
-    on(el, 'mousemove', (event) => {
+    on(el, 'mousemove', (event: any) => {
       let moveX = targetDrag.position.x - event.pageX
       // let moveY = targetDrag.position.y - event.pageY
       targetDrag.position.x = event.pageX
@@ -84,7 +84,7 @@ const scrollX = {
       }
     })
   },
-  unbind: function (el) {
+  unbind: function (el: any) {
     off(el, 'mousedown', scrollMousedown)
     off(el, 'mouseup', scrollMouseup)
     off(el, 'mousemove', scrollMousemove)

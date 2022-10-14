@@ -1,22 +1,30 @@
-import { sleep } from '../../base'
-import { P } from '../../microApi'
 /**
  * @class
  * @classdesc 小程序canvas海报处理
  */
 
+import { sleep } from '../base'
+import { P } from '../microApi'
+import { AnyObject } from '../types'
 class CanvasClass {
   scale = 4
-  ctx = 0
+  ctx: AnyObject = {}
   width = 300
   height = 300
   basicWidth = 375
   /**
    * @description:
    * @param {object} argCtx canvas上下文
-   * @return {class}
+   * @param {number} argWidth canvas宽度
+   * @param {number} argBasicWidth 基准宽度
+   * @param {number} argScale canvas缩放比例
    */
-  constructor(argCtx, argWidth = 300, argBasicWidth = 375, argScale = 4) {
+  constructor(
+    argCtx: AnyObject,
+    argWidth: number = 300,
+    argBasicWidth: number = 375,
+    argScale: number = 4
+  ) {
     this.ctx = argCtx
     this.width = argWidth
     this.scale = argScale
@@ -30,11 +38,26 @@ class CanvasClass {
    * @param {number} argData
    * @return {number} 返回计算好的值
    */
-  getScale(argData) {
+  getScale(argData: number): number {
     const temData = (argData / this.basicWidth) * this.width
     return Math.round(temData) || 0
   }
-  fillText(argText, argX, argY, argMaxWidth, argIsVertical) {
+  /**
+   * @description: 填空文本
+   * @param {string} argText
+   * @param {number} argX
+   * @param {number} argY
+   * @param {number} argMaxWidth
+   * @param {number} argIsVertical
+   * @return {this} 返回class
+   */
+  fillText(
+    argText: string,
+    argX: number,
+    argY: number,
+    argMaxWidth: number,
+    argIsVertical: number
+  ): this {
     if (argX) {
       this.getScale(argX)
     }
@@ -56,7 +79,11 @@ class CanvasClass {
     }
     return this
   }
-  drawImage(...argData) {
+  /**
+   * @description: 填空图片
+   * @return {this} 返回class
+   */
+  drawImage(...argData: any[]): this {
     argData = argData.map((v) => {
       if (typeof v === 'number') {
         v = this.getScale(v)
@@ -93,24 +120,18 @@ class CanvasClass {
     return this
   }
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: 填空图片
+   * @param {number} argW
+   * @param {number} argH
+   * @param {string} argFileType
+   * @return {any} 返回生成的图片
    */
-  async draw(argIsCreate, argW, argH, argFileType) {
-    return new Promise((resolve, reject) => {
-      this.ctx.draw(true, async () => {
-        if (!argIsCreate) {
-          return resolve()
-        }
-        await sleep(1000)
-        const poster = await this.creatPoster(argW, argH, argFileType)
-        return resolve(poster)
-      })
-    })
-  }
-  async creatPoster(argW, argH, argFileType = 'jpg') {
-    let error
+  async createPoster(
+    argW: number,
+    argH: number,
+    argFileType: string = 'jpg'
+  ): Promise<any> {
+    let error = ''
     const imgRes = await P('canvasToTempFilePath', {
       x: 0,
       y: 0,
@@ -128,6 +149,31 @@ class CanvasClass {
       return Promise.reject(error)
     }
     return imgRes.tempFilePath
+  }
+  /**
+   * @description: 生成海报
+   * @param {boolean} argIsCreate 是否已生成
+   * @param {number} argW 是否已生成
+   * @param {number} argH 是否已生成
+   * @param {string} argFileType 生成的文件类型
+   * @return {any} 返回生成的图片
+   */
+  async draw(
+    argIsCreate: any,
+    argW: any,
+    argH: any,
+    argFileType: string = 'jpg'
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.ctx.draw(true, async () => {
+        if (!argIsCreate) {
+          return resolve('')
+        }
+        await sleep(1000)
+        const poster = await this.createPoster(argW, argH, argFileType)
+        return resolve(poster)
+      })
+    })
   }
 }
 export default CanvasClass
