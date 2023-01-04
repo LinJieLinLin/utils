@@ -1,4 +1,5 @@
 /*
+import scrollX from './scrollX';
  * @module
  * @author: linj
  * @email: 993353454@qq.com
@@ -66,37 +67,43 @@ const scrollMousemove = () => {
   // todo
 }
 
-const scrollX = {
-  bind: function (el: any) {
-    // 鼠标按下
-    on(el, 'mousedown', scrollMousedown)
-    // 鼠标释放
-    on(el, 'mouseup', scrollMouseup)
-    // 鼠标拖拽
-    on(el, 'mousemove', (event: any) => {
-      let moveX = targetDrag.position.x - event.pageX
-      // let moveY = targetDrag.position.y - event.pageY
-      targetDrag.position.x = event.pageX
-      // targetDrag.position.y = event.pageY
-      if (targetDrag.isDown) {
-        el.scrollLeft = el.scrollLeft + moveX
-        // el.scrollTop = el.scrollTop + moveY
-      }
-    })
-  },
-  unbind: function (el: any) {
-    off(el, 'mousedown', scrollMousedown)
-    off(el, 'mouseup', scrollMouseup)
-    off(el, 'mousemove', scrollMousemove)
-    // 清空
-    targetDrag = {
-      // 拖拽
-      isDown: false,
-      position: {
-        x: 0,
-        y: 0,
-      },
+const mounted = function (el: any) {
+  // 鼠标按下
+  on(el, 'mousedown', scrollMousedown)
+  // 鼠标释放
+  on(el, 'mouseup', scrollMouseup)
+  // 鼠标拖拽
+  on(el, 'mousemove', (event: any) => {
+    let moveX = targetDrag.position.x - event.pageX
+    // let moveY = targetDrag.position.y - event.pageY
+    targetDrag.position.x = event.pageX
+    // targetDrag.position.y = event.pageY
+    if (targetDrag.isDown) {
+      el.scrollLeft = el.scrollLeft + moveX
+      // el.scrollTop = el.scrollTop + moveY
     }
-  },
+  })
+}
+
+const beforeUnmount = function (el: any) {
+  off(el, 'mousedown', scrollMousedown)
+  off(el, 'mouseup', scrollMouseup)
+  off(el, 'mousemove', scrollMousemove)
+  // 清空
+  targetDrag = {
+    // 拖拽
+    isDown: false,
+    position: {
+      x: 0,
+      y: 0,
+    },
+  }
+}
+const scrollX = {
+  mounted,
+  beforeUnmount,
+  // for vue2
+  bind: mounted,
+  unbind: beforeUnmount,
 }
 export default scrollX
