@@ -6,3 +6,4 @@
 /yarn.lock
 /build
 pnpm-lock.yaml
+/static/node_modules
