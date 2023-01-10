@@ -7,7 +7,7 @@
 
 import { safeData } from './data'
 import { isJson } from './is'
-import { Info } from './types'
+import { Info, AnyObject } from './types'
 
 /**
  * @module index
@@ -15,9 +15,9 @@ import { Info } from './types'
  * @description 公共函数，使用'lj-utils'引入
  */
 let isOnline: boolean = true
-// #ifdef H5
 // 断网监听
 if (globalThis && globalThis.addEventListener) {
+  // #ifdef H5
   globalThis.addEventListener('offline', function () {
     console.debug('offLine')
     isOnline = false
@@ -26,8 +26,9 @@ if (globalThis && globalThis.addEventListener) {
     console.debug('onLine')
     isOnline = true
   })
+  // #endif
 }
-// #endif
+
 /**
  * @function
  * @description 获取当前网络状态（H5）
@@ -41,7 +42,7 @@ export const getNetworkStatus = () => {
  * @description 正则收集
  * @returns {object}
  */
-export const getRegexp = (): object => {
+export const getRegexp = (): AnyObject => {
   return {
     // 匹配html标签，提取html文字： htmlCode.replace(reg.html,'')
     html: /<[^>]+>/gim,

@@ -6,7 +6,7 @@
 import { sleep } from '../base'
 import { P } from '../microApi'
 import { AnyObject } from '../types'
-class CanvasClass {
+export class CanvasClass {
   scale = 4
   ctx: AnyObject = {}
   width = 300

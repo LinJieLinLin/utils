@@ -21,15 +21,23 @@ import { AnyFn, AppConfig, Bool, Info, UploadFile } from './types'
 import { getInfo } from './base'
 import { AnyObject } from './types'
 import { getEnv, getUrlParamObj } from './data'
+
+declare var uni: any
+declare var wx: any
+declare var taro: any
+declare var uniCloud: any
+declare var getCurrentPages: any
+
 let app: AnyObject = {}
 let appConfig: AppConfig = {
   localEncrypt: false,
 }
-let ljCloud: AnyObject = {}
 let isH5 = false
 // #ifdef  H5
 isH5 = true
 // #endif
+let ljCloud: AnyObject = {}
+
 if (typeof uni !== 'undefined') {
   app = uni
 } else if (typeof taro !== 'undefined') {

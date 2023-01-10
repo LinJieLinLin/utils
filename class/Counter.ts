@@ -9,7 +9,7 @@ import { AnyFn } from '../types'
  * counter.start() 开始计时(可传入回调函数，返回当前计数)
  * counter.stop() 停止计时
  */
-class Counter {
+export class Counter {
   count = 0
   maxCount = 0
   #timer: any

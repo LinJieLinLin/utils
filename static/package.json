@@ -1,0 +1,41 @@
+{
+  "name": "lj-utils",
+  "version": "0.0.1",
+  "description": "uni-app utils",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "keywords": [
+    "utils",
+    "uni-app",
+    "js",
+    "vue"
+  ],
+  "author": "linjielinlin",
+  "email": "993353454@qq.com",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "js-base64": "^3.7.2"
+  },
+  "devDependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "engineStrict": true,
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/uni-pro/utils.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}

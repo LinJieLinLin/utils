@@ -7,7 +7,7 @@ import { AnyFn, Bool } from '../types'
  * @example  const L = new.Loading(argShow,argHide,300) L.loading(1)/L.loading(0) = L.show()/L.hide() *
  */
 
-class Loading {
+export class Loading {
   // 请求数
   loadNum = 0
   #delay = 300

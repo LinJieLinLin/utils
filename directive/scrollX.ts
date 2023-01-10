@@ -99,7 +99,7 @@ const beforeUnmount = function (el: any) {
     },
   }
 }
-const scrollX = {
+export const scrollX = {
   mounted,
   beforeUnmount,
   // for vue2

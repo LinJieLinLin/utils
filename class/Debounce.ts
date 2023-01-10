@@ -6,7 +6,7 @@ import { AnyFn } from '../types'
  * @date 2022-05-11 22:07:43
  * @example  const db = new.Debounce(回调函数,等待时间,...回调函数的参数)
  */
-class Debounce {
+export class Debounce {
   #timer: any
   /**
    * @function

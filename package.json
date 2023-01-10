@@ -3,6 +3,7 @@
   "version": "0.2.4",
   "description": "uni-app utils",
   "main": "./index.ts",
+  "module": "./index.ts",
   "keywords": [
     "utils",
     "uni-app",
@@ -13,7 +14,11 @@
   "email": "993353454@qq.com",
   "license": "MIT",
   "private": false,
+  "type": "module",
   "scripts": {
+    "rollup": "rollup -c",
+    "setVersion": "node --experimental-json-modules --no-warnings changeVersion.js",
+    "rb": "rm -rf build/* && rollup -c && cp -rf ./static/* ./build && cp -rf *.md types.ts ./build/ && npm run setVersion",
     "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf package.json *.md ./build/ &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
     "testWatch": "jest ./test/microApi.spec.ts --watch --reporters=\"default\" ",
@@ -44,6 +49,10 @@
     "jest": "^27.5.1",
     "jest-html-reporters": "^3.0.11",
     "jsdoc": "^3.6.11",
+    "rollup-plugin-dts": "^5.1.1",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript": "^1.0.1",
     "ts-jest": "^27.1.5",
     "typescript": "^4.8.4"
   },
@@ -88,6 +97,7 @@
       "taro": true,
       "uni": true,
       "wx": true,
+      "getCurrentPages": true,
       "uniCloud": true
     }
   }
