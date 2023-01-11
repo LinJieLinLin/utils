@@ -19,12 +19,12 @@
     // 导出声明目录
     "declarationDir": "./build",
     "outDir": "./build",
-    "rootDir": "./",
+    "rootDir": "./src",
     // 如果指定，则只有列出的包才会包含在全局作用域中
     // "types": ["node", "jest", "@dcloudio/types"],
     "lib": ["esnext", "dom"]
   },
-  "include": ["./**/*.ts", "mixins/*.js"],
+  "include": ["./src/**/*.ts", "./src/*.ts"],
   "exclude": ["./test/**/*", "./build/**/*", "./node_modules/**/*"],
   // typeDoc https://typedoc.org/
   "typedocOptions": {

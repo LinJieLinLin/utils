@@ -1,5 +1,8 @@
-import typescript from 'rollup-plugin-typescript'
-import dts from 'rollup-plugin-dts'
+// import typescript from 'rollup-plugin-typescript'
+// import dts from 'rollup-plugin-dts'
+const typescript = require('rollup-plugin-typescript')
+const dts = require('rollup-plugin-dts')
+
 // import { terser } from 'rollup-plugin-terser'
 const outputPath = './build'
 const getDts = (name) => {
@@ -16,12 +19,8 @@ const getDts = (name) => {
 }
 export default [
   {
-    input: './index.ts',
+    input: './src/index.ts',
     output: [
-      {
-        file: outputPath + '/index.js',
-        format: 'es',
-      },
       {
         file: outputPath + '/index.cjs',
         format: 'cjs',
@@ -35,57 +34,8 @@ export default [
       // 压缩
       // terser(),
     ],
-  },
-  {
-    input: './microApi.ts',
-    output: [
-      {
-        file: outputPath + '/microApi.js',
-        format: 'es',
-      },
-    ],
-    plugins: [
-      typescript({
-        exclude: 'node_modules/**',
-        typescript: require('typescript'),
-      }),
-    ],
-    external: ['js-base64'],
-  },
-  {
-    input: './class/index.ts',
-    output: [
-      {
-        file: outputPath + '/class/index.js',
-        format: 'es',
-      },
-    ],
-    plugins: [
-      typescript({
-        exclude: 'node_modules/**',
-        typescript: require('typescript'),
-      }),
-    ],
-    external: ['js-base64'],
-  },
-  {
-    input: './types.ts',
-    output: [
-      {
-        file: outputPath + '/types.js',
-        format: 'es',
-      },
-    ],
-    plugins: [
-      typescript({
-        exclude: 'node_modules/**',
-        typescript: require('typescript'),
-      }),
-    ],
+    // sourcemap: true,
   },
   // d.ts
-  getDts('index'),
-  getDts('microApi'),
-  getDts('class/index'),
-  getDts('types'),
+  // getDts('index'),
 ]

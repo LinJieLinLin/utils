@@ -4,7 +4,7 @@
  * @Date: 2022-04-16 20:52:48
  * @description: no
  */
-import * as j from '../microApi'
+import * as j from '../src/microApi'
 describe('microApi', () => {
   it('init', function () {
     const fn = j.init

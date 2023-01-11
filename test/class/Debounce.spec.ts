@@ -16,8 +16,8 @@
  * @Date: 2022-04-13 09:29:53
  * @description: no
  */
-import Debounce from '../../class/Debounce'
-import { sleep } from '../../base'
+import Debounce from '../../src/class/Debounce'
+import { sleep } from '../../src/base'
 describe('Debounce', () => {
   it('Debounce', async function () {
     const db = new Debounce()

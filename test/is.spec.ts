@@ -1,4 +1,4 @@
-import * as j from '../is'
+import * as j from '../src/is'
 describe('is', () => {
   it('isJson', function () {
     const fn = j.isJson

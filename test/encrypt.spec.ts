@@ -4,8 +4,9 @@
  * @Date: 2022-04-12 16:34:42
  * @description: no
  */
-import * as j from '../encrypt/crypto'
-import * as base64 from '../encrypt/base64'
+import * as j from '../src/encrypt/crypto'
+// import * as b from '../src/encrypt/base64'
+
 describe('encrypt', () => {
   it('md5', function () {
     const fn = j.md5
@@ -14,12 +15,12 @@ describe('encrypt', () => {
   it('enBase64', function () {
     const fn = j.enBase64
     expect(fn('1')).toBe('MQ==')
-    expect(base64.enBase64('1')).toBe('MQ==')
+    // expect(b.enBase64('1')).toBe('MQ==')
   })
   it('deBase64', function () {
     const fn = j.deBase64
     expect(fn('MQ==')).toBe('1')
-    expect(base64.deBase64('MQ==')).toBe('1')
+    // expect(b.deBase64('MQ==')).toBe('1')
   })
   it('encode', function () {
     const fn = j.encode

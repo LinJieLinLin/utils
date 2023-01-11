@@ -4,8 +4,10 @@
  * @Date: 2022-04-12 11:20:33
  * @description: no
  */
-import * as j from '../index'
-import { isBlob } from '../is'
+import * as j from '../src/index'
+import { isBlob } from '../src/is'
+import { jest } from '@jest/globals'
+
 describe('file', () => {
   beforeEach(() => {
     global.URL.createObjectURL = jest.fn((blob): string => {
@@ -20,7 +22,9 @@ describe('file', () => {
   })
   it('blobUrlToFileMock', async function () {
     const fn = j.blobUrlToFile
-    global.URL.createObjectURL = jest.fn()
+    global.URL.createObjectURL = jest.fn((blob): string => {
+      return String(blob)
+    })
     expect(fn(URL.createObjectURL(new Blob(['1'])))).resolves.toBe({})
   })
   it('dataURLtoBlob', function () {

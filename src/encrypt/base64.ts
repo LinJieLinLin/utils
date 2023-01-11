@@ -5,7 +5,7 @@
  * @description base64加解密
  */
 
-import { Base64 } from 'js-base64'
+import { encode as en, decode as de } from 'js-base64'
 /**
  * @function
  * @description base64 加密
@@ -14,7 +14,7 @@ import { Base64 } from 'js-base64'
  */
 export const enBase64 = (argData: string | number): string => {
   argData = argData || ''
-  var base64 = Base64.encode(argData.toString())
+  var base64 = en(argData.toString())
   return base64
 }
 /**
@@ -26,7 +26,7 @@ export const enBase64 = (argData: string | number): string => {
 export const deBase64 = (argData: string): string => {
   try {
     argData = argData || ''
-    var base64 = Base64.decode(argData)
+    var base64 = de(argData)
     return base64
   } catch {
     return ''

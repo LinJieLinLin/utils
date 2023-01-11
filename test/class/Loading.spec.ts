@@ -4,8 +4,8 @@
  * @Date: 2022-04-13 09:29:53
  * @description: no
  */
-import Loading from '../../class/Loading'
-import { sleep } from '../../base'
+import Loading from '../../src/class/Loading'
+import { sleep } from '../../src/base'
 describe('Loading', () => {
   it('Loading', async function () {
     let loadTime = 0

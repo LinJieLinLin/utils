@@ -4,7 +4,7 @@
  * @Date: 2022-04-11 22:51:15
  * @description: no
  */
-import * as j from '../base'
+import * as j from '../src/base'
 describe('base', () => {
   it('getRegexp', function () {
     const regexp = j.getRegexp()

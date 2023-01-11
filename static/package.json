@@ -2,7 +2,7 @@
   "name": "lj-utils",
   "version": "0.0.1",
   "description": "uni-app utils",
-  "main": "./index.js",
+  "main": "./index.cjs",
   "module": "./index.js",
   "types": "./index.d.ts",
   "keywords": [
@@ -19,7 +19,7 @@
   "scripts": {},
   "dependencies": {
     "crypto-js": "^4.1.1",
-    "js-base64": "^3.7.2"
+    "js-base64": "^3.7.4"
   },
   "devDependencies": {},
   "browserslist": [

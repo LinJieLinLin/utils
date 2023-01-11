@@ -4,8 +4,8 @@
  * @Date: 2022-04-13 09:29:53
  * @description: no
  */
-import Counter from '../../class/Counter'
-import { sleep } from '../../base'
+import Counter from '../../src/class/Counter'
+import { sleep } from '../../src/base'
 describe('Debounce', () => {
   it('Counter', async function () {
     const cbFn = (count: number) => {

@@ -4,8 +4,8 @@
  * @Date: 2022-04-13 09:29:53
  * @description: no
  */
-import Throttle from '../../class/Throttle'
-import { sleep } from '../../base'
+import Throttle from '../../src/class/Throttle'
+import { sleep } from '../../src/base'
 describe('Throttle', () => {
   it('Throttle', async function () {
     const tr = new Throttle()

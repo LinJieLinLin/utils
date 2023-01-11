@@ -1,14 +1,12 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  coverageDirectory: 'coverage',
+  coverageDirectory: './dist/cove',
   // 当句柄未正常关闭，显式报错
   detectOpenHandles: true,
   forceExit: true,
-  transform: {
-    '^.+\\.ts?$': 'esbuild-jest',
-  },
+  transform: {},
   moduleNameMapper: {
     '@/([^\\.]*)$': '<rootDir>/$1',
   },
@@ -23,8 +21,14 @@ module.exports = {
       },
     ],
   ],
+  extensionsToTreatAsEsm: ['.ts'],
+  globals: {
+    'ts-jest': {
+      useESM: true,
+    },
+  },
   collectCoverage: true,
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
   coverageProvider: 'v8',
-  moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
+  moduleFileExtensions: ['js', 'mjs', 'json', 'jsx', 'ts', 'tsx', 'node'],
 }
