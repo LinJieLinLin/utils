@@ -4,7 +4,6 @@
     "target": "es6",
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
     "module": "es6",
     "moduleResolution": "node",
     "strict": true,
@@ -17,7 +16,6 @@
     },
     // 导出声明
     "declaration": true,
-    "emitDeclarationOnly": true,
     // 导出声明目录
     "declarationDir": "./build",
     "outDir": "./build",
