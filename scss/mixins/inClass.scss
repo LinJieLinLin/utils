@@ -1,0 +1,161 @@
+@use 'sass:color';
+
+/**
+* [iCB clear both清除浮动]
+* @param  {[type]} $old:false [true为生成兼容低版本的浏览器]
+* @return {[type]}            [description]
+*/
+
+@mixin iCB($old: false) {
+  @if $old {
+    &:before,
+    &:after {
+      content: '';
+      display: table;
+      font: 0/0;
+    }
+  } @else {
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}
+
+/**
+* [iBtnBgColor 设置btn背景加hover,active时变亮变暗]
+* @param  {[type]} $color:gray     [初始颜色]
+* @param  {[type]} $type:1         [=0使用传入的颜色，>1变亮，<1变暗]
+* @param  {[type]} $hover:2        [hover颜色或百分比]
+* @param  {[type]} $active:10      [active颜色或百分比]
+* @param  {[type]} $time:1         [动画时间 eg:0.3s]
+* @param  {[type]} $animation:1    [动画属性 eg: ease]
+* @return {[type]}             [description]
+*/
+
+@mixin iBtnBgColor(
+  $color: gray,
+  $type: -1,
+  $hover: 2,
+  $active: 8,
+  $time: 0.3s,
+  $animation: ease
+) {
+  background-color: $color;
+  &:hover {
+    @if $type==0 {
+      background-color: $color;
+    }
+    @if $type>0 {
+      background-color: color.adjust($color, $lightness: $hover + 0%);
+    }
+    @if $type<0 {
+      background-color: color.adjust($color, $lightness: -$hover + 0%);
+    }
+    transition: all $time $animation;
+  }
+  &:active {
+    @if $type==0 {
+      background-color: $color;
+    }
+    @if $type>0 {
+      background-color: color.adjust($color, $lightness: $active + 0%);
+    }
+    @if $type<0 {
+      background-color: color.adjust($color, $lightness: -$active + 0%);
+    }
+  }
+}
+
+@mixin iFlex($k: flex) {
+  @if $k==flex {
+    display: flex;
+  } @else if $k==flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  } @else if $k==flex-column {
+    display: flex;
+    flex-direction: column;
+  } @else if $k==flex-center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  } @else if $k==flex-middle {
+    display: flex;
+    align-items: center;
+  } @else if $k==flex-column-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  } @else if $k==flex-column-around {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  } @else if $k==flex-row-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  } @else if $k==flex-row-around {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+/* *
+* class内设置border,
+* eg: @include iBorder(f,1,solid,#ccc)
+* @param  $type:f     [类型: f:full, t:top, r:right, b:bottom, l:left]
+* @param  $width:1    [宽度]
+* @param  $style:solid [样式：solid,dashed,dotted,double,groove,ridge,inset,outset]
+* @param  $c:#c7c7c7 [颜色]
+* @param  $util:px   [单位]
+* */
+@mixin iBorder($type: f, $width: 1, $style: solid, $c: #c7c7c7, $util: px) {
+  @if $type==f {
+    border: $width + $util $style $c;
+  } @else if $type==t {
+    border-top: $width + $util $style $c;
+  } @else if $type==b {
+    border-bottom: $width + $util $style $c;
+  } @else if $type==l {
+    border-left: $width + $util $style $c;
+  } @else if $type==r {
+    border-right: $width + $util $style $c;
+  } @else if $type==x {
+    border-left: $width + $util $style $c;
+    border-right: $width + $util $style $c;
+  } @else if $type==y {
+    border-top: $width + $util $style $c;
+    border-bottom: $width + $util $style $c;
+  }
+}
+
+/**
+icon背景
+eg: @include iIcon(close,16)
+**/
+@mixin iIcon(
+  $name,
+  $sw,
+  $sh: $sw,
+  $w: 0,
+  $h: 0,
+  $path: './assets/icon/',
+  $suffix: '.png'
+) {
+  background-image: url($path + $name + $suffix);
+  background-size: $sw + px $sh + px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  @if $w==0 {
+    width: $sw + px;
+    height: $sh + px;
+  } @else {
+    width: $w + px;
+    height: $h + px;
+  }
+}

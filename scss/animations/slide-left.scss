@@ -1,0 +1,20 @@
+.slide-left {
+  animation: 0.5s slide-left;
+  &-enter,
+  &-leave-to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.3s ease;
+  }
+}
+@keyframes slide-left {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
