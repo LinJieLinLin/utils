@@ -92,17 +92,14 @@ export const getRegexp = (): AnyObject => {
  * @param  {string} argTitle 标题
  */
 export const setTitle = (argTitle: string | number) => {
-  if (
-    safeData(globalThis.document.getElementsByTagName('title'), '0.innerText')
-  ) {
-    globalThis.document.getElementsByTagName('title')[0].innerText =
-      String(argTitle)
+  if (typeof globalThis.document === 'object') {
+    globalThis.document.title = String(argTitle)
   }
   if (getInfo().isAppleMobile) {
     var i = document.createElement('iframe')
     i.onload = function () {
       setTimeout(function () {
-        console.debug('apple setting title')
+        console.debug('apple mobile setting title')
         i.remove()
       }, 10)
     }
