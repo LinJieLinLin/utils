@@ -19,6 +19,8 @@ describe('data', () => {
     expect(fn(obj, 'c')).toBe(0)
     expect(fn(obj, 'c', '')).toBe('')
     expect(fn(obj, 'a', 'a', true)).toBe('a')
+    const safe = j.safe
+    expect(safe({ a: { b: { c: { d: 1, e: 2 } } } }, 'a.b.c.d', 1)).toBe(1)
   })
   it('toFixed', function () {
     const fn = j.toFixed

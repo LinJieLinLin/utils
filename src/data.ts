@@ -9,6 +9,73 @@ import { AnyObject, Bool } from './types'
 
 let ENV: AnyObject = {}
 let DATA_OBJECT: AnyObject = {}
+
+// 返回T下的key对应类型
+type KeyOf<T extends Record<string, any>, K = keyof T> = K extends string
+  ? T[K] extends Function
+    ? never
+    : K
+  : never
+type DotField<T extends Record<string, any>, K = KeyOf<T>> = K extends string
+  ? K | `${K}.${DotField<T[K]>}`
+  : never
+// 返回传入K或T[K]对应的类型
+type ValueOf<
+  T extends Record<string, any>,
+  K
+> = K extends `${infer I}.${infer R}`
+  ? ValueOf<T[I], R>
+  : K extends string
+  ? T[K]
+  : never
+
+/**
+ * @function
+ * @description 数据安全访问
+ * @param  {any} argData  [原始数据]
+ * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
+ * @param  {any} argValue [如果数据有误，返回的值，选填]
+ * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue]
+ * @returns {any}
+ */
+export const safe = function safe<
+  T extends Record<string, any>,
+  K extends DotField<T>
+>(
+  argData: T,
+  argCheck: K,
+  argValue?: ValueOf<T, K>,
+  argSetValueForce?: Bool
+): ValueOf<T, K> | undefined | string {
+  if (!argData) {
+    return argValue
+  }
+  if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
+    console.warn('argCheck请传入string当前为:' + argCheck)
+    return ''
+  }
+  const temKey = argCheck.toString().split('.')
+  const temLen = temKey.length
+  if (temLen > 1) {
+    for (let i = 0; i < temLen - 1; i++) {
+      if (typeof argData[temKey[i]] !== 'object') {
+        if (argSetValueForce) {
+          console.warn('safeData setValue err：', argData, 'index:', i)
+        }
+        return argValue
+      }
+      argData = argData[temKey[i]] || {}
+    }
+  }
+  if (argSetValueForce) {
+    ;(argData as AnyObject)[temKey[temLen - 1]] = argValue
+  }
+  if (typeof argValue === 'undefined') {
+    return argData[temKey[temLen - 1]]
+  } else {
+    return argData[temKey[temLen - 1]] || argValue
+  }
+}
 /**
  * @function
  * @description 数据安全访问

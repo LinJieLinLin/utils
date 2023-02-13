@@ -17,15 +17,17 @@ export interface UniCloudConfig {
 export interface AnyFn {
   (...arg: any[]): any
 }
-export interface AppConfig {
+export interface AppConfig extends AnyObject {
   /**localstorage数据是否加密 */
-  localEncrypt: boolean
+  localEncrypt?: boolean
   /**uniCloud配置 */
   uniCloud?: UniCloudConfig | undefined
   /**请求拦截回调 */
   requestCb?: AnyFn
   /**响应拦截回调 */
   responseCb?: AnyFn
+  /** 全局请求url */
+  baseUrl?: string
 }
 export interface Info {
   ua: string
