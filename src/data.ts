@@ -191,16 +191,21 @@ export const getUrlParam = (
  */
 export const getUrlParamObj = (
   argData: string = globalThis.location.search || globalThis.location.hash
-): any => {
-  const res: any = {}
+): AnyObject => {
+  const res: AnyObject = {}
   try {
     argData = decodeURIComponent(argData)
-    let temArr = argData.split('?')
-    argData = temArr.pop() || ''
-    argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key: string, value) => {
-      res[key] = value
-      return ''
-    })
+    argData
+      .slice(argData.indexOf('?') + 1)
+      .split('&')
+      .forEach((v) => {
+        const [key, val] = v.split('=')
+        res[key] = val
+      })
+    // argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key: string, value) => {
+    //   res[key] = value
+    //   return ''
+    // })
     return res
   } catch (e) {
     console.error('转换失败', e)
