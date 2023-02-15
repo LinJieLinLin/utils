@@ -281,7 +281,7 @@ export const encodeHtml = (argHtml: string): string => {
   argHtml = argHtml.replace(/&/g, '&amp;')
   argHtml = argHtml.replace(/</g, '&lt;')
   argHtml = argHtml.replace(/>/g, '&gt;')
-  argHtml = argHtml.replace(/'/g, '&#39;')
+  argHtml = argHtml.replace(/'/g, '&apos;')
   argHtml = argHtml.replace(/"/g, '&quot;')
   argHtml = argHtml.replace(/ /g, '&nbsp;')
   argHtml = argHtml.replace(/\n/g, '<br>')
@@ -298,11 +298,11 @@ export const decodeHtml = (argHtml: string): string => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
+  argHtml = argHtml.replace(/&quot;/g, '"')
+  argHtml = argHtml.replace(/&apos;/g, "'")
   argHtml = argHtml.replace(/&amp;/g, '&')
   argHtml = argHtml.replace(/&lt;/g, '<')
   argHtml = argHtml.replace(/&gt;/g, '>')
-  argHtml = argHtml.replace(/&#39;/g, "'")
-  argHtml = argHtml.replace(/&quot;/g, '"')
   argHtml = argHtml.replace(/&nbsp;/g, ' ')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml
