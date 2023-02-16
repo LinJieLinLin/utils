@@ -258,16 +258,21 @@ export const getUrlParam = (
  */
 export const getUrlParamObj = (
   argData: string = globalThis.location.search || globalThis.location.hash
-): any => {
-  const res: any = {}
+): AnyObject => {
+  const res: AnyObject = {}
   try {
     argData = decodeURIComponent(argData)
-    let temArr = argData.split('?')
-    argData = temArr.pop() || ''
-    argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key: string, value) => {
-      res[key] = value
-      return ''
-    })
+    argData
+      .slice(argData.indexOf('?') + 1)
+      .split('&')
+      .forEach((v) => {
+        const [key, val] = v.split('=')
+        res[key] = val
+      })
+    // argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key: string, value) => {
+    //   res[key] = value
+    //   return ''
+    // })
     return res
   } catch (e) {
     console.error('转换失败', e)
@@ -348,7 +353,7 @@ export const encodeHtml = (argHtml: string): string => {
   argHtml = argHtml.replace(/&/g, '&amp;')
   argHtml = argHtml.replace(/</g, '&lt;')
   argHtml = argHtml.replace(/>/g, '&gt;')
-  argHtml = argHtml.replace(/'/g, '&#39;')
+  argHtml = argHtml.replace(/'/g, '&apos;')
   argHtml = argHtml.replace(/"/g, '&quot;')
   argHtml = argHtml.replace(/ /g, '&nbsp;')
   argHtml = argHtml.replace(/\n/g, '<br>')
@@ -365,11 +370,11 @@ export const decodeHtml = (argHtml: string): string => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
+  argHtml = argHtml.replace(/&quot;/g, '"')
+  argHtml = argHtml.replace(/&apos;/g, "'")
   argHtml = argHtml.replace(/&amp;/g, '&')
   argHtml = argHtml.replace(/&lt;/g, '<')
   argHtml = argHtml.replace(/&gt;/g, '>')
-  argHtml = argHtml.replace(/&#39;/g, "'")
-  argHtml = argHtml.replace(/&quot;/g, '"')
   argHtml = argHtml.replace(/&nbsp;/g, ' ')
   argHtml = argHtml.replace(/<br>/g, '\n')
   return argHtml

@@ -55,7 +55,7 @@ export const getRegexp = (): AnyObject => {
     // 手机号
     phone: /^1\d{10}$/,
     // 邮箱
-    email: /^(w)+(.w+)*@(w)+((.w+)+)$/,
+    email: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/,
     // 网址
     http: /http:\/\/|https:\/\//,
     // 含0整数（得分）
