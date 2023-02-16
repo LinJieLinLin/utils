@@ -1176,6 +1176,7 @@ interface GetDomOptions {
   properties?: any[]
 }
 /**
+ * @function
  * @description: 获取dom节点相关信息
  * @param {object}  argThis: 当前this,
  * @param {string} argId id/class
@@ -1224,7 +1225,13 @@ export const getDom = async (
 }
 
 /**
- * @param {AnyObject} App 返回 uni/wx/taro实例
+ * @description APP:返回 uni/wx/taro实例
+ * @constant {object}
  */
 export const APP = app
+/**
+ * @description IS_H5:是否为H5
+ * @constant {boolean}
+ * @default false
+ */
 export const IS_H5 = isH5
