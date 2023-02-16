@@ -261,18 +261,15 @@ export const getUrlParamObj = (
 ): AnyObject => {
   const res: AnyObject = {}
   try {
-    argData = decodeURIComponent(argData)
     argData
       .slice(argData.indexOf('?') + 1)
       .split('&')
       .forEach((v) => {
         const [key, val] = v.split('=')
-        res[key] = val
+        if(key!==v){
+          res[key] = decodeURIComponent(val)
+        }
       })
-    // argData.replace(/([^?=&#]+)=([^?=&#]+)/g, (_, key: string, value) => {
-    //   res[key] = value
-    //   return ''
-    // })
     return res
   } catch (e) {
     console.error('转换失败', e)

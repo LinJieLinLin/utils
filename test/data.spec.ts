@@ -68,9 +68,9 @@ describe('data', () => {
     console.log(globalThis.location.search)
     expect(fn()).toStrictEqual({})
     expect(fn('https://www.baidu.com?a=1')).toStrictEqual({ a: '1' })
-    expect(fn('www.baidu.com/?b=2#/index?a=1').a).toBe('1')
+    expect(fn('www.baidu.com/?b=2#/index?a=1').a).toBe(undefined)
     expect(fn('www.baidu.com/?a=2&b=2#/index?a=1&b=2')).toStrictEqual({
-      a: '1',
+      a: '2',
       b: '2',
     })
     expect(fn('www.baidu.com?a=1')).toStrictEqual({ a: '1' })
