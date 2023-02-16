@@ -4,9 +4,49 @@
  * @date 2022-05-11 22:07:43
  * @description 类型转换相关处理
  */
+import { safeData } from './base'
 
-import { toFixed } from './data'
-import { safeData } from './data'
+/**
+ * @function
+ * @description 转义html标签
+ * @param  {string} argHtml 需要转义的文本
+ * @returns {string}
+ */
+export const encodeHtml = (argHtml: string): string => {
+  if (!argHtml || argHtml.length === 0) {
+    return ''
+  }
+  argHtml = argHtml
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/'/g, '&apos;')
+    .replace(/"/g, '&quot;')
+    .replace(/ /g, '&nbsp;')
+    .replace(/\n/g, '<br>')
+  return argHtml
+}
+
+/**
+ * @function
+ * @description 反转义html标签
+ * @param  {string} argHtml 需要反转义的文本
+ * @returns {string}
+ */
+export const decodeHtml = (argHtml: string): string => {
+  if (!argHtml || argHtml.length === 0) {
+    return ''
+  }
+  argHtml = argHtml
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/<br>/g, '\n')
+  return argHtml
+}
 
 /**
  * @function
@@ -295,7 +335,7 @@ export const formatSize = (
       break
     }
   }
-  return toFixed(temData, argNum, 'number') + list[nowIndex]
+  return +toFixed(temData, argNum) + list[nowIndex]
 }
 /**
  * @function
@@ -308,8 +348,150 @@ export const formatNumber = (argData: number, argNum: number = 2): string => {
   if (argData < 1000) {
     return argData.toString()
   } else if (argData < 10000) {
-    return toFixed(argData / 1000, argNum, 'number') + 'k'
+    return +toFixed(argData / 1000, argNum) + 'k'
   } else {
-    return toFixed(argData / 10000, argNum, 'number') + 'w'
+    return +toFixed(argData / 10000, argNum) + 'w'
   }
+}
+
+/**
+ * object 转为 list，list item 具体是什么取决于传入的 getItem 函数
+ * @param map
+ * @param getItem
+ * @return getItem()[]
+ */
+export function toList<V, K extends string, Item>(
+  map: Record<K, V>,
+  getItem: (key: K, value: V) => Item
+) {
+  const list = [] as Item[]
+  Object.keys(map).forEach((key: any) => {
+    // @ts-ignore, trust me.
+    const item = getItem(key, map[key])
+    list.push(item)
+  })
+  return list
+}
+
+/**
+ * 描述
+ * @function
+ * @description 数据中间加星号
+ * @param {string|number} argData 要处理的数据
+ * @param {number} argStart=3 前端显示多少位
+ * @param {number} argEnd=4 后面显示多少位
+ * @returns {string} 返回处理好的数据
+ */
+export const hideInfo = (
+  argData: string | number = '',
+  argStart: number = 3,
+  argEnd: number = 4
+): string => {
+  argData = String(argData)
+  let temLen = argData.length
+  let temSL = argData.length - argEnd - argStart
+  let start = ''
+  if (temSL > 0) {
+    for (let i = 0; i < temSL; i++) {
+      start += '*'
+    }
+    argData =
+      argData.substring(0, argStart) +
+      start +
+      argData.substring(temLen - argEnd, temLen)
+  }
+  return argData
+}
+
+/**
+ * 描述
+ * @function
+ * @description 10进制转62进制,用于短网址转换
+ * @date 2020-03-01
+ * @param {number|string} argData 要处理的数据
+ * @returns {string} 返回处理好的数据
+ */
+export const string10to62 = (argData: number | string): string => {
+  let chars =
+    '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'.split('')
+  let radix = chars.length
+  let data = +argData
+  let arr = []
+  do {
+    let mod = data % radix
+    data = (data - mod) / radix
+    arr.unshift(chars[mod])
+  } while (data)
+  return arr.join('')
+}
+
+/**
+ * 描述
+ * @function
+ * @description 62进制转10进制,用于短网址转换
+ * @date 2020-03-01
+ * @param {string} argData 要处理的数据
+ * @returns {number} 返回处理好的数据
+ */
+export const string62to10 = (argData: string): number => {
+  let chars = '0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ'
+  let radix = chars.length
+  let len = argData.length
+  let i = 0
+  let resNum = 0
+  while (i < len) {
+    resNum +=
+      Math.pow(radix, i++) * chars.indexOf(argData.charAt(len - i) || '0')
+  }
+  return resNum
+}
+
+/**
+ * 描述
+ * @function
+ * @description toFixed处理
+ * @date 2020-03-01
+ * @param {string|number} argData 要处理的数据
+ * @param {number} argNum 要保留位数,默认返回2位小数
+ * @param {string} argType 返回类型，round:默认四舍五入,floor:向下取整,ceil:向上取整,abs:绝对值
+ * @returns {string} 返回处理好的数据
+ */
+export const toFixed = (
+  argData: string | number,
+  argNum: number = 2,
+  argType: 'round' | 'floor' | 'ceil' | 'abs' = 'round'
+): string => {
+  if (isNaN(+argData)) {
+    return ''
+  }
+  let data = 0
+  data = Math[argType](+argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
+  return (+data).toFixed(argNum)
+}
+
+/**
+ * @function
+ * @description 驼峰转下划线
+ * @param {string} argData 要转换数据
+ * @param {string} argUnit 要转换的字符，默认“_”
+ * @return {string}
+ */
+export const toLine = (argData: string, argUnit: string = '_'): string => {
+  return argData.replace(/([A-Z])/g, argUnit + '$1').toLowerCase()
+}
+
+/**
+ * @function
+ * @description 下划线转驼峰
+ * @param {string} argData 要转换数据
+ * @param {string} argUnit 要转换的字符，默认“_”
+ * @return {string}
+ */
+export const toHump = (argData: string, argUnit: string = '_'): string => {
+  return argData.replace(
+    new RegExp('\\' + argUnit + '(\\w)', 'g'),
+    (_, letter) => {
+      return letter.toUpperCase()
+    }
+  )
 }

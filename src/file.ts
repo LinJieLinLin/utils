@@ -5,7 +5,7 @@
  * @description 文件相关处理
  */
 
-import { safeData } from './data'
+import { safeData } from './base'
 
 /**
  * 描述

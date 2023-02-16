@@ -83,4 +83,60 @@ describe('transform', () => {
     expect(fn(9000)).toBe('9k')
     expect(fn(10110)).toBe('1.01w')
   })
+  it('encodeHtml', function () {
+    const fn = j.encodeHtml
+    expect(fn('')).toBe('')
+    expect(fn('<a href="https://baidu.com?a=1&b=2"></a>')).toBe(
+      '&lt;a&nbsp;href=&quot;https://baidu.com?a=1&amp;b=2&quot;&gt;&lt;/a&gt;'
+    )
+  })
+  it('decodeHtml', function () {
+    const fn = j.decodeHtml
+    expect(
+      fn(
+        '&lt;a&nbsp;href=&quot;https://baidu.com?a=1&amp;b=2&quot;&gt;&lt;/a&gt;'
+      )
+    ).toBe('<a href="https://baidu.com?a=1&b=2"></a>')
+  })
+  it('hideInfo', function () {
+    const fn = j.hideInfo
+    expect(fn()).toBe('')
+    expect(fn('123', 1, 1)).toBe('1*3')
+    expect(fn(123, 1, 1)).toBe('1*3')
+    expect(fn('12', 1, 1)).toBe('12')
+    expect(fn('15920385216')).toBe('159****5216')
+  })
+  it('toFixed', function () {
+    const fn = j.toFixed
+    expect(+fn('a', 2)).toBe(0)
+    expect(fn('a', 2)).toBe('')
+    expect(+fn(1, 2)).toBe(1)
+    expect(fn(1.456)).toBe('1.46')
+    expect(fn(1.456, 2, 'floor')).toBe('1.45')
+    expect(fn(1.456, 0, 'ceil')).toBe('2')
+    expect(+fn(-1.0, 1, 'abs')).toBe(1)
+    expect(fn(1.456, 0)).toBe('1')
+    expect(fn(1.456, 1)).toBe('1.5')
+    expect(fn(1.0, 1)).toBe('1.0')
+    expect(+fn(1.0, 1)).toBe(1)
+    expect(+fn(-1.0, 1)).toBe(-1)
+  })
+  it('toLine', function () {
+    const fn = j.toLine
+    expect(fn('AbC')).toBe('_ab_c')
+    expect(fn('AbC', '-')).toBe('-ab-c')
+  })
+  it('toHump', function () {
+    const fn = j.toHump
+    expect(fn('_ab')).toBe('Ab')
+    expect(fn('_ab-c', '-')).toBe('_abC')
+  })
+  it('string10to62', function () {
+    const fn = j.string10to62
+    expect(fn(123)).toBe('1Z')
+  })
+  it('string62to10', function () {
+    const fn = j.string62to10
+    expect(fn('1Z')).toBe(123)
+  })
 })

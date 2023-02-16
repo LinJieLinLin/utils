@@ -17,10 +17,8 @@ import {
   dataURLtoBlob,
   sleep,
 } from './index'
-import { AnyFn, AppConfig, Bool, Info, UploadFile } from './types'
-import { getInfo } from './base'
-import { AnyObject } from './types'
-import { getEnv, getUrlParamObj } from './data'
+import { getEnv, getUrlParamObj, getInfo } from './base'
+import { AnyFn, AppConfig, Bool, Info, UploadFile, AnyObject } from './types'
 
 declare var uni: any
 declare var wx: any
