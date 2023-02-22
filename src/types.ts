@@ -4,7 +4,7 @@
  * @description no
  */
 
-export interface UniCloudConfig {
+export declare interface UniCloudConfig {
   /**aliyun、tencent*/
   provider: string
   /**服务空间ID*/
@@ -14,10 +14,10 @@ export interface UniCloudConfig {
   /*服务空间地址，仅阿里云侧支持*/
   endpoint?: string
 }
-export interface AnyFn {
+export declare interface AnyFn {
   (...arg: any[]): any
 }
-export interface AppConfig extends AnyObject {
+export declare interface AppConfig extends AnyObject {
   /**localstorage数据是否加密 */
   localEncrypt?: boolean
   /**uniCloud配置 */
@@ -29,7 +29,7 @@ export interface AppConfig extends AnyObject {
   /** 全局请求url */
   baseUrl?: string
 }
-export interface Info {
+export declare interface Info {
   ua: string
   platform: string
   isMobile: boolean
@@ -48,13 +48,13 @@ export interface Info {
   /**判断支付宝环境 */
   isAlipay: boolean
 }
-export interface AnyObject {
+export declare interface AnyObject {
   [key: string]: any
 }
 /**boolean 1 0类型，用于判断 true|false*/
-export type Bool = boolean | 1 | 0
+export declare type Bool = boolean | 1 | 0
 /**https://uniapp.dcloud.io/api/request/network-file.html#uploadfile */
-export interface UploadFile {
+export declare interface UploadFile {
   /**服务器 url */
   url: string
   /**需要上传的文件列表。使用 files 时，filePath 和 name 不生效。 */
