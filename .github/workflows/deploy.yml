@@ -15,12 +15,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.x'
-          # cache need package-lock.json
-          # cache: 'npm'
+          cache: 'pnpm'
 
       - name: build
         run: |
-          npm i && npm run build
+          corepack enable
+          pnpm i --frozen-lockfile && pnpm build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
