@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'pnpm'
+          registry-url: https://registry.npmjs.org/
 
       - name: build
         run: |
