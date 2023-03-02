@@ -42,6 +42,17 @@ lj-utils/scss 通用样式
 transpileDependencies: ['lj-utils'],
 ```
 
+### 自动引入 lj-utils/index 公共函数（unplugin-auto-import/vite）
+
+```js
+import AutoImport from 'unplugin-auto-import/vite';
+import { ljResolver } from 'lj-utils/resolver.js';
+AutoImport({
+  ...,
+  resolvers: [ljResolver()],
+})
+```
+
 ## 参与贡献
 
 1. Fork 本仓库
