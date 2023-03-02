@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Debounce.js - lj-utils</title>
+    <title>index.js - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -46,7 +46,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Debounce.js</h1>
+    <h1 class="page-title">index.js</h1>
     
 
     
@@ -56,48 +56,15 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var __classPrivateFieldGet = (this &amp;&amp; this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var __classPrivateFieldSet = (this &amp;&amp; this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _Debounce_timer;
-/**
- * @class
- * @classdesc 处理函数抖动
+            <pre class="prettyprint source linenums"><code>/**
  * @author linjielinlin 993353454@qq.com
  * @date 2022-05-11 22:07:43
- * @example  const db = new.Debounce(回调函数,等待时间,...回调函数的参数)
+ * @description no
  */
-export class Debounce {
-    constructor() {
-        _Debounce_timer.set(this, void 0);
-    }
-    /**
-     * @function
-     * @description 函数抖动，在等待n毫秒无点击后触发
-     * @param  {function} argFn 回调函数
-     * @param  {number} argWait 等待时间,默认0.5秒
-     * @param  {any} ...arg 回调函数的参数
-     * @returns {function}
-     */
-    debounce(argFn, argWait = 500, ...args) {
-        if (__classPrivateFieldGet(this, _Debounce_timer, "f")) {
-            clearTimeout(__classPrivateFieldGet(this, _Debounce_timer, "f"));
-        }
-        __classPrivateFieldSet(this, _Debounce_timer, setTimeout(() => {
-            return argFn(...args);
-        }, argWait), "f");
-    }
-}
-_Debounce_timer = new WeakMap();
-export default Debounce;
+export * from './is';
+export * from './base';
+export * from './file';
+export * from './transform';
 </code></pre>
         </article>
     </section>
