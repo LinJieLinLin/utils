@@ -11,6 +11,7 @@
     },
     "./microApi": "./src/microApi.ts",
     "./class": "./src/class/index.ts",
+    "./resolver.js": "./build/resolver.js",
     "./package.json": "./package.json"
   },
   "keywords": [
@@ -30,7 +31,7 @@
     "tsc": "tsc",
     "setVersion": "node --experimental-json-modules --no-warnings changeVersion.js",
     "rb": "rm -rf build/* && rollup -c && cp -rf ./static/* ./build && cp -rf *.md types.ts ./build/ && npm run setVersion",
-    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf *.md ./build/ && cp -rf ./scss ./build/scss && npm run cjs && npm run setVersion &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
+    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf *.md ./build/ && cp -rf ./scss ./build/scss && npm run cjs && node setMetaData && npm run setVersion &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
     "testWatch": "jest ./test/encrypt.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/ && cp static/baidu.js dist/lj-utils/scripts/baidu.js",

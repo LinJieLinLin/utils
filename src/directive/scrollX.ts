@@ -1,3 +1,5 @@
+import { AnyObject } from "../types"
+
 /*
 import scrollX from './scrollX';
  * @module
@@ -106,4 +108,8 @@ export const scrollX = {
   bind: mounted,
   unbind: beforeUnmount,
 }
-export default scrollX
+export default {
+  install(app:AnyObject){
+    app.directive('scrollX',scrollX)
+  }
+}
