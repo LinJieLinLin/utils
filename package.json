@@ -1,6 +1,6 @@
 {
   "name": "lj-utils",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "uni-app utils",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
