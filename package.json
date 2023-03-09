@@ -12,6 +12,10 @@
     "./microApi": "./src/microApi.ts",
     "./class": "./src/class/index.ts",
     "./resolver.js": "./build/resolver.js",
+    "./less/index.less": "./static/less/index.less",
+    "./less/common.less": "./static/less/common.less",
+    "./scss/index.scss": "./static/scss/index.scss",
+    "./scss/global.scss": "./static/scss/global.scss",
     "./package.json": "./package.json"
   },
   "keywords": [
@@ -25,13 +29,14 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "sass": "sass --style=expanded --no-source-map ./static/scss/build.scss ./defaultCssTip.css",
+    "less": "lessc ./less/common.less ./dist/common.css",
+    "sass": "sass --style=expanded --no-source-map ./static/scss/build.scss ./static/defaultCssTip.css",
     "sassMin": "sass --style=compressed --no-source-map ./static/scss/build.scss ./defaultCssTip.min.css",
     "cjs": "rollup -c",
     "tsc": "tsc",
     "setVersion": "node --experimental-json-modules --no-warnings changeVersion.js",
     "rb": "rm -rf build/* && rollup -c && cp -rf ./static/* ./build && cp -rf *.md types.ts ./build/ && npm run setVersion",
-    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf *.md ./build/ && cp -rf ./scss ./build/scss && npm run cjs && node setMetaData && npm run setVersion &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
+    "b": "rm -rf build/* && tsc && cp -rf ./static/* ./build && cp -rf *.md ./build/ && npm run cjs && node setMetaData && npm run setVersion &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
     "testWatch": "jest ./test/encrypt.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/ && cp static/baidu.js dist/lj-utils/scripts/baidu.js",
@@ -64,10 +69,11 @@
     "jest": "^27.5.1",
     "jest-html-reporters": "^3.0.11",
     "jsdoc": "^3.6.11",
+    "less": "^4.1.3",
     "rollup": "^3.9.1",
+    "sass": "^1.50.0",
     "ts-jest": "^27.1.5",
     "tslib": "^2.4.1",
-    "sass": "^1.50.0",
     "typescript": "^4.9.4"
   },
   "browserslist": [

@@ -844,6 +844,7 @@
 }
 /**
 * 生成width
+* eg: oWidth(0,2,50)  .w-0,.w-50,.w-100
 */
 @mixin oWidth($base: 0, $count: 0, $limit: 10, $unit: px) {
   @for $r from 0 through $count {

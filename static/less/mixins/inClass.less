@@ -1,0 +1,126 @@
+/**
+* [iCB clear both清除浮动]
+* @param  {[type]} @old:false [true为生成兼容低版本的浏览器]
+* @return {[type]}            [description]
+*/
+.iCB(@old) when(isdefined(@old)){
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+    font: 0/0;
+  }
+}
+.iCB() {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+
+/**
+* [iBtnBgColor 设置btn背景加hover,active时变亮变暗]
+* @param  {[type]} @color:gray     [初始颜色]
+* @param  {[type]} @type:1         [=0使用传入的颜色，>1变亮，<1变暗]
+* @param  {[type]} @hover:2        [hover颜色或百分比]
+* @param  {[type]} @active:10      [active颜色或百分比]
+* @param  {[type]} @time:1         [动画时间 eg:0.3s]
+* @param  {[type]} @animation:1    [动画属性 eg: ease]
+* @return {[type]}             [description]
+*/
+
+.iBtnBgColor(
+@color: gray,
+@type: -1,
+@hover: 2,
+@active: 8,
+@time: 0.3s,
+@animation: ease
+) {
+  background-color: @color;
+  &:hover {
+    background-color: if(@type=0,@color,if(@type<0,darken(@color, @hover + 0%),lighten(@color, @hover + 0%)));
+    transition: all @time @animation;
+  }
+  &:active {
+    background-color: if(@type=0,@color,if(@type<0,darken(@color, @active + 0%),lighten(@color, @active + 0%)));
+  }
+}
+
+.iFlex(@k: flex) when(@k=flex){
+  display: flex;
+} 
+  
+.iFlex(@k: flex) when(@k=flex-wrap) {
+  display: flex;
+  flex-wrap: wrap;
+} 
+.iFlex(@k: flex) when(@k=flex-column) {
+  display: flex;
+  flex-direction: column;
+} 
+.iFlex(@k: flex) when(@k=flex-center) {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+} 
+.iFlex(@k: flex) when(@k=flex-middle) {
+  display: flex;
+  align-items: center;
+} 
+.iFlex(@k: flex) when(@k=flex-column-between) {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} 
+.iFlex(@k: flex) when(@k=flex-column-around) {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+} 
+.iFlex(@k: flex) when(@k=flex-row-between) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+} 
+.iFlex(@k: flex) when(@k=flex-row-around) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+/* *
+* class内设置border,
+* eg: @include iBorder(f,1,solid,#ccc)
+* @param  @type:f     [类型: f:full, t:top, r:right, b:bottom, l:left]
+* @param  @width:1    [宽度]
+* @param  @style:solid [样式：solid,dashed,dotted,double,groove,ridge,inset,outset]
+* @param  @c:#c7c7c7 [颜色]
+* @param  @util:px   [单位]
+* */
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=f) {
+  border: e("@{width}@{util} @{style} @{c}");
+}   
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=t) {
+  border-top: e("@{width}@{util} @{style} @{c}");
+} 
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=b) {
+  border-bottom: e("@{width}@{util} @{style} @{c}");
+} 
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=l) {
+  border-left: e("@{width}@{util} @{style} @{c}");
+} 
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=r) {
+  border-right: e("@{width}@{util} @{style} @{c}");
+} 
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=x) {
+  border-left: e("@{width}@{util} @{style} @{c}");
+  border-right: e("@{width}@{util} @{style} @{c}");
+} 
+.iBorder(@type: f, @width: 1, @style: solid, @c: #c7c7c7, @util: px) when(@type=y) {
+  border-top: e("@{width}@{util} @{style} @{c}");
+  border-bottom: e("@{width}@{util} @{style} @{c}");
+}
