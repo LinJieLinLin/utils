@@ -261,9 +261,7 @@
   }
 }
 
-/**
-* 设置n行，超出显示...
-**/
+// 设置n行，超出显示...
 @mixin oTextLine($num: 3) {
   @for $n from 1 through $num {
     .text-line-#{$n} {
@@ -278,11 +276,9 @@
   }
 }
 
-/**
-* 旋转角度 rot-0、rot-15、rot-360
-* @param  {[type]} $rate:14    [间隔角度]
-* @param  {[type]} $count:2   [旋转次数]
-**/
+// 旋转角度 rot-0、rot-15、rot-360
+// @param  {[type]} $rate:14    [间隔角度]
+// @param  {[type]} $count:2   [旋转次数]
 @mixin oRotate($rate: 15, $count: 24) {
   @for $i from 0 through $count {
     .rot-#{$rate * $i} {
@@ -291,13 +287,11 @@
   }
 }
 
-/**
-* [oFontSize 默认设置10到64px 的字体大小相隔2px eg:fs-12]
-* @param  {[type]} $base:12    [最小字体大小]
-* @param  {[type]} $count:0    [重复次数]
-* @param  {[type]} $limit:2   [间隔]
-* @param  {[type]} $unit:px [单位]
-*/
+// [oFontSize 默认设置10到64px 的字体大小相隔2px eg:fs-12]
+// @param  {[type]} $base:12    [最小字体大小]
+// @param  {[type]} $count:0    [重复次数]
+// @param  {[type]} $limit:2   [间隔]
+// @param  {[type]} $unit:px [单位]
 @mixin oFontSize($base: 10, $count: 0, $limit: 2, $unit: px) {
   @for $i from 0 through $count {
     .fs-#{$base + $i * $limit} {
@@ -356,14 +350,9 @@
     margin-bottom: $width + $unit !important;
   }
 }
-/**
-* [oPdMgSet 默认设置5到60的各个padding margin]
-* @param  {[type]} $base:px [基数]
-* @param  {[type]} $count:12   [循环次数，从0开始]
-* @param  {[type]} $limit:5  [倍数]
-* @param  {[type]} $unit:px [单位]
-* @return {[type]}          [description]
-*/
+
+// [oPdMgSet 默认设置5到60的各个padding margin]
+// $base:px [基数] $count:12   [循环次数，从0开始] $limit:5  [倍数] $unit:px [单位]
 @mixin oPdMgSet(
   $base: 0,
   $count: 0,
@@ -377,9 +366,7 @@
   }
 }
 
-/**
-* [默认btn样式]
-*/
+// 默认btn样式
 @mixin oBtn {
   .btn {
     position: relative;
@@ -401,21 +388,22 @@
     @include iBtnBgColor(#f8f8f8);
   }
 }
-/* <flex> */
+
+//  http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+//  flex-direction属性决定主轴的方向（即项目的排列方向）。
+//  flex-wrap 属性定义，如果一条轴线排不下，如何换行
+//  flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+//  justify-content属性定义了项目在主轴(x轴)上的对齐方式。
+//  align-items属性定义项目在交叉轴(y轴)上如何对齐。
+//  align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+//  order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+//  flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+//  flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+//  flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+//  flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+//  align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。 
 @mixin oFlex() {
-  /* http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
- flex-direction属性决定主轴的方向（即项目的排列方向）。
- flex-wrap 属性定义，如果一条轴线排不下，如何换行
- flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
- justify-content属性定义了项目在主轴(x轴)上的对齐方式。
- align-items属性定义项目在交叉轴(y轴)上如何对齐。
- align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
- order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
- flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
- flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
- flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
- flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
- align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。 */
+
   .flex0 {
     flex: none;
   }
@@ -526,10 +514,8 @@
   }
 }
 
-/* *
-* border 1px处理
-* @param  {[type]} $c: #c7c7c7 颜色值
-* */
+// border 1px处理
+// @param  {[type]} $c: #c7c7c7 颜色值
 @mixin oBorder1px($c: #c7c7c7) {
   .f-1px {
     border: 1px solid $c;
@@ -657,11 +643,9 @@
   }
 }
 
-/* *
-* 公共border处理
-* @param  {[type]} $c: #c7c7c7 颜色值
-* @param  {[type]} $width: 1px width值
-* */
+// 公共border处理
+// @param  {[type]} $c: #c7c7c7 颜色值
+// @param  {[type]} $width: 1px width值
 @mixin oBorder($width: 1, $c: #c7c7c7, $unit: px) {
   .bd-f#{$width} {
     border: $width + $unit solid $c;
@@ -688,18 +672,16 @@
   }
 }
 
-/* *
-* 公共outline处理
-* @param  {[type]} $c: #c7c7c7 颜色值
-* @param  {[type]} $size: 1px width值
-* */
+// 公共outline处理
+// @param  {[type]} $c: #c7c7c7 颜色值
+// @param  {[type]} $size: 1px width值
 @mixin oOutline($c: #c7c7c7, $size: 1px) {
   .ol-f1 {
     outline: $size solid $c;
   }
 }
 
-/** 浮动 */
+// 浮动
 @mixin oFloat() {
   .f-l {
     float: left;
@@ -711,7 +693,7 @@
     @include iCB();
   }
 }
-/** 光标效果 */
+// 光标效果
 @mixin oCursor() {
   .c-a {
     cursor: auto;
@@ -736,7 +718,7 @@
   }
 }
 
-/** 显示隐藏 */
+// 显示隐藏 
 @mixin oShowHide() {
   .show {
     display: block;
@@ -763,7 +745,7 @@
     display: none;
   }
 }
-/** 文本相关 */
+// 文本相关
 @mixin oText() {
   /** vertical-align 文字垂直对齐 */
   .va-m {
@@ -842,10 +824,8 @@
     overflow: hidden;
   }
 }
-/**
-* 生成width
-* eg: oWidth(0,2,50)  .w-0,.w-50,.w-100
-*/
+
+// eg: oWidth(0,2,50)  .w-0,.w-50,.w-100
 @mixin oWidth($base: 0, $count: 0, $limit: 10, $unit: px) {
   @for $r from 0 through $count {
     .w-#{$base + $r*$limit} {

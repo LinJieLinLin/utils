@@ -141,4 +141,22 @@ describe('base', () => {
     expect(j.getEnv('c')).toBe('')
     expect(j.getEnv('b')).toBe(2)
   })
+  it('deepCopy', function () {
+    expect(j.deepCopy(1)).toBe(1)
+    expect(j.deepCopy('hello')).toBe('hello')
+    expect(j.deepCopy(null)).toBe(null)
+    expect(j.deepCopy(undefined)).toBe(undefined)
+    const obj = {
+      a: 1,
+      b: {
+        c: 2,
+        d: [3, 4],
+      },
+    }
+    const copy = j.deepCopy(obj)
+    expect(copy).toEqual(obj)
+    expect(copy).not.toBe(obj)
+    expect(copy.b).not.toBe(obj.b)
+    expect(copy.b.d).not.toBe(obj.b.d)
+  })
 })

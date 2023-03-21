@@ -464,17 +464,17 @@ export const toFixed = (
   if (isNaN(+argData)) {
     return ''
   }
-  let data = 0
-  data = Math[argType](+argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
-  return (+data).toFixed(argNum)
+  const data =
+    Math[argType](+argData * Math.pow(10, argNum)) / Math.pow(10, argNum)
+  return data.toFixed(argNum)
 }
 
 /**
  * @function
- * @description 驼峰转下划线
- * @param {string} argData 要转换数据
- * @param {string} argUnit 要转换的字符，默认“_”
- * @return {string}
+ * @description 将驼峰字符串转换为下划线字符串
+ * @param {string} argData 要转换的字符串
+ * @param {string} argUnit 要转换的字符，默认为“_”
+ * @return {string} 转换后的下划线字符串
  */
 export const toLine = (argData: string, argUnit: string = '_'): string => {
   return argData.replace(/([A-Z])/g, argUnit + '$1').toLowerCase()
@@ -482,10 +482,10 @@ export const toLine = (argData: string, argUnit: string = '_'): string => {
 
 /**
  * @function
- * @description 下划线转驼峰
- * @param {string} argData 要转换数据
- * @param {string} argUnit 要转换的字符，默认“_”
- * @return {string}
+ * @description 将下划线字符串转换为驼峰字符串
+ * @param {string} argData 要转换的字符串
+ * @param {string} argUnit 要转换的字符，默认为“_”
+ * @return {string} 转换后的驼峰字符串
  */
 export const toHump = (argData: string, argUnit: string = '_'): string => {
   return argData.replace(

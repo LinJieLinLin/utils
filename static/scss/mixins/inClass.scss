@@ -1,11 +1,7 @@
 @use 'sass:color';
 
-/**
-* [iCB clear both清除浮动]
-* @param  {[type]} $old:false [true为生成兼容低版本的浏览器]
-* @return {[type]}            [description]
-*/
-
+// 定义一个 mixin，用于清除浮动
+// $old: 是否使用旧版清除浮动方式，默认为 false
 @mixin iCB($old: false) {
   @if $old {
     &:before,
@@ -23,24 +19,19 @@
   }
 }
 
-/**
-* [iBtnBgColor 设置btn背景加hover,active时变亮变暗]
-* @param  {[type]} $color:gray     [初始颜色]
-* @param  {[type]} $type:1         [=0使用传入的颜色，>1变亮，<1变暗]
-* @param  {[type]} $hover:2        [hover颜色或百分比]
-* @param  {[type]} $active:10      [active颜色或百分比]
-* @param  {[type]} $time:1         [动画时间 eg:0.3s]
-* @param  {[type]} $animation:1    [动画属性 eg: ease]
-* @return {[type]}             [description]
-*/
-
+// 定义一个 mixin，用于生成不同类型的边框
+// $type: 边框类型，可选值为 f, t, b, l, r, x, y
+// $width: 边框宽度，默认为 1
+// $style: 边框样式，默认为 solid
+// $c: 边框颜色，默认为 #c7c7c7
+// $util: 边框宽度单位，默认为 px
 @mixin iBtnBgColor(
-  $color: gray,
-  $type: -1,
-  $hover: 2,
-  $active: 8,
-  $time: 0.3s,
-  $animation: ease
+$color: gray,
+$type: -1,
+$hover: 2,
+$active: 8,
+$time: 0.3s,
+$animation: ease
 ) {
   background-color: $color;
   &:hover {
@@ -67,7 +58,7 @@
     }
   }
 }
-
+// 定义一个 mixin，用于快速设置 flex 布局
 @mixin iFlex($k: flex) {
   @if $k==flex {
     display: flex;
@@ -104,15 +95,12 @@
   }
 }
 
-/* *
-* class内设置border,
-* eg: @include iBorder(f,1,solid,#ccc)
-* @param  $type:f     [类型: f:full, t:top, r:right, b:bottom, l:left]
-* @param  $width:1    [宽度]
-* @param  $style:solid [样式：solid,dashed,dotted,double,groove,ridge,inset,outset]
-* @param  $c:#c7c7c7 [颜色]
-* @param  $util:px   [单位]
-* */
+// 定义一个 mixin，用于生成不同类型的边框
+// $type: 边框类型，可选值为 [类型: f:full, t:top, r:right, b:bottom, l:left]
+// $width: 边框宽度，默认为 1
+// $style: 边框样式，默认为 solid [样式：solid,dashed,dotted,double,groove,ridge,inset,outset]
+// $c: 边框颜色，默认为 #c7c7c7
+// $util: 边框宽度单位，默认为 px
 @mixin iBorder($type: f, $width: 1, $style: solid, $c: #c7c7c7, $util: px) {
   @if $type==f {
     border: $width + $util $style $c;

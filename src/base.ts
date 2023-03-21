@@ -93,9 +93,9 @@ export const setTitle = (argTitle: string | number) => {
     globalThis.document.title = String(argTitle)
   }
   if (getInfo().isAppleMobile) {
-    var i = document.createElement('iframe')
-    i.onload = function () {
-      setTimeout(function () {
+    const i = document.createElement('iframe')
+    i.onload = () => {
+      setTimeout(() => {
         console.debug('apple mobile setting title')
         i.remove()
       }, 10)
@@ -140,14 +140,12 @@ export const remInit = (argBaseSize: number = 16, argWidth: number = 375) => {
  * @returns {string}
  */
 export const getCookie = (argName: string): string => {
-  let cookie = globalThis.document.cookie.split('; ')
-  for (let i = 0; i < cookie.length; i += 1) {
-    let name = ('' + cookie[i]).split('=')
-    if (argName === name[0]) {
-      return decodeURIComponent(name[1] || '')
-    }
-  }
-  return ''
+  const cookies = globalThis.document.cookie.split('; ')
+  const cookie = cookies.find((cookie) => {
+    const [name] = cookie.split('=')
+    return argName === name
+  })
+  return cookie ? decodeURIComponent(cookie.split('=')[1] || '') : ''
 }
 
 /**
@@ -499,26 +497,26 @@ export const replaceUrlParam = (
   value: string | number | undefined | null,
   url: string = globalThis.location.href || ''
 ): string => {
-  let reg = new RegExp('([?]|&)(' + name + '=)([^&#]*)([&]?|$)', 'img')
-  let r = url.match(reg)
-  let search = url.split('?')
+  const reg = new RegExp('([?]|&)(' + name + '=)([^&#]*)([&]?|$)', 'img')
+  const r = url.match(reg)
+  const search = url.split('?')
   let strValue: string = url
   if (value === undefined || value === null) {
     if (r != null) {
-      strValue = url.replace(reg, function () {
-        if (!arguments[4] || !arguments[4].length) {
+      strValue = url.replace(reg, (_match, p1, _p2, _p3, p4) => {
+        if (!p4 || !p4.length) {
           return ''
-        } else if (arguments[1] === arguments[4]) {
-          return arguments[1]
+        } else if (p1 === p4) {
+          return p1
         }
-        return arguments[1] + arguments[4]
+        return p1 + p4
       })
       strValue = strValue.replace('?&', '?')
     }
   } else if (r != null) {
     strValue = url.replace(reg, `$1$2${value}$4`)
   } else if (search.length > 1) {
-    let sub = search[1].split('#')
+    const sub = search[1].split('#')
     if (sub.length > 1) {
       if (sub[1].length) {
         strValue = `${search[0]}?${sub[0]}&${name}=${value}#${sub[1]}`
@@ -530,7 +528,7 @@ export const replaceUrlParam = (
     }
   } else {
     // 不存在?时,搜索hash
-    let sub = url.split('#')
+    const sub = url.split('#')
     if (sub.length > 1) {
       strValue = `${sub[0]}?${name}=${value}#${sub[1]}`
     } else {
@@ -660,4 +658,22 @@ export const setLog = (logLevel?: string | number, logConfig?: AnyObject) => {
       break
   }
   // return log
+}
+
+/**
+ * 深拷贝函数
+ * @param obj 需要拷贝的对象
+ * @returns 拷贝后的对象
+ */
+export const deepCopy = (obj: any): any => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj
+  }
+  let copy = Array.isArray(obj) ? [] : {}
+  for (let key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      ;(copy as AnyObject)[key] = deepCopy(obj[key])
+    }
+  }
+  return copy
 }
