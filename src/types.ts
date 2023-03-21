@@ -51,6 +51,9 @@ export declare interface Info {
 export declare interface AnyObject {
   [key: string]: any
 }
+export declare interface StringObject {
+  [key: string]: string
+}
 /**boolean 1 0类型，用于判断 true|false*/
 export declare type Bool = boolean | 1 | 0
 /**https://uniapp.dcloud.io/api/request/network-file.html#uploadfile */

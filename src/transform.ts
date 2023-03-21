@@ -5,6 +5,7 @@
  * @description 类型转换相关处理
  */
 import { safeData } from './base'
+import { StringObject } from './types'
 
 /**
  * @function
@@ -16,15 +17,18 @@ export const encodeHtml = (argHtml: string): string => {
   if (!argHtml || argHtml.length === 0) {
     return ''
   }
-  argHtml = argHtml
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/'/g, '&apos;')
-    .replace(/"/g, '&quot;')
-    .replace(/ /g, '&nbsp;')
-    .replace(/\n/g, '<br>')
-  return argHtml
+  const htmlEntities: StringObject = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&apos;',
+    '"': '&quot;',
+    ' ': '&nbsp;',
+    '\n': '<br>',
+  }
+  return argHtml.replace(/[&<>"' \n]/g, function (char) {
+    return htmlEntities[char]
+  })
 }
 
 /**
@@ -34,18 +38,17 @@ export const encodeHtml = (argHtml: string): string => {
  * @returns {string}
  */
 export const decodeHtml = (argHtml: string): string => {
-  if (!argHtml || argHtml.length === 0) {
-    return ''
+  const htmlEntities: StringObject = {
+    quot: '"',
+    apos: "'",
+    lt: '<',
+    gt: '>',
+    nbsp: ' ',
+    amp: '&',
   }
-  argHtml = argHtml
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/<br>/g, '\n')
-  return argHtml
+  return argHtml.replace(/&([^;]+);/g, (match, entity) => {
+    return htmlEntities[entity] || match
+  })
 }
 
 /**
