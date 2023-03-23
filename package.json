@@ -42,9 +42,9 @@
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/ && cp static/baidu.js dist/lj-utils/scripts/baidu.js",
     "build": "npm run b&&npm run doc&&npm run test",
     "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
-    "z": "npm version patch && ./pushTag.sh",
-    "y": "npm version minor && ./pushTag.sh",
-    "x": "npm version major && ./pushTag.sh",
+    "z": "npm version patch && ./push.sh",
+    "y": "npm version minor && ./push.sh",
+    "x": "npm version major && ./push.sh",
     "push": "nrm use npm && npm login && npm publish && nrm use taobao"
   },
   "dependencies": {

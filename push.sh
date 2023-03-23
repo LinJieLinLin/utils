@@ -15,10 +15,19 @@ read option
 case $option in
 1)
   git push origin
+  if git remote | grep -q "github"; then
+    git push github
+  fi
   ;;
 2)
   # 推送 tag 到远程仓库
+  if [ -n "$(git status --porcelain)" ]; then
+    git push github | git push
+  fi
   git push origin $latest_tag
+  if git remote | grep -q "github"; then
+    git push github $latest_tag
+  fi
   echo "tag: $latest_tag at $current_time on branch $branch_name"
   ;;
 3)
