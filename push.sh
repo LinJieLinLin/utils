@@ -22,10 +22,13 @@ case $option in
 2)
   # 推送 tag 到远程仓库
   if [ -n "$(git status --porcelain)" ]; then
-    git push github | git push
+    git push origin
   fi
   git push origin $latest_tag
   if git remote | grep -q "github"; then
+    if [ -n "$(git status --porcelain)" ]; then
+      git push github
+    fi
     git push github $latest_tag
   fi
   echo "tag: $latest_tag at $current_time on branch $branch_name"
