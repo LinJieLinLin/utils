@@ -16,6 +16,7 @@
     "./less/common.less": "./static/less/common.less",
     "./scss/index.scss": "./static/scss/index.scss",
     "./scss/global.scss": "./static/scss/global.scss",
+    "./scss/animations/index.scss": "./static/scss/animations/index.scss",
     "./package.json": "./package.json"
   },
   "keywords": [
