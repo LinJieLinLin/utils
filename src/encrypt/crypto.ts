@@ -37,12 +37,19 @@ export const enAes = (word: string | number): string =>
  * @param {string} word 待解密内容
  * @returns {string} 已解密内容
  */
-export const deAes = (word: string): string =>
-  CryptoJS.AES.decrypt(word, key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  }).toString(CryptoJS.enc.Utf8)
+export const deAes = (word: string): string => {
+  try {
+    return CryptoJS.AES.decrypt(word, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    }).toString(CryptoJS.enc.Utf8)
+  } catch (error) {
+    console.error(error)
+    return ''
+  }
+}
+
 /**
  * @function
  * @description md5 加密

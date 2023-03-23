@@ -31,15 +31,15 @@ describe('encrypt', () => {
   })
   it('key by', function () {
     const fn = j.enAes
-    expect(j.deAes(fn('中国'))).toBe('中国')
-    expect(j.decode(j.encode('中国', 'aes'), 'aes')).toBe('中国')
+    expect(j.deAes(fn('china'))).toBe('china')
+    expect(j.decode(j.encode('china', 'aes'), 'aes')).toBe('china')
   })
   it('aesInit', function () {
     const fn = j.aesInit
-    expect(j.deAes(j.enAes('中国'))).toBe('中国')
-    expect(j.decode(j.encode('中国', 'aes'), 'aes')).toBe('中国')
-    let temEncode = j.enAes('中国')
+    expect(j.deAes(j.enAes('china'))).toBe('china')
+    expect(j.decode(j.encode('china', 'aes'), 'aes')).toBe('china')
+    let temEncode = j.enAes('china')
     expect(fn('key', 'key123')).toBe(undefined)
-    expect(j.deAes(temEncode)).not.toBe('中国')
+    expect(j.deAes(temEncode)).not.toBe('china')
   })
 })
