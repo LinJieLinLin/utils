@@ -4,7 +4,12 @@ import { AnyFn, Bool } from '../types'
  * @classdesc 通用延时loading
  * @author linjielinlin 993353454@qq.com
  * @date 2022-05-11 22:07:43
- * @example  const L = new.Loading(argShow,argHide,300) L.loading(1)/L.loading(0) = L.show()/L.hide() *
+ * @example
+ * const L = new.Loading(argShow,argHide,300)
+ * L.show()
+ * L.hide()
+ * L.loading(1)
+ * L.loading(0)
  */
 
 export class Loading {
@@ -65,9 +70,17 @@ export class Loading {
       }, 0)
     }
   }
+  /**
+   * @function
+   * @description 显示loading，同loading(1)
+   */
   show() {
     this.loading(true)
   }
+  /**
+   * @function
+   * @description 隐藏loading，同loading(0)
+   */
   hide() {
     this.loading(false)
   }

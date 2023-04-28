@@ -1,13 +1,28 @@
-import { AnyObject } from "../types"
-
-/*
-import scrollX from './scrollX';
- * @module
- * @author: linj
- * @email: 993353454@qq.com
- * @Date: 2021-11-30 17:50:18
- * @description: 盒子滚动条拖拽用于父节点
+/**
+ * @module directive
+ * @author linjielinlin 993353454@qq.com
+ * @date 2022-05-11 22:07:43
+ * @description pc滚动条鼠标左右拖拽，用于父节点
+ * @example
+ * // 注册1
+ * import scrollX from './scrollX';
+ * directives: {
+ *   scrollX: scrollX,
+ * },
+ * // 注册2 for <script setup>
+ * import vScrollX from './scrollX';
+ *
+ * <view
+ *     id="a"
+ *     v-scroll-x
+ *     style="height: 100px; width: 100vw; background: grey; overflow: auto"
+ *   >
+ *     <div style="height: 100px; width: 200vw; background: grey">test text</div>
+ *   </view>
  */
+
+import { AnyObject } from '../types'
+
 const on = (function () {
   if (typeof document.addEventListener === 'function') {
     return function (el: any, event: string, handler: any) {
@@ -109,7 +124,7 @@ export const scrollX = {
   unbind: beforeUnmount,
 }
 export default {
-  install(app:AnyObject){
-    app.directive('scrollX',scrollX)
-  }
+  install(app: AnyObject) {
+    app.directive('scrollX', scrollX)
+  },
 }

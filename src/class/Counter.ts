@@ -6,8 +6,9 @@ import { AnyFn } from '../types'
  * @date 2022-05-11 22:07:43
  * @example
  * const counter = new Counter(60, () => {})
- * counter.start() 开始计时(可传入回调函数，返回当前计数)
- * counter.stop() 停止计时
+ * counter.stop()
+ * counter.setCount(60)
+ * counter.start()
  */
 export class Counter {
   count = 0
