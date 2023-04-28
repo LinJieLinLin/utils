@@ -660,7 +660,8 @@ export const setLog = (logLevel?: string | number, logConfig?: AnyObject) => {
 }
 
 /**
- * 深拷贝函数
+ * @function
+ * @description深拷贝函数
  * @param obj 需要拷贝的对象
  * @returns 拷贝后的对象
  */
@@ -675,4 +676,37 @@ export const deepCopy = (obj: any): any => {
     }
   }
   return copy
+}
+
+/**
+ * @function
+ * @description 摇一摇，请求使用 DeviceMotionEvent API 的权限。for ios
+ * @returns Promise，指示是否已授予权限。
+ * @example
+ * ```
+ * const hasRequest = await requestDeviceMotionPermission()
+ * if (hasRequest) {
+ *    useEventListener(window, 'devicemotion', handleShake)
+ *  } else {
+ *    showToast('未授权访问运动传感器,请手动点击！')
+ *  }
+ * ```
+ */
+const requestDeviceMotionPermission = () => {
+  if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+    return (DeviceMotionEvent as any)
+      .requestPermission()
+      .then((permissionState: string) => {
+        if (permissionState === 'granted') {
+          return true
+        } else {
+          return false
+        }
+      })
+      .catch(() => {
+        return false
+      })
+  } else {
+    return true
+  }
 }

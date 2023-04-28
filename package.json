@@ -42,7 +42,7 @@
     "testWatch": "jest ./test/encrypt.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && mv dist/lj-utils/*.*/* dist/lj-utils/ && cp static/baidu.js dist/lj-utils/scripts/baidu.js",
     "build": "npm run b&&npm run doc&&npm run test",
-    "runDoc": "npm run doc && cd dist & http-server -d dist -p 1000 -c-1 -o",
+    "runDoc": "npm run doc && cd dist && http-server -d dist -p 1000 -c-1 -o",
     "z": "npm version patch && npm run p",
     "y": "npm version minor && npm run p",
     "x": "npm version major && npm run p",

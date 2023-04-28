@@ -2,6 +2,7 @@
  * @class
  * @classdesc 小程序canvas海报处理
  */
+//  小程序canvas海报处理
 
 import { sleep } from '../base'
 import { P } from '../microApi'
