@@ -710,3 +710,36 @@ const requestDeviceMotionPermission = () => {
     return true
   }
 }
+
+/**
+ * @function
+ * @description 自动播放音频并返回音频元素。
+ * @param {string} audioUrl - 音频地址
+ * @param {boolean} isWeixin - 是否在微信中
+ * @returns {HTMLAudioElement} - 音频元素
+ */
+const autoPlayAudio = (
+  audioUrl: string,
+  isWeixin: boolean
+): HTMLAudioElement => {
+  const audio = new Audio(audioUrl)
+  audio.addEventListener(
+    'ended',
+    function () {
+      this.currentTime = 0
+      this.play()
+    },
+    false
+  )
+  audio.autoplay = true
+  if (isWeixin) {
+    document.addEventListener(
+      'WeixinJSBridgeReady',
+      function () {
+        audio.play()
+      },
+      false
+    )
+  }
+  return audio
+}
