@@ -12,6 +12,11 @@ export default [
       //   format: 'esm',
       // },
       {
+        file: outputPath + '/index.umd.js',
+        name: 'f',
+        format: 'umd',
+      },
+      {
         file: outputPath + '/index.cjs',
         format: 'cjs',
       },
