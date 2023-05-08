@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.88% </span>
+                <span class="strong">98.9% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>89/90</span>
+                <span class='fraction'>90/91</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.88% </span>
+                <span class="strong">98.9% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>89/90</span>
+                <span class='fraction'>90/91</span>
             </div>
         
             
@@ -153,20 +153,10 @@
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
-<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -179,7 +169,19 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -197,6 +199,7 @@
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -204,13 +207,12 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -251,8 +253,9 @@
  * @date 2022-05-11 22:07:43
  * @example
  * const counter = new Counter(60, () =&gt; {})
- * counter.start() 开始计时(可传入回调函数，返回当前计数)
- * counter.stop() 停止计时
+ * counter.stop()
+ * counter.setCount(60)
+ * counter.start()
  */
 export class Counter {
   count = 0
@@ -261,8 +264,8 @@ export class Counter {
   cb: AnyFn = (a) =&gt; a
   /**
    * @description:
-   * @param {number} argCount 开始计时秒<span class="branch-0 cbranch-no" title="branch not covered" >数</span>
-   * @param {function} argCb 回调函数
+   * @param {number} argCount 开始计时秒数
+<span class="branch-0 cbranch-no" title="branch not covered" >   * @param {function} argCb 回</span>调函数
    */
   constructor(argCount: number = 60, argCb?: AnyFn) {
     this.count = argCount
@@ -285,7 +288,7 @@ export class Counter {
 &nbsp;
   /**
    * @function
-   * @pa<span class="branch-0 cbranch-no" title="branch not covered" >ram {number} argCount 初始倒计数</span>
+   * @para<span class="branch-0 cbranch-no" title="branch not covered" >m {number} argCount 初始倒计数</span>
    * @description 设置初始倒计时数值
    */
   setMaxCount(argCount: number = 60) {
@@ -294,28 +297,28 @@ export class Counter {
   }
 &nbsp;
   /**
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >   * @function</span></span>
+<span class="branch-0 cbranch-no" title="branch not covered" >   * @function</span>
    * @param {function} argCb 计时回调,返回当前剩余秒数
    * @description 开始倒计时
    */
   start(argCb?: AnyFn) {
-    const cbFn: AnyFn = argCb || this.cb
-    // count为0时从最大值开始
+<span class="branch-0 cbranch-no" title="branch not covered" >    const cbFn: AnyFn = argCb || this.cb</span>
+<span class="cstat-no" title="statement not covered" >    // count为0时从最大值开始</span>
     if (!this.count) {
-      this.<span class="branch-0 cbranch-no" title="branch not covered" >count = this.maxCo</span>unt
+      this.co<span class="branch-0 cbranch-no" title="branch not covered" >unt = this.maxCoun</span>t
     }
     if (this.#timer) {
       clearInterval(this.#timer)
     }
     cbFn(this.count)
     this.#timer = setInterval(() =&gt; {
-      this.count<span class="branch-0 cbranch-no" title="branch not covered" >--</span>
+      this.count--
       if (this.count === -1) {
         this.count = this.maxCount
       }
       cbFn(this.count)
       if (this.count &lt; 1) {
-<span class="fstat-no" title="function not covered" >        this.stop(</span>)
+<span class="fstat-no" title="function not covered" >        this.stop()</span>
       }
     }, 1000)
     return this
@@ -340,7 +343,7 @@ export default Counter
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-23T08:32:14.662Z
+                at 2023-05-08T02:01:20.655Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
