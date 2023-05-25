@@ -225,86 +225,121 @@ export const px2vw = (
  * @function
  * @description 秒转倒计时
  * @param {number} argData 秒数
- * @param {string} argType 's,m,h,d,M,y 对应 秒 分 时 天 月 年'
- * @param {object} argOption 额外的处理argOption.unit 单位['年', '月', '天', '时', '分', '秒']
+ * @param {Object} argOption - 配置项
+ * @param {string} argOption.s - 秒的单位，默认为'秒'
+ * @param {string} argOption.m - 分的单位，默认为'分'
+ * @param {string} argOption.h - 时的单位，默认为'时'
+ * @param {string} argOption.d - 天的单位，默认为'天'
+ * @param {string} argOption.M - 月的单位，默认为'月'
+ * @param {string} argOption.y - 年的单位，默认为'年'
+ * @param {string} argOption.minUtil 最小显示的时间单位，小于该单位的舍去，默认为's'
+ * @param {string} argOption.maxUnit 最大的时间单位,默认为'y'，大于该单位的合入该单位 's,m,h,d,M,y 对应 秒 分 时 天 月 年'，eg: 'm' '13月'
+ * @param {boolean} argOption.hideZero - 是否隐藏为0的时间单位，默认为false,如 01h05s
+ * @param {boolean} argOption.isAddZero - 是否小于10时，是否添加0，默认为true
  * @returns {string}
  */
 export const secondToTime = (
   argData: number,
-  argType: string = 'y',
-  argOption: { unit?: string[] } = {}
+  argOption: {
+    s?: string
+    m?: string
+    h?: string
+    d?: string
+    M?: string
+    y?: string
+    maxUnit?: string
+    minUnit?: string
+    hideZero?: boolean
+    isAddZero?: boolean
+  } = {}
 ): string => {
   let res = []
-  let list = [
-    {
+  const {
+    s = '秒',
+    m = '分',
+    h = '时',
+    d = '天',
+    M = '月',
+    y = '年',
+    minUnit = 's',
+    maxUnit = 'y',
+    isAddZero = true,
+  } = argOption
+  const listObj = {
+    s: {
       size: 1,
       type: 's',
-      unit: '',
+      unit: s,
       index: 0,
     },
-    {
+    m: {
       size: 60,
-      unit: ':',
+      unit: m,
       type: 'm',
       index: 1,
     },
-    {
+    h: {
       size: 60,
-      unit: ':',
+      unit: h,
       type: 'h',
       index: 2,
     },
-    {
+    d: {
       size: 24,
-      unit: ':',
+      unit: d,
       type: 'd',
       index: 3,
     },
-    {
+    M: {
       size: 30,
-      unit: ':',
+      unit: M,
       type: 'M',
       index: 4,
     },
-    {
+    y: {
       size: 12,
-      unit: ':',
+      unit: y,
       type: 'y',
       index: 5,
     },
-  ]
+  }
+  let list = [listObj.s, listObj.m, listObj.h, listObj.d, listObj.M, listObj.y]
   let temLen = list.length
   let second = argData
   let size = 1
-  let unitList = argOption?.unit || ['年', '月', '天', '时', '分', '秒']
   let index = 0
   for (let i = 0; i < temLen; i++) {
     let lastSize = size
-    if (argType === list[i].type) {
+    if (maxUnit === list[i].type) {
       let temTime: number | string = Math.floor(second / lastSize)
-      if (temTime < 10) {
+      if (isAddZero && temTime < 10) {
         temTime = '0' + temTime
       }
       res.unshift(temTime)
       index = temLen - i - 1
       break
     }
-    size = size * list[i + 1].size
+    size = size * (list[i + 1]?.size || 0) || 1
     let time: number | string = Math.floor((second % size) / lastSize)
-    if (time < 10) {
+    if (isAddZero && time < 10) {
       time = '0' + time
     }
     res.unshift(time)
   }
   let timeText = ''
   let isZero = true
-  res.map((v, k) => {
-    if (!+v && isZero) {
+  temLen = res.length
+  for (let i = 0; i < temLen; i++) {
+    const v = res[i]
+    if (!+v && (isZero || argOption.hideZero)) {
     } else {
       isZero = false
-      timeText += v + unitList[index + k]
+      timeText += v + list[5 - (index + i)].unit
+      if (minUnit === list[5 - (index + i)].type) {
+        break
+      }
     }
-  })
+  }
   return timeText
 }
 /**

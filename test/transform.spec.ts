@@ -56,13 +56,30 @@ describe('transform', () => {
     const fn = j.secondToTime
     expect(fn(1)).toBe('01秒')
     expect(fn(60)).toBe('01分00秒')
-    expect(fn(70, 's')).toBe('70秒')
-    expect(fn(70, 's', { unit: ['Y', 'M', 'd', 'h', 'm', 's'] })).toBe('70s')
+    expect(fn(70, { maxUnit: 's' })).toBe('70秒')
+    expect(fn(70, { s: 's', maxUnit: 's' })).toBe('70s')
+    expect(fn(70, { s: '', maxUnit: 's' })).toBe('70')
+    expect(fn(70, { m: 'm', maxUnit: 's' })).toBe('70秒')
     expect(fn(3600)).toBe('01时00分00秒')
+    expect(fn(3660, { h: ':', m: ':', s: '' })).toBe('01:01:00')
+    expect(fn(3600, { hideZero: true })).toBe('01时')
+    expect(fn(3601, { hideZero: true })).toBe('01时01秒')
     expect(fn(103600)).toBe('01天04时46分40秒')
+    expect(fn(103600, { maxUnit: 'h' })).toBe('28时46分40秒')
     expect(fn(1103600)).toBe('12天18时33分20秒')
     expect(fn(11103600)).toBe('04月08天12时20分00秒')
+    expect(fn(11103600, { hideZero: true })).toBe('04月08天12时20分')
+    expect(fn(11103600, { hideZero: true, isAddZero: false })).toBe(
+      '4月8天12时20分'
+    )
     expect(fn(51103600)).toBe('01年07月21天11时26分40秒')
+    expect(
+      fn(51103600, { y: 'year', M: 'month', d: 'd', h: 'h', m: 'm', s: 's' })
+    ).toBe('01year07month21d11h26m40s')
+    expect(fn(51103600, { minUnit: 'M', M: '个月', isAddZero: false })).toBe(
+      '1年7个月'
+    )
+    expect(fn(51103600, { maxUnit: 'M' })).toBe('19月21天11时26分40秒')
   })
   it('formatSize', function () {
     const fn = j.formatSize
