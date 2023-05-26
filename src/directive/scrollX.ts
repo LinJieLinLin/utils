@@ -2,26 +2,7 @@
  * @module directive
  * @author linjielinlin 993353454@qq.com
  * @date 2022-05-11 22:07:43
- * @description pc滚动条鼠标左右拖拽，用于父节点
- * @example
- * // 注册1
- * import scrollX from './scrollX';
- * directives: {
- *   scrollX: scrollX,
- * },
- * // 注册2 for <script setup>
- * import vScrollX from './scrollX';
- *
- * <view
- *     id="a"
- *     v-scroll-x
- *     style="height: 100px; width: 100vw; background: grey; overflow: auto"
- *   >
- *     <div style="height: 100px; width: 200vw; background: grey">test text</div>
- *   </view>
  */
-
-import { AnyObject } from '../types'
 
 const on = (function () {
   if (typeof document.addEventListener === 'function') {
@@ -30,11 +11,10 @@ const on = (function () {
         el.addEventListener(event, handler, false)
       }
     }
-  } else {
-    return function (el: any, event: string, handler: any) {
-      if (el && event && handler) {
-        el.attachEvent('on' + event, handler)
-      }
+  }
+  return function (el: any, event: string, handler: any) {
+    if (el && event && handler) {
+      el.attachEvent('on' + event, handler)
     }
   }
 })()
@@ -46,11 +26,10 @@ const off = (function () {
         el.removeEventListener(event, handler, false)
       }
     }
-  } else {
-    return function (el: any, event: string, handler: any) {
-      if (el && event) {
-        el.detachEvent('on' + event, handler)
-      }
+  }
+  return function (el: any, event: string, handler: any) {
+    if (el && event) {
+      el.detachEvent('on' + event, handler)
     }
   }
 })()
@@ -91,12 +70,12 @@ const mounted = function (el: any) {
   on(el, 'mouseup', scrollMouseup)
   // 鼠标拖拽
   on(el, 'mousemove', (event: any) => {
-    let moveX = targetDrag.position.x - event.pageX
+    const moveX = targetDrag.position.x - event.pageX
     // let moveY = targetDrag.position.y - event.pageY
     targetDrag.position.x = event.pageX
     // targetDrag.position.y = event.pageY
     if (targetDrag.isDown) {
-      el.scrollLeft = el.scrollLeft + moveX
+      el.scrollLeft += moveX
       // el.scrollTop = el.scrollTop + moveY
     }
   })
@@ -116,6 +95,26 @@ const beforeUnmount = function (el: any) {
     },
   }
 }
+
+/**
+ * @description pc滚动条鼠标左右拖拽，用于父节点
+ * @example
+ * // 注册1
+ * import scrollX from './scrollX';
+ * directives: {
+ *   scrollX: scrollX,
+ * },
+ * // 注册2 for <script setup>
+ * import vScrollX from './scrollX';
+ *
+ * <view
+ *     id="a"
+ *     v-scroll-x
+ *     style="height: 100px; width: 100vw; background: grey; overflow: auto"
+ *   >
+ *     <div style="height: 100px; width: 200vw; background: grey">test text</div>
+ *   </view>
+ */
 export const scrollX = {
   mounted,
   beforeUnmount,
@@ -123,8 +122,4 @@ export const scrollX = {
   bind: mounted,
   unbind: beforeUnmount,
 }
-export default {
-  install(app: AnyObject) {
-    app.directive('scrollX', scrollX)
-  },
-}
+export default scrollX
