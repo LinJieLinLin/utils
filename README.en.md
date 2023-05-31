@@ -1,37 +1,95 @@
-# utils
+# lj-utils
 
-## Description
+<!-- [![forks](https://img.shields.io/github/forks/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils) -->
+<!-- [![issues](https://img.shields.io/github/issues/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils/issues) -->
 
-utils
+[![stars](https://img.shields.io/github/stars/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils)
+[![Website](https://img.shields.io/badge/ljUtils-up-blue?style=flat-square)](https://linjielinlin.github.io/utils/lj-utils/index.html)
+[![release](https://img.shields.io/github/v/release/LinJieLinLin/utils?style=flat-square)](https://gitee.com/LinJieLinLin/utils/releases)
+[![license](https://img.shields.io/github/license/LinJieLinLin/utils?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
-### Software Architecture
+## Introduction
 
-Software architecture description
+> lj-utils is a common js library that I have organized, with the following directory structure:
 
-### Installation
+- lj-utils/index: Common JavaScript utility functions and constants, suitable for various front-end frameworks and node applications.
+- lj-utils/microApi: API encapsulation based on uniapp mini program development.
+- lj-utils/mixins: Vue.js mixin.
+- lj-utils/class: Common class.
+- lj-utils/directive: Vue.js custom directive.
+- lj-utils/scss: Common SCSS style library.
+- lj-utils/less: Common style library less version.
 
-1. xxxx
-2. xxxx
-3. xxxx
+## Repository
 
-### Instructions
+> github [https://github.com/LinJieLinLin/utils](https://github.com/LinJieLinLin/utils)
 
-1. xxxx
-2. xxxx
-3. xxxx
+> gitee [https://gitee.com/uni-pro/utils](https://gitee.com/uni-pro/utils)
 
-### Contribution
+## Installation tutorial (npm/yarn/pnpm)
 
-1. Fork the repository
-2. Create Feat_xxx branch
-3. Commit your code
-4. Create Pull Request
+- npm i lj-utils
+- yarn add lj-utils
+- pnpm i lj-utils
 
-### Gitee Feature
+## Instructions for use:
 
-1. You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2. Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3. Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4. The most valuable open source project [GVP](https://gitee.com/gvp)
-5. The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6. The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+### esm reference
+
+```js
+import { setTitle } from 'lj-utils'
+setTitle('hi')
+// or
+import * as ljUtils from 'lj-utils'
+ljUtils.setTitle('hi')
+```
+
+### node reference
+
+```js
+const ljUtils = require('lj-utils')
+```
+
+### Browser reference, mounted on window.f
+
+```html
+<head>
+  <script src="https://npm.elemecdn.com/lj-utils/index.umd.js"></script>
+  <script>
+    window.onload = function () {
+      console.log(window.f)
+    }
+  </script>
+</head>
+```
+
+### Online documentation
+
+> Visit latest: [https://linjielinlin.github.io/utils/lj-utils/index.html](https://linjielinlin.github.io/utils/lj-utils/index.html)
+
+> Or visit [http://lj4.top/utils/lj-utils/index.html](https://lj4.top/utils/lj-utils/index.html)
+
+### If the compilation fails, add the following code to vue.config.js
+
+```js
+transpileDependencies: ['lj-utils'],
+```
+
+### Automatically import lj-utils/index public functions (unplugin-auto-import/vite)
+
+```ts
+// vite.config.ts
+import AutoImport from 'unplugin-auto-import/vite';
+import { ljResolver } from 'lj-utils/resolver.js';
+AutoImport({
+  ...,
+  resolvers: [ljResolver()],
+})
+```
+
+## Contribution
+
+1. Fork this repository
+2. Create a Feat_xxx branch
+3. Submit code
+4. Create a Pull Request
