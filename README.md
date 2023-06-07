@@ -54,7 +54,7 @@ const ljUtils = require('lj-utils')
 
 ```html
 <head>
-  <script src="https://npm.elemecdn.com/lj-utils/index.umd.js"></script>
+  <script src="https://npm.elemecdn.com/lj-utils@latest/index.umd.js"></script>
   <script>
     window.onload = function () {
       console.log(window.f)
