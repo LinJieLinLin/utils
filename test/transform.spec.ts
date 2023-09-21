@@ -156,4 +156,60 @@ describe('transform', () => {
     const fn = j.string62to10
     expect(fn('1Z')).toBe(123)
   })
+  it('arrayToObj', function () {
+    const fn = j.arrayToObj
+    const a = [
+      {
+        id: 1,
+        name: '11',
+        value: '111',
+      },
+      {
+        id: 2,
+        name: '22',
+        value: '222',
+      },
+    ]
+    expect(fn(a, 'id')[2].value).toBe('222')
+    expect(fn(a, 'name')[22].value).toBe('222')
+    expect(fn(a, 'value')[222].value).toBe('222')
+    expect(fn(a, 'id', 'id')[2]).toBe(2)
+    const b = [1, 2, 3]
+    expect(fn(b)).toStrictEqual({
+      0: 1,
+      1: 2,
+      2: 3,
+    })
+    expect(fn(b, 'id')).toStrictEqual({
+      id0: 1,
+      id1: 2,
+      id2: 3,
+    })
+  })
+  it('objToArray', function () {
+    const fn = j.objToArray
+    expect(fn({ a: 1, b: 2 })).toStrictEqual([
+      { key: 'a', value: 1 },
+      { key: 'b', value: 2 },
+    ])
+    expect(fn({ a: 1, b: 2 }, 'id', 'v')).toStrictEqual([
+      { id: 'a', v: 1 },
+      { id: 'b', v: 2 },
+    ])
+    expect(fn({ a: 1, b: 2 }, 'id', 'v', true)).toStrictEqual([
+      { v: 'a', id: 1 },
+      { v: 'b', id: 2 },
+    ])
+    expect(fn({ a: 1, b: 2 }, 'id')).toStrictEqual([
+      { id: 'a', value: 1 },
+      { id: 'b', value: 2 },
+    ])
+  })
+  it('objToObj', function () {
+    const fn = j.objToObj
+    expect(fn({ a: 1, b: 2 }, { key: 'a', value: 'b' })).toStrictEqual({
+      key: 1,
+      value: 2,
+    })
+  })
 })

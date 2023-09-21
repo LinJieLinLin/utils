@@ -5,7 +5,7 @@
  * @description 类型转换相关处理
  */
 import { safeData } from './base'
-import { StringObject } from './types'
+import { AnyObject, StringObject } from './types'
 
 /**
  * @function
@@ -532,4 +532,70 @@ export const toHump = (argData: string, argUnit: string = '_'): string => {
       return letter.toUpperCase()
     }
   )
+}
+
+/**
+ * @function
+ * @description 指定数组key,转换为对象
+ * @param {any[]} list - 数组
+ * @param {string} key - object 对应key
+ * @return {Object} - 返回obj
+ */
+export const arrayToObj = (
+  list: any[],
+  key: string = '',
+  value = ''
+): AnyObject => {
+  let obj: AnyObject = {}
+  list.forEach((item: any, k) => {
+    if (value) {
+      obj[item[key] || key + k] = item[value]
+    } else {
+      obj[item[key] || key + k] = item
+    }
+  })
+  return obj
+}
+/**
+ * 将对象转换为键值对数组。
+ *
+ * @param {object} obj - 要转换的对象。
+ * @param {string} [key='key'] - 每个键值对的键名称默认key。
+ * @param {string} [value='value'] - 每个键值对的值名称默认value。
+ * @param {boolean} [isReverse=false] - 如果为true，则键值对将被颠倒,默认为false。
+ * @return {array} - 键值对数组。
+ * @example 
+// Example usage
+const obj = { a: 1, b: 2 };
+const result = objToArray(obj, 'id', 'v', true);
+console.log(result); // Output: [{ v: 'a', id: 1 }, { v: 'b', id: 2 }]
+*/
+export const objToArray = (
+  obj: { [key: string]: any },
+  key: string = 'key',
+  value: string = 'value',
+  isReverse: boolean = false
+): any[] => {
+  const result: any[] = []
+  for (const k in obj) {
+    if (obj.hasOwnProperty(k)) {
+      result.push({
+        [key]: isReverse ? obj[k] : k,
+        [value]: isReverse ? k : obj[k],
+      })
+    }
+  }
+  return result
+}
+export const objToObj = (
+  obj: { [key: string]: any },
+  newObj: { [key: string]: string }
+) => {
+  for (const key in newObj) {
+    const temKey = newObj[key] || key
+    if (obj.hasOwnProperty(temKey)) {
+      newObj[key] = obj[temKey]
+    }
+  }
+  return newObj
 }

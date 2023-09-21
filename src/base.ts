@@ -147,35 +147,51 @@ export const getCookie = (argName: string): string => {
   })
   return cookie ? decodeURIComponent(cookie.split('=')[1] || '') : ''
 }
-
+/**
+ * @function
+ * @description 获取cookie对象
+ * @returns {string}
+ */
+export const getCookieObj = (): { [key: string]: string } => {
+  const cookies = globalThis.document.cookie.split('; ')
+  const cookieObj: { [key: string]: string } = {}
+  cookies.forEach((cookie) => {
+    const [key, value = ''] = cookie.split('=')
+    cookieObj[key] = decodeURIComponent(value)
+  })
+  return cookieObj
+}
 /**
  * @function
  * @description 设置cookie
  * @param  {string} argName 要设置的key
  * @param  {string} argValue 要设置的value
- * @param  {number} argTime 过期时间/时 默认24小时
+ * @param  {number} argTime 过期时间/时 默认24
+ * @param  {number} argPath path
+ * @param  {number} domain domain
  */
 export const setCookie = (
   argName: string,
   argValue: string | number | boolean = '',
-  argTime: number = 24
+  argTime: number = 24,
+  argPath: string = '/',
+  domain: string = globalThis.location.hostname
 ) => {
-  let now = new Date()
-  let offset = 8
-  let utc = now.getTime() + now.getTimezoneOffset() * 60000
-  let nd = utc + 3600000 * offset
-  let exp = new Date(nd)
-  let domain = globalThis.document.domain
-  exp.setTime(exp.getTime() + argTime * 60 * 60 * 1000)
-  globalThis.document.cookie =
-    argName +
-    '=' +
-    encodeURIComponent(argValue) +
-    ';path=/;expires=' +
-    exp.toUTCString() +
-    ';domain=' +
-    domain +
-    ';'
+  if (argTime === 0) {
+    globalThis.document.cookie = `${argName}=${encodeURIComponent(
+      argValue
+    )};path=${argPath};domain=${domain};`
+  } else {
+    const now = new Date()
+    const offset = 8
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000
+    const nd = utc + 3600000 * offset
+    const exp = new Date(nd)
+    exp.setTime(exp.getTime() + argTime * 60 * 60 * 1000)
+    globalThis.document.cookie = `${argName}=${encodeURIComponent(
+      argValue
+    )};path=${argPath};expires=${exp.toUTCString()};domain=${domain};`
+  }
 }
 
 /**
