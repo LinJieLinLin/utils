@@ -4,7 +4,7 @@
  * @date 2022-05-11 22:07:43
  * @description 类型转换相关处理
  */
-import { safeData } from './base'
+import { deepCopy, safeData } from './base'
 import { AnyObject, StringObject } from './types'
 
 /**
@@ -587,15 +587,30 @@ export const objToArray = (
   }
   return result
 }
+/**
+ * 从原始对象中复制属性，并将其赋值给新对象，生成一个新对象。
+ *
+ * @param {Object} obj - 要复制属性的原始对象。
+ * @param {Object} newObj - 要赋值属性的新对象。
+ * @param {boolean} isAssign - 可选。确定是否将属性赋值给原始对象。
+ * @return {Object} 复制了属性的新对象。
+ */
 export const objToObj = (
   obj: { [key: string]: any },
-  newObj: { [key: string]: string }
+  tmplObj: { [key: string]: any },
+  isAssign: boolean = false
 ) => {
+  let newObj = deepCopy(tmplObj)
   for (const key in newObj) {
     const temKey = newObj[key] || key
-    if (obj.hasOwnProperty(temKey)) {
-      newObj[key] = obj[temKey]
+    if (typeof newObj[key] === 'object') {
+      newObj[key] = objToObj(obj, newObj[key])
+    } else {
+      newObj[key] = safeData(obj, temKey, '')
     }
+  }
+  if (isAssign) {
+    newObj = Object.assign(obj, newObj)
   }
   return newObj
 }

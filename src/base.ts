@@ -407,8 +407,9 @@ export const safeData = (
       if (typeof argData[temKey[i]] !== 'object') {
         if (argSetValueForce) {
           console.warn('safeData setValue err：', argData, 'index:', i)
+        } else {
+          return argValue
         }
-        return argValue
       }
       argData = argData[temKey[i]] || {}
     }
@@ -681,14 +682,22 @@ export const setLog = (logLevel?: string | number, logConfig?: AnyObject) => {
  * @param obj 需要拷贝的对象
  * @returns 拷贝后的对象
  */
-export const deepCopy = (obj: any): any => {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj
-  }
-  let copy = Array.isArray(obj) ? [] : {}
+export const deepCopy = (obj: any, hash = new WeakMap()): any => {
+  if (obj === null || typeof obj !== 'object') return obj
+  if (obj instanceof Date) return new Date(obj)
+  if (obj instanceof RegExp) return new RegExp(obj)
+  if (obj instanceof Map) return new Map(deepCopy(Array.from(obj), hash))
+  if (obj instanceof Set) return new Set(deepCopy(Array.from(obj), hash))
+  if (hash.has(obj)) return hash.get(obj)
+
+  const copy = Array.isArray(obj)
+    ? []
+    : Object.create(Object.getPrototypeOf(obj))
+  hash.set(obj, copy)
+
   for (let key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      ;(copy as AnyObject)[key] = deepCopy(obj[key])
+      copy[key] = deepCopy(obj[key], hash)
     }
   }
   return copy

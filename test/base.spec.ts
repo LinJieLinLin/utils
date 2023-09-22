@@ -141,22 +141,53 @@ describe('base', () => {
     expect(j.getEnv('c')).toBe('')
     expect(j.getEnv('b')).toBe(2)
   })
-  it('deepCopy', function () {
-    expect(j.deepCopy(1)).toBe(1)
-    expect(j.deepCopy('hello')).toBe('hello')
-    expect(j.deepCopy(null)).toBe(null)
-    expect(j.deepCopy(undefined)).toBe(undefined)
-    const obj = {
-      a: 1,
-      b: {
-        c: 2,
-        d: [3, 4],
-      },
-    }
-    const copy = j.deepCopy(obj)
-    expect(copy).toEqual(obj)
-    expect(copy).not.toBe(obj)
-    expect(copy.b).not.toBe(obj.b)
-    expect(copy.b.d).not.toBe(obj.b.d)
+})
+describe('deepCopy function', () => {
+  it('should copy primitive types', () => {
+    expect(j.deepCopy(1)).toEqual(1)
+    expect(j.deepCopy('string')).toEqual('string')
+    expect(j.deepCopy(true)).toEqual(true)
+  })
+
+  it('should copy Date objects', () => {
+    const date = new Date()
+    const copiedDate = j.deepCopy(date)
+    expect(copiedDate).toEqual(date)
+    expect(copiedDate).not.toBe(date)
+  })
+
+  it('should copy RegExp objects', () => {
+    const regex = /test/g
+    const copiedRegex = j.deepCopy(regex)
+    expect(copiedRegex).toEqual(regex)
+    expect(copiedRegex).not.toBe(regex)
+  })
+
+  it('should copy Map objects', () => {
+    const map = new Map().set('key', 'value')
+    const copiedMap = j.deepCopy(map)
+    expect(copiedMap).toEqual(map)
+    expect(copiedMap).not.toBe(map)
+  })
+
+  it('should copy Set objects', () => {
+    const set = new Set().add('value')
+    const copiedSet = j.deepCopy(set)
+    expect(copiedSet).toEqual(set)
+    expect(copiedSet).not.toBe(set)
+  })
+
+  it('should copy array objects', () => {
+    const array = [1, 2, 3]
+    const copiedArray = j.deepCopy(array)
+    expect(copiedArray).toEqual(array)
+    expect(copiedArray).not.toBe(array)
+  })
+
+  it('should copy plain objects', () => {
+    const obj = { key: 'value' }
+    const copiedObj = j.deepCopy(obj)
+    expect(copiedObj).toEqual(obj)
+    expect(copiedObj).not.toBe(obj)
   })
 })

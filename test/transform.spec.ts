@@ -211,5 +211,42 @@ describe('transform', () => {
       key: 1,
       value: 2,
     })
+    expect(fn({ a: 1, b: 2 }, { key: 'a', value: 'c' })).toStrictEqual({
+      key: 1,
+      value: '',
+    })
+    expect(
+      fn({ a: 1, b: 2, aa: { a: 11, b: 22 } }, { key: 'a', value: 'aa' })
+    ).toStrictEqual({
+      key: 1,
+      value: { a: 11, b: 22 },
+    })
+    expect(
+      fn({ a: 1, b: 2, aa: { a: 11, b: 22 } }, { key: 'a', value: 'aa.b' })
+    ).toStrictEqual({
+      key: 1,
+      value: 22,
+    })
+    expect(fn({ a: 1, b: 2 }, { key: 'a', a: '' })).toStrictEqual({
+      key: 1,
+      a: 1,
+    })
+    expect(fn({ a: 1, b: 2 }, { key: 'a', extra: { a: '' } })).toStrictEqual({
+      key: 1,
+      extra: {
+        a: 1,
+      },
+    })
+    const t1 = { a: 1, b: 2, aa: { a: 11, b: 22 } }
+    const t2 = { key: 'a', extra: { e: { x: { t: { r: { a: 'aa.b' } } } } } }
+    expect(fn(t1, t2)).toStrictEqual({
+      key: 1,
+      extra: { e: { x: { t: { r: { a: 22 } } } } },
+    })
+    expect(t1).toStrictEqual({ a: 1, b: 2, aa: { a: 11, b: 22 } })
+    expect(t2).not.toStrictEqual({
+      key: 1,
+      extra: { e: { x: { t: { r: { a: 22 } } } } },
+    })
   })
 })
