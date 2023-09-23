@@ -29,6 +29,11 @@ if (globalThis && globalThis.addEventListener) {
  * @function
  * @description 获取当前网络状态（H5）
  * @return boolean
+ * @returns {boolean}
+ * @example
+ * ```
+ * const status = getNetworkStatus();
+ * ```
  */
 export const getNetworkStatus = () => {
   return isOnline
@@ -38,6 +43,11 @@ export const getNetworkStatus = () => {
  * @function
  * @description 正则收集
  * @returns {object}
+ * @returns {object}
+ * @example
+ * ```
+ * const regex = getRegexp();
+ * ```
  */
 export const getRegexp = (): AnyObject => {
   return {
@@ -150,7 +160,7 @@ export const getCookie = (argName: string): string => {
 /**
  * @function
  * @description 获取cookie对象
- * @returns {string}
+ * @returns {object}
  */
 export const getCookieObj = (): { [key: string]: string } => {
   const cookies = globalThis.document.cookie.split('; ')

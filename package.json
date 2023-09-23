@@ -112,9 +112,6 @@
     },
     "plugins": [],
     "extends": [],
-    "env": {
-      "wx": true
-    },
     "globals": {
       "window": true,
       "taro": true,

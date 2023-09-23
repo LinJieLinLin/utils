@@ -8,12 +8,13 @@
 import { safeData } from './base'
 
 /**
- * 描述
- * @function
- * @description blob转base64
+ * @function blobToBase64
+ * @description 将Blob对象转换为base64字符串
  * @date 2020-03-01
- * @param {Blob} argBlob 要处理的数据
- * @returns {Promise} 返回base64
+ * @param {Blob} argBlob 需要处理的Blob对象
+ * @returns {Promise} 返回base64字符串
+ * @example
+ * blobToBase64(blob).then(base64 => console.log(base64));
  */
 export const blobToBase64 = async (argBlob: Blob): Promise<any> => {
   // eslint-disable-next-line no-undef
@@ -27,12 +28,13 @@ export const blobToBase64 = async (argBlob: Blob): Promise<any> => {
   }
 }
 /**
- * 描述
- * @function
- * @description blobUrl 转 file文件
+ * @function blobUrlToFile
+ * @description 将blobUrl转换为File对象
  * @date 2020-03-01
  * @param {string} argData blobUrl
- * @returns {Promise} 返回文件流
+ * @returns {Promise} 返回File对象
+ * @example
+ * blobUrlToFile(url).then(file => console.log(file));
  */
 export const blobUrlToFile = async (argData: string): Promise<any> => {
   return new Promise(function (resolve, reject) {
@@ -53,10 +55,12 @@ export const blobUrlToFile = async (argData: string): Promise<any> => {
 }
 
 /**
- * @function
- * @description 图片dataUrl base64转blob对象
+ * @function dataURLtoBlob
+ * @description 将图片的dataUrl base64转换为Blob对象
  * @param {string} argData dataUrl
- * @returns {Blob}
+ * @returns {Blob} 返回Blob对象
+ * @example
+ * const blob = dataURLtoBlob(dataUrl);
  */
 export const dataURLtoBlob = (argData: string): Blob => {
   if (!argData.match(/;base64,/)) {
@@ -77,11 +81,13 @@ export const dataURLtoBlob = (argData: string): Blob => {
 }
 
 /**
- * @function
- * @description blob转file对象
- * @param {Blob} argBlob blob对像
- * @param {string} argName filename
- * @returns {File}
+ * @function blobToFile
+ * @description 将Blob对象转换为File对象
+ * @param {Blob} argBlob Blob对象
+ * @param {string} argName 文件名，默认为当前时间戳
+ * @returns {File} 返回File对象
+ * @example
+ * const file = blobToFile(blob, 'example.txt');
  */
 export const blobToFile = (
   argBlob: Blob,
@@ -93,11 +99,13 @@ export const blobToFile = (
   return file
 }
 /**
- * @function
+ * @function dlFile
  * @description 下载文件
- * @param {string|Blob|File} argData blob对像/file对象/dataUrl/base64
- * @param {string} argName filename
+ * @param {string|Blob|File} argData Blob对象/File对象/dataUrl/base64
+ * @param {string} argName 文件名
  * @param {number} argDelTime 移除dateUrl时间
+ * @example
+ * dlFile(data, 'example.txt', 10000);
  */
 export const dlFile = (
   argData: string | Blob | File,
@@ -126,10 +134,12 @@ export const dlFile = (
   globalThis.document.body.removeChild(downNode)
 }
 /**
- * @function
- * @description 获取音视频时长
- * @param {Blob|File|string} argFile 音视频数据，string时为链接
- * @returns {Promise} 时长单位秒
+ * @function getDuration
+ * @description 获取音视频文件的时长
+ * @param {Blob|File|string} argFile 音视频数据，如果是string类型，则为链接
+ * @returns {Promise} 返回时长（单位：秒）
+ * @example
+ * getDuration(file).then(duration => console.log(duration));
  */
 export const getDuration = async (
   argFile: Blob | File | string
@@ -156,15 +166,16 @@ export const getDuration = async (
   })
 }
 /**
- * @function
+ * @function loadFile
  * @description 动态加载html文件标签
  * @param {string} argUrl 要加载的url
  * @param {string} argType 加载类型 js/css
- * @param {object} argOptions{
- * disCheck:'不检查是否有相同标签'
- * force:'如果有相同标签，先删除再添加'
- * } 是否强制添加
- * @return {Promise}
+ * @param {object} argOptions
+ * @param {string} argOption.disCheck 不检查是否有相同标签
+ * @param {string} argOption.force 是否强制添加，true时先删除再添加
+ * @return {Promise} 返回Promise对象
+ * @example
+ * loadFile(url, 'js', {force: true}).then(() => console.log('Loaded'));
  */
 export const loadFile = (
   argUrl: string,

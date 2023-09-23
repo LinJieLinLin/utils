@@ -231,6 +231,11 @@ describe('transform', () => {
       key: 1,
       a: 1,
     })
+    expect(fn({ a: 1, b: 2 }, { key: 'a', a: '' }, true)).toStrictEqual({
+      key: 1,
+      a: 1,
+      b: 2,
+    })
     expect(fn({ a: 1, b: 2 }, { key: 'a', extra: { a: '' } })).toStrictEqual({
       key: 1,
       extra: {
@@ -248,5 +253,12 @@ describe('transform', () => {
       key: 1,
       extra: { e: { x: { t: { r: { a: 22 } } } } },
     })
+    const obj = { a: 1, b: 2, 0: '0' }
+    const tmplObj = { a: 0, c: 0 }
+    expect(fn(obj, tmplObj)).toStrictEqual({ a: 1, c: '' })
+    const tmplObj1 = { a: 0, c: '0' }
+    expect(fn(obj, tmplObj1)).toStrictEqual({ a: 1, c: '0' })
+    const tmplObj2 = { a: '0', c: 'b' }
+    expect(fn(obj, tmplObj2)).toStrictEqual({ a: '0', c: 2 })
   })
 })
