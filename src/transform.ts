@@ -420,32 +420,6 @@ export const formatNumber = (argData: number, argNum: number = 2): string => {
 }
 
 /**
- * @function toList
- * @description 将对象转换为列表，列表项的具体内容取决于传入的 getItem 函数。
- * @param map - 输入的对象。
- * @param getItem - 用于生成列表项的函数。
- * @returns {Item[]} - 由 getItem() 生成的列表。
- * @example
- * // 示例
- * const map = { a: 1, b: 2 };
- * const getItem = (key, value) => ({ key, value });
- * const list = toList(map, getItem);
- * console.log(list); // 输出: [{ key: 'a', value: 1 }, { key: 'b', value: 2 }]
- */
-export function toList<V, K extends string, Item>(
-  map: Record<K, V>,
-  getItem: (key: K, value: V) => Item
-) {
-  const list = [] as Item[]
-  Object.keys(map).forEach((key: any) => {
-    // @ts-ignore, trust me.
-    const item = getItem(key, map[key])
-    list.push(item)
-  })
-  return list
-}
-
-/**
  * 在数据中间添加星号。
  * @function
  * @description 数据中间加星号
@@ -600,6 +574,7 @@ export const toHump = (argData: string, argUnit: string = '_'): string => {
  * @description 指定数组key,转换为对象
  * @param {any[]} list - 数组。
  * @param {string} key - 对象对应的键值。
+ * @param {string|object} extraData - 为string时，返回对象的键值对,为object时，返回对象。
  * @return {Object} - 返回的对象。
  * @example
  * // 示例
@@ -610,12 +585,16 @@ export const toHump = (argData: string, argUnit: string = '_'): string => {
 export const arrayToObj = (
   list: any[],
   key: string = '',
-  value = ''
+  extraData: string | object = ''
 ): AnyObject => {
   let obj: AnyObject = {}
   list.forEach((item: any, k) => {
-    if (value) {
-      obj[item[key] || key + k] = item[value]
+    if (extraData) {
+      if (typeof extraData === 'string') {
+        obj[item[key] || key + k] = item[extraData] || ''
+      } else if (typeof extraData === 'object') {
+        obj[item[key] || key + k] = Object.assign(item, deepCopy(extraData))
+      }
     } else {
       obj[item[key] || key + k] = item
     }
@@ -682,7 +661,7 @@ export const objToObj = (
     }
   }
   if (isAssign) {
-    newObj = Object.assign(obj, newObj)
+    newObj = Object.assign({}, obj, newObj)
   }
   return newObj
 }

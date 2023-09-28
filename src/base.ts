@@ -727,7 +727,7 @@ export const deepCopy = (obj: any, hash = new WeakMap()): any => {
  *  }
  * ```
  */
-const requestDeviceMotionPermission = () => {
+export const requestDeviceMotionPermission = () => {
   if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
     return (DeviceMotionEvent as any)
       .requestPermission()
@@ -753,7 +753,7 @@ const requestDeviceMotionPermission = () => {
  * @param {boolean} isWeixin - 是否在微信中
  * @returns {HTMLAudioElement} - 音频元素
  */
-const autoPlayAudio = (
+export const autoPlayAudio = (
   audioUrl: string,
   isWeixin: boolean
 ): HTMLAudioElement => {

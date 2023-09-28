@@ -11,7 +11,7 @@
   "opts": {
     "template": "./node_modules/docdash",
     "encoding": "utf8",
-    "destination": "dist/",
+    "destination": "dist/lj-utils/",
     "recurse": true,
     "verbose": true
   },
