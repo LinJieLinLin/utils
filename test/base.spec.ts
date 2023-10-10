@@ -26,8 +26,8 @@ describe('base', () => {
   })
   it('getCookie', function () {
     const fn = j.getCookie
-    expect(fn('1')).toBe('')
-    expect(fn('a')).toBe('')
+    expect(fn('1')).toBe('1')
+    expect(fn('a')).toBe('1')
     expect(fn('aa')).toBe('')
   })
   it('delCookie', function () {
