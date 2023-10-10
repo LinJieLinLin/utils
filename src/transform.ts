@@ -224,18 +224,18 @@ export const friendlyTime = (
  * @description 将px单位转换为vw单位
  * @param {number} argPx - px单位的数值
  * @param {number} argWith - px对应的最大宽度，默认为375
- * @param {number} argNum - 保留的小数位数，默认为6
  * @param {string} argUnit - 单位，'vw'或'%'，默认为'vw'
- * @returns {string} 转换后的vw单位的数值
+ * @param {number} argNum - 保留的小数位数，默认为6
+ * @returns {string} 转换后的数值
  * @example
- * // returns '50vw'
- * px2vw(200, 375, 6, 'vw')
+ * // returns '187.5vw'
+ * px2vw(200, 375, 'vw', 6)
  */
 export const px2vw = (
   argPx: number,
   argWith: number = 375,
-  argNum: number = 6,
-  argUnit: string = 'vw'
+  argUnit: string = 'vw',
+  argNum: number = 6
 ): string => {
   return +toFixed((100 / argWith) * argPx, argNum) + argUnit
 }

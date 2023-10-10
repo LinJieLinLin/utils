@@ -48,8 +48,8 @@ describe('transform', () => {
     const fn = j.px2vw
     expect(fn(375)).toBe('100vw')
     expect(fn(70, 375)).toBe('18.666667vw')
-    expect(fn(70, 375, 2)).toBe('18.67vw')
-    expect(fn(70, 375, 2, 'rem')).toBe('18.67rem')
+    expect(fn(70, 375, 'vw', 2)).toBe('18.67vw')
+    expect(fn(70, 375, 'rem', 2)).toBe('18.67rem')
   })
 
   it('secondToTime', function () {
