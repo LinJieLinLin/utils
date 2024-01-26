@@ -315,11 +315,21 @@ export const setStorage = (argKey: string, argData: unknown): string => {
 
 /**
  * @function
- * @description setTimeout promise版
+ * @description setTimeout promise版，异步阻塞函数
  * @param  {number} ms 时间，毫秒
  */
 export const sleep = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+/**
+ * @description 同步阻塞函数。
+ * @param {number} time - 延迟的时间量，单位为毫秒
+ */
+export const delay = (time: number = 0) => {
+  let start = Date.now()
+  while (Date.now() - start < time) {
+    continue
+  }
 }
 
 // 返回T下的key对应类型
