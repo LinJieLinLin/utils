@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
 import { getRegexp } from './../j';
 import { safeData } from 'lj-utils';

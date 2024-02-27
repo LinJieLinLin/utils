@@ -119,7 +119,7 @@ export const dlFile = (
   if (typeof argData === 'string') {
     if (argData.startsWith('blob:')) {
       href = argData
-    } else if (argData.startsWith('data:image')) {
+    } else if (argData.startsWith('data:')) {
       href = argData
     }
     argData = new Blob([argData])
