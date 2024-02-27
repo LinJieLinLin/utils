@@ -7,5 +7,6 @@ build({
   entryPoints,
   bundle: false,
   outdir: outputPath,
+  legalComments: 'inline',
   tsconfig: 'tsconfig.json',
 }).catch(() => process.exit(1))
