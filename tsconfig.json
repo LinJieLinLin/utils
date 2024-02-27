@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "target": "es6",
+    "target": "ESNext",
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
-    "module": "es6",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": false,
@@ -14,10 +14,10 @@
     "paths": {
       "@/*": ["./*"]
     },
-    // 导出声明
-    "declaration": true,
-    // 导出声明目录
-    "declarationDir": "./build",
+    // // 导出声明
+    // "declaration": true,
+    // // 导出声明目录
+    // "declarationDir": "./build",
     "outDir": "./build",
     "rootDir": "./src",
     // 如果指定，则只有列出的包才会包含在全局作用域中
