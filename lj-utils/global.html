@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>directive/scrollX.js - lj-utils</title>
+    <title>Global - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -49,137 +49,179 @@
 
 <div id="main">
     
-    <h1 class="page-title">directive/scrollX.js</h1>
+    <h1 class="page-title">Global</h1>
     
 
     
 
 
 
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module directive
- * @author linjielinlin 993353454@qq.com
- * @date 2022-05-11 22:07:43
- */
-const on = (function () {
-    if (typeof document.addEventListener === 'function') {
-        return function (el, event, handler) {
-            if (el &amp;&amp; event &amp;&amp; handler) {
-                el.addEventListener(event, handler, false);
-            }
-        };
-    }
-    return function (el, event, handler) {
-        if (el &amp;&amp; event &amp;&amp; handler) {
-            el.attachEvent('on' + event, handler);
-        }
-    };
-})();
-const off = (function () {
-    if (typeof document.removeEventListener === 'function') {
-        return function (el, event, handler) {
-            if (el &amp;&amp; event) {
-                el.removeEventListener(event, handler, false);
-            }
-        };
-    }
-    return function (el, event, handler) {
-        if (el &amp;&amp; event) {
-            el.detachEvent('on' + event, handler);
-        }
-    };
-})();
-let targetDrag = {
-    // 拖拽
-    isDown: false,
-    position: {
-        x: 0,
-        y: 0,
-    },
-};
-// x轴拖动回调 鼠标按下
-const scrollMousedown = (event) => {
-    targetDrag.isDown = true;
-    targetDrag.position.x = event.pageX;
-    targetDrag.position.y = event.pageY;
-    event.target.style.userSelect = 'none';
-};
-// x轴拖动回调  鼠标释放
-const scrollMouseup = () => {
-    targetDrag.isDown = false;
-    targetDrag.position.x = 0;
-    targetDrag.position.y = 0;
-};
-// x轴拖动回调  鼠标移动
-const scrollMousemove = () => {
-    // console.log(event, el)
-    // todo
-};
-const mounted = function (el) {
-    // 鼠标按下
-    on(el, 'mousedown', scrollMousedown);
-    // 鼠标释放
-    on(el, 'mouseup', scrollMouseup);
-    // 鼠标拖拽
-    on(el, 'mousemove', (event) => {
-        const moveX = targetDrag.position.x - event.pageX;
-        // let moveY = targetDrag.position.y - event.pageY
-        targetDrag.position.x = event.pageX;
-        // targetDrag.position.y = event.pageY
-        if (targetDrag.isDown) {
-            el.scrollLeft += moveX;
-            // el.scrollTop = el.scrollTop + moveY
-        }
-    });
-};
-const beforeUnmount = function (el) {
-    off(el, 'mousedown', scrollMousedown);
-    off(el, 'mouseup', scrollMouseup);
-    off(el, 'mousemove', scrollMousemove);
-    // 清空
-    targetDrag = {
-        // 拖拽
-        isDown: false,
-        position: {
-            x: 0,
-            y: 0,
-        },
-    };
-};
-/**
- * @description pc滚动条鼠标左右拖拽，用于父节点
- * @example
- * // 注册1
- * import scrollX from './scrollX';
- * directives: {
- *   scrollX: scrollX,
- * },
- * // 注册2 for &lt;script setup>
- * import vScrollX from './scrollX';
- *
- * &lt;view
- *     id="a"
- *     v-scroll-x
- *     style="height: 100px; width: 100vw; background: grey; overflow: auto"
- *   >
- *     &lt;div style="height: 100px; width: 200vw; background: grey">test text&lt;/div>
- *   &lt;/view>
- */
-const scrollX = {
-    mounted,
-    beforeUnmount,
-    // for vue2
-    bind: mounted,
-    unbind: beforeUnmount,
-};
 
-export { scrollX as default, scrollX };
-</code></pre>
-        </article>
-    </section>
+<section>
+
+<header>
+    
+        <h2>
+        
+            
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="types"><span class="type-signature"></span>types<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>no</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.js.html">types.js</a>, <a href="types.js.html#line6">line 6</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>linjielinlin 993353454@qq.com</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>no</p>
+</div>
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
