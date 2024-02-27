@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Throttle.js - lj-utils</title>
+    <title>CanvasClass - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -49,78 +49,284 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Throttle.js</h1>
+    <h1 class="page-title">CanvasClass</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>var __classPrivateFieldGet = (this &amp;&amp; this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var __classPrivateFieldSet = (this &amp;&amp; this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _Throttle_trTime;
-/**
- * @class
- * @classdesc
- * @author linjielinlin 993353454@qq.com
- * @date 2022-05-11 22:07:43
- * @example
- * const tr = new Throttle()
- * tr.throttle(fn,1000,...args)
- */
-export class Throttle {
-    constructor() {
-        _Throttle_trTime.set(this, 0);
-        Object.defineProperty(this, "clickTime", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 0
-        });
-    }
-    /**
-     * @function
-     * @description 函数节流，触发一次后，再间隔n毫秒后才会被触发
-     * @param  {function} argFn 回调函数
-     * @param  {number} argWait 等待时间,默认1000毫秒
-     * @param  {any} args ...args 回调函数的参数
-     * @returns {function}
-     */
-    throttle(argFn, argWait = 1000, ...args) {
-        if (argWait - (Date.now() - __classPrivateFieldGet(this, _Throttle_trTime, "f")) &lt;= 0) {
-            __classPrivateFieldSet(this, _Throttle_trTime, Date.now(), "f");
-            this.clickTime = 0;
-            setTimeout(() => {
-                if (this.clickTime > 0) {
-                    __classPrivateFieldSet(this, _Throttle_trTime, 0, "f");
-                    this.clickTime = 0;
-                }
-            }, argWait);
-            return argFn(...args);
-        }
-        else {
-            this.clickTime++;
-            return () => this;
-        }
-    }
-}
-_Throttle_trTime = new WeakMap();
-export default Throttle;
-</code></pre>
-        </article>
-    </section>
+        <h2>
+        
+            CanvasClass
+        
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+
+    <h4 class="name" id="CanvasClass"><span class="type-signature"></span>new CanvasClass<span class="signature">(argCtx, argWidth, argBasicWidth, argScale)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="class_CanvasClass.js.html">class/CanvasClass.js</a>, <a href="class_CanvasClass.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>argCtx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>canvas上下文</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>300</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>canvas宽度</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argBasicWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>375</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>基准宽度</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>argScale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    <code>4</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>canvas缩放比例</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

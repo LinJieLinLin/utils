@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>class/Throttle.js - lj-utils</title>
+    <title>index.js - lj-utils</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -49,7 +49,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">class/Throttle.js</h1>
+    <h1 class="page-title">index.js</h1>
     
 
     
@@ -59,65 +59,15 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>var __classPrivateFieldGet = (this &amp;&amp; this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var __classPrivateFieldSet = (this &amp;&amp; this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" &amp;&amp; !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _Throttle_trTime;
-/**
- * @class
- * @classdesc
+            <pre class="prettyprint source linenums"><code>/**
  * @author linjielinlin 993353454@qq.com
  * @date 2022-05-11 22:07:43
- * @example
- * const tr = new Throttle()
- * tr.throttle(fn,1000,...args)
+ * @description no
  */
-export class Throttle {
-    constructor() {
-        _Throttle_trTime.set(this, 0);
-        Object.defineProperty(this, "clickTime", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 0
-        });
-    }
-    /**
-     * @function
-     * @description 函数节流，触发一次后，再间隔n毫秒后才会被触发
-     * @param  {function} argFn 回调函数
-     * @param  {number} argWait 等待时间,默认1000毫秒
-     * @param  {any} args ...args 回调函数的参数
-     * @returns {function}
-     */
-    throttle(argFn, argWait = 1000, ...args) {
-        if (argWait - (Date.now() - __classPrivateFieldGet(this, _Throttle_trTime, "f")) &lt;= 0) {
-            __classPrivateFieldSet(this, _Throttle_trTime, Date.now(), "f");
-            this.clickTime = 0;
-            setTimeout(() => {
-                if (this.clickTime > 0) {
-                    __classPrivateFieldSet(this, _Throttle_trTime, 0, "f");
-                    this.clickTime = 0;
-                }
-            }, argWait);
-            return argFn(...args);
-        }
-        else {
-            this.clickTime++;
-            return () => this;
-        }
-    }
-}
-_Throttle_trTime = new WeakMap();
-export default Throttle;
+export * from './is';
+export * from './base';
+export * from './file';
+export * from './transform';
 </code></pre>
         </article>
     </section>
