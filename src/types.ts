@@ -77,3 +77,4 @@ export declare interface UploadFile {
   /**HTTP 请求中其他额外的 form data */
   formData?: AnyObject | null
 }
+export default {}

@@ -50,14 +50,14 @@ ljUtils.setTitle('hi')
 const ljUtils = require('lj-utils')
 ```
 
-### 浏览器中引用,挂载在 window.f 中
+### 浏览器中引用,挂载在 window.ljFn 中
 
 ```html
 <head>
   <script src="https://npm.elemecdn.com/lj-utils@latest/index.umd.js"></script>
   <script>
     window.onload = function () {
-      console.log(window.f)
+      console.log(window.ljFn)
     }
   </script>
 </head>
