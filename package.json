@@ -37,7 +37,7 @@
     "esb": "node esbuild.mjs",
     "setVersion": "node --experimental-json-modules --no-warnings changeVersion.js",
     "rb": "rm -rf build/* && rollup -c && cp -rf ./static/* ./build && cp -rf *.md types.ts ./build/ && npm run setVersion",
-    "b": "rm -rf build/* && npm run cjs && cp -rf ./static/* ./build && cp -rf *.md ./build/ && node setMetaData && npm run setVersion &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
+    "b": "rm -rf build/* && tsc && npm run cjs && cp -rf ./static/* ./build && cp -rf *.md ./build/ && node setMetaData && npm run setVersion &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
     "testWatch": "jest ./test/transform.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && cp static/baidu.js dist/lj-utils/scripts/baidu.js",
