@@ -1,5 +1,4 @@
 # 存放npm忽略规则，同.gitignore
-/node_modules
 dist/
 .*
 js*.json
