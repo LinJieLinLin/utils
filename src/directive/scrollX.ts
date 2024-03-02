@@ -4,6 +4,8 @@
  * @date 2022-05-11 22:07:43
  */
 
+import { getObj, safeData, setObj } from '../base'
+
 const on = (function () {
   if (typeof document.addEventListener === 'function') {
     return function (el: any, event: string, handler: any) {
@@ -34,66 +36,87 @@ const off = (function () {
   }
 })()
 
-let targetDrag = {
-  // 拖拽
-  isDown: false,
+interface DragInfo {
+  count: number
+  isDown: boolean
+  elementList: WeakMap<HTMLElement, (event: MouseEvent) => void>
   position: {
-    x: 0,
-    y: 0,
-  },
+    x: number
+    y: number
+  }
 }
-
-// x轴拖动回调 鼠标按下
-const scrollMousedown = (event: any) => {
-  targetDrag.isDown = true
-  targetDrag.position.x = event.pageX
-  targetDrag.position.y = event.pageY
-  event.target.style.userSelect = 'none'
-}
-// x轴拖动回调  鼠标释放
-const scrollMouseup = () => {
-  targetDrag.isDown = false
-  targetDrag.position.x = 0
-  targetDrag.position.y = 0
-}
-// x轴拖动回调  鼠标移动
-
-const scrollMousemove = () => {
-  // console.log(event, el)
-  // todo
-}
-
-const mounted = function (el: any) {
-  // 鼠标按下
-  on(el, 'mousedown', scrollMousedown)
-  // 鼠标释放
-  on(el, 'mouseup', scrollMouseup)
-  // 鼠标拖拽
-  on(el, 'mousemove', (event: any) => {
-    const moveX = targetDrag.position.x - event.pageX
-    // let moveY = targetDrag.position.y - event.pageY
-    targetDrag.position.x = event.pageX
-    // targetDrag.position.y = event.pageY
-    if (targetDrag.isDown) {
-      el.scrollLeft += moveX
-      // el.scrollTop = el.scrollTop + moveY
-    }
-  })
-}
-
-const beforeUnmount = function (el: any) {
-  off(el, 'mousedown', scrollMousedown)
-  off(el, 'mouseup', scrollMouseup)
-  off(el, 'mousemove', scrollMousemove)
-  // 清空
-  targetDrag = {
-    // 拖拽
+let dragInfo: DragInfo = getObj('directiveScrollX') as DragInfo
+if (!dragInfo || !dragInfo.position) {
+  dragInfo = {
+    count: 0,
     isDown: false,
+    elementList: new WeakMap(),
     position: {
       x: 0,
       y: 0,
     },
   }
+  setObj('directiveScrollX', dragInfo)
+}
+
+// x轴拖动回调 鼠标按下
+const scrollMousedown = (event: any) => {
+  dragInfo.isDown = true
+  dragInfo.position.x = event.pageX
+  dragInfo.position.y = event.pageY
+  event.target.style.userSelect = 'none'
+}
+// x轴拖动回调  鼠标释放
+const scrollMouseup = () => {
+  dragInfo.isDown = false
+  dragInfo.position.x = 0
+  dragInfo.position.y = 0
+}
+// x轴拖动回调  鼠标移动
+
+const scrollMousemove = (event: MouseEvent, el: HTMLElement) => {
+  // console.log('move', dragInfo)
+  const moveX = dragInfo.position.x - event.pageX
+  // let moveY = dragInfo.position.y - event.pageY
+  dragInfo.position.x = event.pageX
+  // dragInfo.position.y = event.pageY
+  if (dragInfo.isDown) {
+    safeData(el, 'scrollLeft', el.scrollLeft + moveX, true)
+  }
+}
+const mounted = function (el: HTMLElement) {
+  el.style.overflowX = 'auto'
+  // window.e = el
+
+  // 鼠标按下
+  on(el, 'mousedown', scrollMousedown)
+  // 鼠标释放
+  if (globalThis.document) {
+    on(globalThis.document, 'mouseup', scrollMouseup)
+  } else {
+    on(el, 'mouseup', scrollMouseup)
+  }
+  let mouseMove
+  mouseMove = (event: MouseEvent) => {
+    scrollMousemove(event, el)
+  }
+  dragInfo.elementList.set(el, mouseMove)
+  on(el, 'mousemove', mouseMove)
+  dragInfo.count++
+}
+
+const beforeUnmount = function (el: any) {
+  dragInfo.count--
+  if (globalThis.document) {
+    if (dragInfo.count < 1) {
+      off(globalThis.document, 'mouseup', scrollMouseup)
+    }
+  } else {
+    off(el, 'mouseup', scrollMouseup)
+  }
+  off(el, 'mousedown', scrollMousedown)
+  off(el, 'mousemove', dragInfo.elementList.get(el))
+  dragInfo.elementList.delete(el)
 }
 
 /**
@@ -115,11 +138,11 @@ const beforeUnmount = function (el: any) {
  *     <div style="height: 100px; width: 200vw; background: grey">test text</div>
  *   </view>
  */
-export const scrollX = {
+export const vScrollX = {
   mounted,
   beforeUnmount,
   // for vue2
   bind: mounted,
   unbind: beforeUnmount,
 }
-export default scrollX
+export default vScrollX

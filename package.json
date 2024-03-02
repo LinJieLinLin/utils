@@ -12,6 +12,7 @@
     "./microApi": "./src/microApi.ts",
     "./class": "./src/class/index.ts",
     "./resolver.js": "./build/resolver.js",
+    "./directive/scrollX": "./src/directive/scrollX.ts",
     "./less/index.less": "./static/less/index.less",
     "./less/common.less": "./static/less/common.less",
     "./scss/index.scss": "./static/scss/index.scss",
