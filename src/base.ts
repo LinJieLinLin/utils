@@ -788,3 +788,32 @@ export const autoPlayAudio = (
   }
   return audio
 }
+
+/**
+ * @desc Debounce function to limit the rate of function calls.
+ * @param {Function} func - The function to be debounced
+ * @param {number} delay - The delay in milliseconds
+ * @return {Function} The debounced function
+ * @example
+ * ```
+ * const debouncedHello = debounce(sayHello, 1000);
+ * debouncedHello('Hello from 1');
+ * debouncedHello('Hello from 2');
+ * ```
+ */
+export const debounce = function (func: Function, delay: number) {
+  let timeoutIdMap = new Map<string, any>()
+  return function (...args: any[]) {
+    // @ts-ignore
+    const context = this
+    const key = JSON.stringify(args)
+
+    clearTimeout(timeoutIdMap.get(key))
+
+    const timeoutId = setTimeout(() => {
+      func.apply(context, args)
+      timeoutIdMap.delete(key)
+    }, delay)
+    timeoutIdMap.set(key, timeoutId)
+  }
+}
