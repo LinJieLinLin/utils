@@ -46,7 +46,7 @@
     "removeQuotes": "none",
     "scripts": [
       "scripts/baidu.js",
-      "https://npm.elemecdn.com/lj-utils@latest/index.umd.js"
+      "https://lj4.top/utils/lj-utils/index.umd.js"
     ],
     "menu": {
       "Github repo": {
