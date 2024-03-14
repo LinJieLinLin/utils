@@ -1,0 +1,1007 @@
+@mixin oReset() {
+  /* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+  html,
+  body,
+  div,
+  span,
+  applet,
+  object,
+  iframe,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote,
+  pre,
+  a,
+  abbr,
+  acronym,
+  address,
+  big,
+  cite,
+  code,
+  del,
+  dfn,
+  em,
+  img,
+  ins,
+  kbd,
+  q,
+  s,
+  samp,
+  small,
+  strike,
+  strong,
+  sub,
+  sup,
+  tt,
+  var,
+  b,
+  u,
+  i,
+  center,
+  dl,
+  dt,
+  dd,
+  ol,
+  ul,
+  li,
+  fieldset,
+  form,
+  label,
+  legend,
+  table,
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td,
+  article,
+  aside,
+  canvas,
+  details,
+  embed,
+  figure,
+  figcaption,
+  footer,
+  header,
+  hgroup,
+  menu,
+  nav,
+  output,
+  ruby,
+  section,
+  summary,
+  time,
+  mark,
+  audio,
+  video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    font-size: inherit;
+    vertical-align: baseline;
+  }
+  /* HTML5 display-role reset for older browsers */
+  article,
+  aside,
+  details,
+  figcaption,
+  figure,
+  footer,
+  header,
+  hgroup,
+  menu,
+  nav,
+  section {
+    display: block;
+  }
+  body {
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+  }
+  ol,
+  ul {
+    list-style: none;
+  }
+  blockquote,
+  q {
+    quotes: none;
+  }
+  blockquote:before,
+  blockquote:after,
+  q:before,
+  q:after {
+    content: '';
+    content: none;
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  // end
+  // lj add
+  img {
+    display: inline-block;
+    max-width: 100%;
+    // 禁用ios长按默认菜单(图片会放大)
+    -webkit-touch-callout: none;
+  }
+  input[type='button'] {
+    -webkit-appearance: none;
+    outline: none;
+  }
+  html {
+    /* prettier-ignore */
+    font-size: 14PX;
+  }
+  /* remember to define focus styles! */
+  :focus {
+    outline: 0;
+  }
+  /* remember to highlight inserts somehow! */
+  ins {
+    text-decoration: none;
+  }
+  del {
+    text-decoration: line-through;
+  }
+  // pre自动换行 for tWextarea
+  pre {
+    white-space: pre-wrap;
+  }
+  a {
+    text-decoration: unset;
+  }
+  // 换行
+  %w-b,
+  .w-b {
+    word-wrap: break-word;
+  }
+  rich-text,
+  input,
+  pre,
+  textarea {
+    @extend %w-b;
+  }
+  .w-b-a {
+    word-wrap: break-all;
+  }
+  img {
+    object-fit: cover;
+    .error::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: #f5f5f5
+        url("data:image/svg+xml,%3Csvg class='icon' viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M304.128 456.192c48.64 0 88.064-39.424 88.064-88.064s-39.424-88.064-88.064-88.064-88.064 39.424-88.064 88.064 39.424 88.064 88.064 88.064zm0-116.224c15.36 0 28.16 12.288 28.16 28.16s-12.288 28.16-28.16 28.16-28.16-12.288-28.16-28.16 12.288-28.16 28.16-28.16z' fill='%23e6e6e6'/%3E%3Cpath d='M887.296 159.744H136.704C96.768 159.744 64 192 64 232.448v559.104c0 39.936 32.256 72.704 72.704 72.704h198.144L500.224 688.64l-36.352-222.72 162.304-130.56-61.44 143.872 92.672 214.016-105.472 171.008h335.36C927.232 864.256 960 832 960 791.552V232.448c0-39.936-32.256-72.704-72.704-72.704zm-138.752 71.68v.512H857.6c16.384 0 30.208 13.312 30.208 30.208v399.872L673.28 408.064l75.264-176.64zM304.64 792.064H165.888c-16.384 0-30.208-13.312-30.208-30.208v-9.728l138.752-164.352 104.96 124.416-74.752 79.872zm81.92-355.84l37.376 228.864-.512.512-142.848-169.984c-3.072-3.584-9.216-3.584-12.288 0L135.68 652.8V262.144c0-16.384 13.312-30.208 30.208-30.208h474.624L386.56 436.224zm501.248 325.632c0 16.896-13.312 30.208-29.696 30.208H680.96l57.344-93.184-87.552-202.24 7.168-7.68 229.888 272.896z' fill='%23e6e6e6'/%3E%3C/svg%3E")
+        no-repeat center / 50% 50%;
+      color: transparent;
+    }
+  }
+  // h5下,image标签自适应
+  /*  #ifdef  H5  */
+  image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+    img {
+      position: relative;
+      opacity: 1;
+    }
+  }
+  /*  #endif  */
+  /*  #ifdef  MP-WEIXIN  */
+  // 页面结构复杂，css样式太多的情况，使用 image 可能导致样式生效较慢，出现 “闪一下” 的情况，此时设置 image{will-change: transform} ,可优化此问题。
+  image {
+    will-change: transform;
+  }
+  /*  #endif  */
+  // 禁用状态
+  .disabled {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(184, 190, 196, 0.2);
+      color: #fff;
+    }
+  }
+  // 圆
+  .round {
+    border-radius: 1000px;
+  }
+
+  // 点击效果
+  .tap {
+    transition: 400ms;
+    &:active {
+      transition: 0;
+      background-color: #d9d9d9;
+    }
+  }
+  // 清除btn样式
+  .btn-none {
+    margin: 0;
+    padding: 0;
+    line-height: unset;
+    text-align: unset;
+    border-radius: 0;
+    background-color: transparent;
+    border: none;
+    @include iFlex(flex-middle);
+    &.button-hover {
+      color: unset;
+      background-color: transparent;
+    }
+    &::after {
+      border: none;
+    }
+  }
+}
+
+// 设置n行，超出显示...
+@mixin oTextLine($num: 3) {
+  @for $n from 1 through $num {
+    .text-line-#{$n} {
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      /*! autoprefixer: off */
+      -webkit-line-clamp: $n;
+    }
+  }
+}
+
+// 旋转角度 rot-0、rot-15、rot-360
+// @param  {[type]} $rate:14    [间隔角度]
+// @param  {[type]} $count:2   [旋转次数]
+@mixin oRotate($rate: 15, $count: 24) {
+  @for $i from 0 through $count {
+    .rot-#{$rate * $i} {
+      transform: rotate($rate * $i + deg);
+    }
+  }
+}
+
+// [oFontSize 默认设置10到64px 的字体大小相隔2px eg:fs-12]
+// @param  {[type]} $base:12    [最小字体大小]
+// @param  {[type]} $count:0    [重复次数]
+// @param  {[type]} $limit:2   [间隔]
+// @param  {[type]} $unit:px [单位]
+@mixin oFontSize($base: 10, $count: 0, $limit: 2, $unit: px) {
+  @for $i from 0 through $count {
+    .fs-#{$base + $i * $limit} {
+      font-size: $base + $i * $limit + $unit;
+    }
+  }
+}
+
+@mixin oPdSet($width, $unit: px, $imp: ' !important') {
+  .pd-f#{$width} {
+    padding: $width + $unit + $imp;
+  }
+  .pd-t#{$width} {
+    padding-top: $width + $unit + $imp;
+  }
+  .pd-r#{$width} {
+    padding-right: $width + $unit + $imp;
+  }
+  .pd-b#{$width} {
+    padding-bottom: $width + $unit + $imp;
+  }
+  .pd-l#{$width} {
+    padding-left: $width + $unit + $imp;
+  }
+  .pd-tb#{$width} {
+    padding-top: $width + $unit + $imp;
+    padding-bottom: $width + $unit + $imp;
+  }
+  .pd-lr#{$width} {
+    padding-right: $width + $unit + $imp;
+    padding-left: $width + $unit + $imp;
+  }
+}
+@mixin oMgSet($width, $unit: px, $imp: ' !important') {
+  .mg-f#{$width} {
+    margin: $width + $unit !important;
+  }
+  .mg-t#{$width} {
+    margin-top: $width + $unit !important;
+  }
+  .mg-r#{$width} {
+    margin-right: $width + $unit !important;
+  }
+  .mg-l#{$width} {
+    margin-left: $width + $unit !important;
+  }
+  .mg-b#{$width} {
+    margin-bottom: $width + $unit !important;
+  }
+  .mg-lr#{$width} {
+    margin-left: $width + $unit !important;
+    margin-right: $width + $unit !important;
+  }
+  .mg-tb#{$width} {
+    margin-top: $width + $unit !important;
+    margin-bottom: $width + $unit !important;
+  }
+}
+
+// [oPdMgSet 默认设置5到60的各个padding margin]
+// $base:px [基数] $count:12   [循环次数，从0开始] $limit:5  [倍数] $unit:px [单位]
+@mixin oPdMgSet(
+  $base: 0,
+  $count: 0,
+  $limit: 5,
+  $unit: px,
+  $imp: ' !important'
+) {
+  @for $i from 0 through $count {
+    @include oPdSet($base + $i * $limit, $unit, $imp);
+    @include oMgSet($base + $i * $limit, $unit, $imp);
+  }
+}
+
+// 默认btn样式
+@mixin oBtn {
+  .btn {
+    position: relative;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 14px;
+    padding-right: 14px;
+    box-sizing: border-box;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 2.5;
+    border-radius: 5px;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+    color: #000000;
+    background-color: #f8f8f8;
+    @include iBtnBgColor(#f8f8f8);
+  }
+}
+
+//  http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+//  flex-direction属性决定主轴的方向（即项目的排列方向）。
+//  flex-wrap 属性定义，如果一条轴线排不下，如何换行
+//  flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+//  justify-content属性定义了项目在主轴(x轴)上的对齐方式。
+//  align-items属性定义项目在交叉轴(y轴)上如何对齐。
+//  align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+//  order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+//  flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+//  flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+//  flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+//  flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+//  align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。 
+@mixin oFlex() {
+
+  .flex0 {
+    flex: none;
+  }
+  @for $num from 1 through 12 {
+    .flex#{$num} {
+      flex: $num;
+    }
+  }
+  .flex {
+    display: flex;
+  }
+  .flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+  .flex-column-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .flex-column-around {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .flex-row-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .flex-row-around {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .flex-space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+  }
+  .flex-space-around {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+  }
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+  .flex-middle {
+    display: flex;
+    align-items: center;
+  }
+  .flex-y-center {
+    align-items: center;
+  }
+  .flex-y-stretch {
+    align-items: stretch;
+  }
+  .flex-y-end {
+    align-self: flex-end;
+  }
+  .flex-y-start {
+    align-self: flex-start;
+  }
+  .flex-x-center {
+    justify-content: center;
+  }
+  .flex-x-end {
+    justify-content: flex-end;
+  }
+  .flex-x-start {
+    justify-content: flex-start;
+  }
+  .flex-ys-end {
+    align-self: end;
+  }
+  .flex-ys-start {
+    align-self: start;
+  }
+  .flex-ys-center {
+    align-self: center;
+  }
+  .flex-xs-end {
+    justify-self: end;
+  }
+  .flex-xs-start {
+    justify-self: start;
+  }
+  .flex-xs-center {
+    justify-self: center;
+  }
+  .flex-around {
+    justify-content: space-around;
+  }
+  .flex-between {
+    justify-content: space-between;
+  }
+}
+
+// border 1px处理
+// @param  {[type]} $c: #c7c7c7 颜色值
+@mixin oBorder1px($c: #c7c7c7) {
+  .f-1px {
+    border: 1px solid $c;
+  }
+  .t-1px {
+    position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 1px;
+      border-top: 1px solid $c;
+      color: $c;
+      transform-origin: 0 0;
+      transform: scaleY(0.5);
+    }
+  }
+  .b-1px {
+    position: relative;
+    &:before {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 1px;
+      border-bottom: 1px solid $c;
+      color: $c;
+      transform-origin: 0 100%;
+      transform: scaleY(0.5);
+    }
+  }
+  .l-1px {
+    position: relative;
+    &:before {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      bottom: 0;
+      border-left: 1px solid $c;
+      color: $c;
+      transform-origin: 0 0;
+      transform: scaleX(0.5);
+    }
+  }
+  .r-1px {
+    position: relative;
+    &:before {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 1px;
+      bottom: 0;
+      border-right: 1px solid $c;
+      color: $c;
+      transform-origin: 100% 0;
+      transform: scaleX(0.5);
+    }
+  }
+  .x-1px {
+    position: relative;
+    &:before {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      bottom: 0;
+      border-left: 1px solid $c;
+      color: $c;
+      transform-origin: 0 0;
+      transform: scaleX(0.5);
+    }
+    &:after {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 1px;
+      bottom: 0;
+      border-right: 1px solid $c;
+      color: $c;
+      transform-origin: 100% 0;
+      transform: scaleX(0.5);
+    }
+  }
+  .y-1px {
+    position: relative;
+    &:before {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 1px;
+      border-top: 1px solid $c;
+      color: $c;
+      transform-origin: 0 0;
+      transform: scaleY(0.5);
+    }
+    &:after {
+      content: '';
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 1px;
+      border-bottom: 1px solid $c;
+      color: $c;
+      transform-origin: 0 100%;
+      transform: scaleY(0.5);
+    }
+  }
+}
+
+// 公共border处理
+// @param  {[type]} $c: #c7c7c7 颜色值
+// @param  {[type]} $width: 1px width值
+@mixin oBorder($width: 1, $c: #c7c7c7, $unit: px) {
+  .bd-f#{$width} {
+    border: $width + $unit solid $c;
+  }
+  .bd-t#{$width} {
+    border-top: $width + $unit solid $c;
+  }
+  .bd-b#{$width} {
+    border-bottom: $width + $unit solid $c;
+  }
+  .bd-l#{$width} {
+    border-left: $width + $unit solid $c;
+  }
+  .bd-r#{$width} {
+    border-right: $width + $unit solid $c;
+  }
+  .bd-x#{$width} {
+    border-left: $width + $unit solid $c;
+    border-right: $width + $unit solid $c;
+  }
+  .bd-y#{$width} {
+    border-top: $width + $unit solid $c;
+    border-bottom: $width + $unit solid $c;
+  }
+}
+
+// 公共outline处理
+// @param  {[type]} $c: #c7c7c7 颜色值
+// @param  {[type]} $size: 1px width值
+@mixin oOutline($c: #c7c7c7, $size: 1px) {
+  .ol-f1 {
+    outline: $size solid $c;
+  }
+}
+
+// 浮动
+@mixin oFloat() {
+  .f-l {
+    float: left;
+  }
+  .f-r {
+    float: right;
+  }
+  .c-b {
+    @include iCB();
+  }
+}
+// 光标效果
+@mixin oCursor() {
+  .c-a {
+    cursor: auto;
+  }
+  .c-p {
+    cursor: pointer;
+  }
+  .c-d {
+    cursor: default;
+  }
+  .c-h {
+    cursor: help;
+  }
+  .c-t {
+    cursor: text;
+  }
+  .c-m {
+    cursor: move;
+  }
+  .c-na {
+    cursor: not-allowed;
+  }
+}
+
+// 显示隐藏 
+@mixin oShowHide() {
+  .show {
+    display: block;
+  }
+  .show-v {
+    visibility: unset;
+  }
+  .hide {
+    display: none;
+  }
+  .hide-v {
+    visibility: hidden;
+  }
+  .d-i {
+    display: inline;
+  }
+  .d-i-b {
+    display: inline-block;
+  }
+  .d-b {
+    display: block;
+  }
+  .d-n {
+    display: none;
+  }
+}
+// 文本相关
+@mixin oText() {
+  /** vertical-align 文字垂直对齐 */
+  .va-m {
+    vertical-align: middle;
+  }
+  .va-t {
+    vertical-align: top;
+  }
+  .va-tt {
+    vertical-align: text-top;
+  }
+  .va-b {
+    vertical-align: bottom;
+  }
+  .va-bl {
+    vertical-align: baseline;
+  }
+  // 对齐方式
+  .ta-c {
+    text-align: center;
+  }
+  .ta-l {
+    text-align: left;
+  }
+  .ta-r {
+    text-align: right;
+  }
+  // 加粗
+  .b {
+    font-weight: bold;
+  }
+}
+
+// position
+@mixin oPosition() {
+  .p-r {
+    position: relative;
+  }
+  .p-a {
+    position: absolute;
+  }
+  .p-f {
+    position: fixed;
+  }
+  .p-s {
+    position: sticky;
+  }
+  // 用户单页面绝对定位铺满
+  .page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+  }
+}
+
+@mixin oOverflow() {
+  // overflow
+  .of-a {
+    overflow: auto;
+    // 移动端
+    -webkit-overflow-scrolling: touch;
+  }
+  .of-s {
+    overflow: scroll;
+  }
+  .of-x {
+    overflow-x: scroll;
+  }
+  .of-y {
+    overflow-y: scroll;
+  }
+  .of-h {
+    overflow: hidden;
+  }
+}
+
+// eg: oWidth(0,2,50)  .w-0,.w-50,.w-100
+@mixin oWidth($base: 0, $count: 0, $limit: 10, $unit: px) {
+  @for $r from 0 through $count {
+    .w-#{$base + $r*$limit} {
+      width: ($base + $r * $limit) + $unit;
+    }
+  }
+}
+
+@mixin oWidthHeight() {
+  .w-min {
+    width: min-content;
+  }
+  .w-max {
+    width: max-content;
+  }
+  .w-1-2 {
+    width: 50%;
+  }
+  .w-1-3 {
+    width: 33.333333%;
+  }
+  .w-2-3 {
+    width: 66.666666%;
+  }
+  .w-1-4 {
+    width: 25%;
+  }
+  .w-3-4 {
+    width: 75%;
+  }
+  .w-1-5 {
+    width: 20%;
+  }
+  .w-2-5 {
+    width: 40%;
+  }
+  .w-3-5 {
+    width: 60%;
+  }
+  .w-4-5 {
+    width: 80%;
+  }
+  .w-half {
+    width: 50%;
+  }
+  .w-full {
+    width: 100%;
+  }
+  .w-full-vw {
+    width: 100vw;
+  }
+  // height
+  .h-0 {
+    height: 0;
+  }
+  .h-half {
+    height: 50%;
+  }
+  .h-full {
+    height: 100%;
+  }
+  .h-full-vh {
+    height: 100vh;
+  }
+}
+@mixin oColor() {
+  .c-9 {
+    color: #999;
+  }
+  .c-6 {
+    color: #666;
+  }
+  .c-3 {
+    color: #333;
+  }
+  .c-1 {
+    color: #111;
+  }
+  .c-c {
+    color: #ccc;
+  }
+  .c-w {
+    color: #fff;
+  }
+  .c-f5 {
+    color: #f5f5f5;
+  }
+  // 文字颜色class
+  .c-theme {
+    color: c($theme);
+  }
+  .c-success {
+    color: c($success);
+  }
+  .c-error {
+    color: c($error);
+  }
+  .c-warn {
+    color: c($warn);
+  }
+  .c-info {
+    color: c($info);
+  }
+}
+
+@mixin oBg() {
+  .bg-full {
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: -1;
+      content: '';
+    }
+  }
+  %bg-w,
+  .bg-w {
+    background-color: #fff;
+  }
+  .bg-w-full {
+    @extend %bg-w;
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: -1;
+      @extend %bg-w;
+      content: '';
+    }
+  }
+  %bg-grey,
+  .bg-grey {
+    background-color: #ccc;
+  }
+  .bg-grey-full {
+    @extend %bg-grey;
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: -1;
+      @extend %bg-grey;
+      content: '';
+    }
+  }
+  .bg-f5 {
+    background-color: #f5f5f5;
+  }
+  .bg-c {
+    background-color: #ccc;
+  }
+  // 背景颜色class
+  .bg-theme {
+    color: #fff;
+    background-color: c($theme);
+  }
+  .bg-success {
+    color: #fff;
+    background-color: c($success);
+  }
+  .bg-error {
+    color: #fff;
+    background-color: c($error);
+  }
+  .bg-warn {
+    color: #fff;
+    background-color: c($warn);
+  }
+  .bg-info {
+    color: #fff;
+    background-color: c($info);
+  }
+}

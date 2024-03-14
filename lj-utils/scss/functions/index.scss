@@ -1,0 +1,6 @@
+// 返回css颜色变量
+@function c($name) {
+  @return $name;
+  // 使用css变量
+  // @return var(--#{$name});
+}

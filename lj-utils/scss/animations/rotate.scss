@@ -1,0 +1,18 @@
+.rotate {
+  animation: 3s rotate;
+  &-enter-active {
+    animation: 0.3s rotate;
+  }
+
+  &-leave-active {
+    animation: 0.3s rotate;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

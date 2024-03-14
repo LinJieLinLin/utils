@@ -1,0 +1,4 @@
+export { isBlob, isFile, isIdCard, isJson, isPrime } from './is.js';
+export { autoPlayAudio, debounce, deepCopy, delCookie, delay, getCookie, getCookieObj, getEnv, getInfo, getNetworkStatus, getObj, getRandomColor, getRegexp, getStorage, getUrlParam, getUrlParamObj, getUuid, randomInt, remInit, replaceUrlParam, requestDeviceMotionPermission, safe, safeData, setCookie, setEnv, setLog, setObj, setStorage, setTitle, setUrlParams, sleep } from './base.js';
+export { blobToBase64, blobToFile, blobUrlToFile, dataURLtoBlob, dlFile, getDuration, loadFile } from './file.js';
+export { arrayToObj, decodeHtml, encodeHtml, formatNumber, formatSize, formatTime, friendlyTime, hideInfo, objToArray, objToObj, px2vw, rmbPrice, secondToTime, string10to62, string62to10, toFixed, toHump, toLine } from './transform.js';

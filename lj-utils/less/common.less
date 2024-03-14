@@ -1,0 +1,45 @@
+/* 全局公共css放这里,按需使用，复制到项目下定制
+   mixin 详见 ../mixins/index.less
+*/
+@import './mixins/index';
+/** reset样式 */
+.oReset();
+/** 0-100px 间隔10 */
+.oWidth(0, 10, 10);
+/** 200-1000px 间隔100 */
+.oWidth(200, 8, 100);
+/** 120-480px 间隔120 */
+.oWidth(120, 3, 120);
+/** 10-30px;间隔2 eg: fs-12 fs-16 */
+.oFontSize(10, 10, 2);
+.oFontSize(32);
+.oFontSize(36);
+.oFontSize(40);
+.oFontSize(48);
+/** rate:15 rotate 0 to 360 eg: rot-90 */
+.oRotate();
+.oFlex();
+/** 超过n行后显示... eg:text-line-1 2 3 */
+.oTextLine(3);
+.oFloat();
+.oCursor();
+/** 显示隐藏/display */
+.oShowHide();
+/** 文本 */
+.oText();
+.oPosition();
+.oOverflow();
+/** 背景 */
+.oBg();
+.oColor();
+/** 宽高 */
+.oWidthHeight();
+/** border 1px eg: bd-f1 bd-t1 bd-b1 bd-l1 bd-r1 bd-x1 bd-y1 */
+.oBorder(1, #c7c7c7, px);
+/** 比较占空间，可适当调整，只使用常用的mg/pd */
+/** 0-30px;间隔5 eg: pd-t30 mg-y30 */
+.oPdMgSet(0, 6, 5, px);
+/** 4-16px;间隔4 */
+.oPdMgSet(4, 3, 4);
+.oPdMgSet(40);
+.oPdMgSet(60);

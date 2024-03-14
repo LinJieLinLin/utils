@@ -1,0 +1,20 @@
+.slide-up {
+  animation: 0.5s slide-up;
+  &-enter,
+  &-leave-to {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.3s ease;
+  }
+}
+@keyframes slide-up {
+  0% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

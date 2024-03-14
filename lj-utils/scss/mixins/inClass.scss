@@ -1,0 +1,149 @@
+@use 'sass:color';
+
+// 定义一个 mixin，用于清除浮动
+// $old: 是否使用旧版清除浮动方式，默认为 false
+@mixin iCB($old: false) {
+  @if $old {
+    &:before,
+    &:after {
+      content: '';
+      display: table;
+      font: 0/0;
+    }
+  } @else {
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}
+
+// 定义一个 mixin，用于生成不同类型的边框
+// $type: 边框类型，可选值为 f, t, b, l, r, x, y
+// $width: 边框宽度，默认为 1
+// $style: 边框样式，默认为 solid
+// $c: 边框颜色，默认为 #c7c7c7
+// $util: 边框宽度单位，默认为 px
+@mixin iBtnBgColor(
+$color: gray,
+$type: -1,
+$hover: 2,
+$active: 8,
+$time: 0.3s,
+$animation: ease
+) {
+  background-color: $color;
+  &:hover {
+    @if $type==0 {
+      background-color: $color;
+    }
+    @if $type>0 {
+      background-color: color.adjust($color, $lightness: $hover + 0%);
+    }
+    @if $type<0 {
+      background-color: color.adjust($color, $lightness: -$hover + 0%);
+    }
+    transition: all $time $animation;
+  }
+  &:active {
+    @if $type==0 {
+      background-color: $color;
+    }
+    @if $type>0 {
+      background-color: color.adjust($color, $lightness: $active + 0%);
+    }
+    @if $type<0 {
+      background-color: color.adjust($color, $lightness: -$active + 0%);
+    }
+  }
+}
+// 定义一个 mixin，用于快速设置 flex 布局
+@mixin iFlex($k: flex) {
+  @if $k==flex {
+    display: flex;
+  } @else if $k==flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  } @else if $k==flex-column {
+    display: flex;
+    flex-direction: column;
+  } @else if $k==flex-center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  } @else if $k==flex-middle {
+    display: flex;
+    align-items: center;
+  } @else if $k==flex-column-between {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  } @else if $k==flex-column-around {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  } @else if $k==flex-row-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  } @else if $k==flex-row-around {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+// 定义一个 mixin，用于生成不同类型的边框
+// $type: 边框类型，可选值为 [类型: f:full, t:top, r:right, b:bottom, l:left]
+// $width: 边框宽度，默认为 1
+// $style: 边框样式，默认为 solid [样式：solid,dashed,dotted,double,groove,ridge,inset,outset]
+// $c: 边框颜色，默认为 #c7c7c7
+// $util: 边框宽度单位，默认为 px
+@mixin iBorder($type: f, $width: 1, $style: solid, $c: #c7c7c7, $util: px) {
+  @if $type==f {
+    border: $width + $util $style $c;
+  } @else if $type==t {
+    border-top: $width + $util $style $c;
+  } @else if $type==b {
+    border-bottom: $width + $util $style $c;
+  } @else if $type==l {
+    border-left: $width + $util $style $c;
+  } @else if $type==r {
+    border-right: $width + $util $style $c;
+  } @else if $type==x {
+    border-left: $width + $util $style $c;
+    border-right: $width + $util $style $c;
+  } @else if $type==y {
+    border-top: $width + $util $style $c;
+    border-bottom: $width + $util $style $c;
+  }
+}
+
+/**
+icon背景
+eg: @include iIcon(close,16)
+**/
+@mixin iIcon(
+  $name,
+  $sw,
+  $sh: $sw,
+  $w: 0,
+  $h: 0,
+  $path: './assets/icon/',
+  $suffix: '.png'
+) {
+  background-image: url($path + $name + $suffix);
+  background-size: $sw + px $sh + px;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  @if $w==0 {
+    width: $sw + px;
+    height: $sh + px;
+  } @else {
+    width: $w + px;
+    height: $h + px;
+  }
+}
