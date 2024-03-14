@@ -3,10 +3,7 @@
 <!-- [![forks](https://img.shields.io/github/forks/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils) -->
 <!-- [![issues](https://img.shields.io/github/issues/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils/issues) -->
 
-[![stars](https://img.shields.io/github/stars/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils)
-[![Website](https://img.shields.io/badge/ljUtils-up-blue?style=flat-square)](https://linjielinlin.github.io/utils/lj-utils/index.html)
-[![release](https://img.shields.io/github/v/release/LinJieLinLin/utils?style=flat-square)](https://github.com/LinJieLinLin/utils/releases)
-[![license](https://img.shields.io/github/license/LinJieLinLin/utils?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
+[![stars](https://img.shields.io/github/stars/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils) [![Website](https://img.shields.io/badge/ljUtils-up-blue?style=flat-square)](https://linjielinlin.github.io/utils/lj-utils/index.html) [![release](https://img.shields.io/github/v/release/LinJieLinLin/utils?style=flat-square)](https://github.com/LinJieLinLin/utils/releases) [![license](https://img.shields.io/github/license/LinJieLinLin/utils?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
 
 ## 介绍
 
@@ -54,7 +51,7 @@ const ljUtils = require('lj-utils')
 
 ```html
 <head>
-  <script src="https://npm.elemecdn.com/lj-utils@latest/index.umd.js"></script>
+  <script src="https://lj4.top/utils/lj-utils/index.umd.js"></script>
   <script>
     window.onload = function () {
       console.log(window.ljFn)
