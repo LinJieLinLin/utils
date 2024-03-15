@@ -4,37 +4,7 @@
  * @date 2022-05-11 22:07:43
  */
 
-import { getObj, safeData, setObj } from '../base'
-
-const on = (function () {
-  if (typeof document.addEventListener === 'function') {
-    return function (el: any, event: string, handler: any) {
-      if (el && event && handler) {
-        el.addEventListener(event, handler, false)
-      }
-    }
-  }
-  return function (el: any, event: string, handler: any) {
-    if (el && event && handler) {
-      el.attachEvent('on' + event, handler)
-    }
-  }
-})()
-
-const off = (function () {
-  if (typeof document.removeEventListener === 'function') {
-    return function (el: any, event: string, handler: any) {
-      if (el && event) {
-        el.removeEventListener(event, handler, false)
-      }
-    }
-  }
-  return function (el: any, event: string, handler: any) {
-    if (el && event) {
-      el.detachEvent('on' + event, handler)
-    }
-  }
-})()
+import { getObj, safeData, setObj, on, off } from '../base'
 
 interface DragInfo {
   count: number
