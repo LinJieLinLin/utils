@@ -836,7 +836,7 @@ export const debounce = function (func: Function, delay: number) {
  * @param {function} handler - 事件处理函数
  */
 export const on = (function () {
-  if (typeof document.addEventListener === 'function') {
+  if (typeof globalThis.document?.addEventListener === 'function') {
     return function (el: any, event: string, handler: any) {
       if (el && event && handler) {
         el.addEventListener(event, handler, false)
@@ -858,7 +858,7 @@ export const on = (function () {
  * @param {function} handler - 事件处理函数
  */
 export const off = (function () {
-  if (typeof document.removeEventListener === 'function') {
+  if (typeof globalThis.document?.removeEventListener === 'function') {
     return function (el: any, event: string, handler: any) {
       if (el && event) {
         el.removeEventListener(event, handler, false)
