@@ -719,8 +719,14 @@
      * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 log 5 debug
      * @param {AnyObject} logConfig 重写配置
      * @param {function} logConfig.error 错误日志回调（做额外处理用）
+     * @example
+     * setLog(localStorage.getItem('logLevel'),{
+       error: (...arg) => {
+         // todo
+       }
+     })
      */
-    const setLog = (logLevel, logConfig) => {
+    const setLog = (logLevel = 4, logConfig = { error: 0 }) => {
         // 1 error 2 warn 3 info 4 log 5 debug
         logLevel = logLevel || getEnv('VUE_APP_LOG_LEVEL') || 4;
         const logList = ['log', 'info', 'warn', 'error'];
@@ -731,9 +737,10 @@
         for (let key in logConfig) {
             if (console[key]) {
                 console[key] = (...arg) => {
-                    log[key](...arg, Error().stack?.split('\n')[2]);
+                    const line = safeData(Error(), 'stack', [])?.split('\n')[2] || '';
+                    log[key](...arg, 'line>>' + line);
                     // 回调处理
-                    logConfig[key] && logConfig[key](...arg, Error().stack?.split('\n')[2]);
+                    typeof logConfig[key] === 'function' && logConfig[key](...arg, line);
                 };
             }
         }
@@ -860,6 +867,48 @@
             timeoutIdMap.set(key, timeoutId);
         };
     };
+    /**
+     * @function
+     * @description 添加事件绑定
+     * @param {Element} el - 绑定元素
+     * @param {string} event - 事件名称
+     * @param {function} handler - 事件处理函数
+     */
+    const on = (function () {
+        if (typeof globalThis.document?.addEventListener === 'function') {
+            return function (el, event, handler) {
+                if (el && event && handler) {
+                    el.addEventListener(event, handler, false);
+                }
+            };
+        }
+        return function (el, event, handler) {
+            if (el && event && handler) {
+                el.attachEvent('on' + event, handler);
+            }
+        };
+    })();
+    /**
+     * @function
+     * @description 移除事件绑定
+     * @param {Element} el - 绑定元素
+     * @param {string} event - 事件名称
+     * @param {function} handler - 事件处理函数
+     */
+    const off = (function () {
+        if (typeof globalThis.document?.removeEventListener === 'function') {
+            return function (el, event, handler) {
+                if (el && event) {
+                    el.removeEventListener(event, handler, false);
+                }
+            };
+        }
+        return function (el, event, handler) {
+            if (el && event) {
+                el.detachEvent('on' + event, handler);
+            }
+        };
+    })();
 
     /**
      * @module index
@@ -1693,6 +1742,8 @@
     exports.loadFile = loadFile;
     exports.objToArray = objToArray;
     exports.objToObj = objToObj;
+    exports.off = off;
+    exports.on = on;
     exports.px2vw = px2vw;
     exports.randomInt = randomInt;
     exports.remInit = remInit;

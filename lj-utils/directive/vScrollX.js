@@ -1,38 +1,10 @@
-import { getObj, setObj, safeData } from '../base.js';
+import { getObj, setObj, on, off, safeData } from '../base.js';
 
 /**
  * @module directive
  * @author linjielinlin 993353454@qq.com
  * @date 2022-05-11 22:07:43
  */
-const on = (function () {
-    if (typeof document.addEventListener === 'function') {
-        return function (el, event, handler) {
-            if (el && event && handler) {
-                el.addEventListener(event, handler, false);
-            }
-        };
-    }
-    return function (el, event, handler) {
-        if (el && event && handler) {
-            el.attachEvent('on' + event, handler);
-        }
-    };
-})();
-const off = (function () {
-    if (typeof document.removeEventListener === 'function') {
-        return function (el, event, handler) {
-            if (el && event) {
-                el.removeEventListener(event, handler, false);
-            }
-        };
-    }
-    return function (el, event, handler) {
-        if (el && event) {
-            el.detachEvent('on' + event, handler);
-        }
-    };
-})();
 let dragInfo = getObj('directiveScrollX');
 if (!dragInfo || !dragInfo.position) {
     dragInfo = {

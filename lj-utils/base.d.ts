@@ -228,6 +228,12 @@ export declare const getObj: (key: string, argData?: AnyObject, isDeepCopy?: Boo
  * @description 设置日志输出logLevel 1 error 2 warn 3 info 4 log 5 debug
  * @param {AnyObject} logConfig 重写配置
  * @param {function} logConfig.error 错误日志回调（做额外处理用）
+ * @example
+ * setLog(localStorage.getItem('logLevel'),{
+   error: (...arg) => {
+     // todo
+   }
+ })
  */
 export declare const setLog: (logLevel?: string | number, logConfig?: AnyObject) => void;
 /**
@@ -273,4 +279,20 @@ export declare const autoPlayAudio: (audioUrl: string, isWeixin: boolean) => HTM
  * ```
  */
 export declare const debounce: (func: Function, delay: number) => (...args: any[]) => void;
+/**
+ * @function
+ * @description 添加事件绑定
+ * @param {Element} el - 绑定元素
+ * @param {string} event - 事件名称
+ * @param {function} handler - 事件处理函数
+ */
+export declare const on: (el: any, event: string, handler: any) => void;
+/**
+ * @function
+ * @description 移除事件绑定
+ * @param {Element} el - 绑定元素
+ * @param {string} event - 事件名称
+ * @param {function} handler - 事件处理函数
+ */
+export declare const off: (el: any, event: string, handler: any) => void;
 export {};

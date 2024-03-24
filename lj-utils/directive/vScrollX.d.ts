@@ -24,8 +24,8 @@
  */
 export declare const vScrollX: {
     mounted: (el: HTMLElement) => void;
-    beforeUnmount: (el: any) => void;
+    beforeUnmount: (el: HTMLElement) => void;
     bind: (el: HTMLElement) => void;
-    unbind: (el: any) => void;
+    unbind: (el: HTMLElement) => void;
 };
 export default vScrollX;
