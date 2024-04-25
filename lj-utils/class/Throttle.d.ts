@@ -16,8 +16,8 @@ export declare class Throttle {
      * @param  {function} argFn 回调函数
      * @param  {number} argWait 等待时间,默认1000毫秒
      * @param  {any} args ...args 回调函数的参数
-     * @returns {function}
+     * @returns {void}
      */
-    throttle(argFn: (...arg: any) => any, argWait?: number, ...args: any): (...arg: any) => any;
+    throttle(argFn: (...arg: any) => any, argWait?: number, ...args: any): void;
 }
 export default Throttle;

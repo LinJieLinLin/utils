@@ -1,26 +1,22 @@
 {
   "name": "lj-utils",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "uni-app utils",
   "main": "./index.cjs",
   "module": "./index.js",
-  "types": "./index.d.ts",
   "keywords": [
     "utils",
     "uni-app",
     "js",
-    "vue",
-    "scss"
+    "vue"
   ],
   "author": "linjielinlin",
   "email": "993353454@qq.com",
   "license": "MIT",
   "private": false,
-  "type": "module",
-  "scripts": {},
   "dependencies": {
-    "crypto-js": "^4.1.1",
-    "js-base64": "^3.7.4"
+    "crypto-js": "^4.2.0",
+    "js-base64": "^3.7.7"
   },
   "devDependencies": {},
   "browserslist": [
@@ -28,15 +24,39 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "engineStrict": true,
   "repository": {
     "type": "git",
     "url": "https://gitee.com/uni-pro/utils.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env"
+      ]
+    ],
+    "plugins": [
+      "@babel/plugin-transform-runtime"
+    ]
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [],
+    "extends": [],
+    "globals": {
+      "window": true,
+      "taro": true,
+      "uni": true,
+      "wx": true,
+      "getCurrentPages": true,
+      "uniCloud": true
+    }
+  },
+  "types": "./index.d.ts",
+  "scripts": {}
 }

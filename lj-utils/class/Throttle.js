@@ -16,23 +16,16 @@ class Throttle {
      * @param  {function} argFn 回调函数
      * @param  {number} argWait 等待时间,默认1000毫秒
      * @param  {any} args ...args 回调函数的参数
-     * @returns {function}
+     * @returns {void}
      */
     throttle(argFn, argWait = 1000, ...args) {
         if (argWait - (Date.now() - this.#trTime) <= 0) {
             this.#trTime = Date.now();
             this.clickTime = 0;
-            setTimeout(() => {
-                if (this.clickTime > 0) {
-                    this.#trTime = 0;
-                    this.clickTime = 0;
-                }
-            }, argWait);
-            return argFn(...args);
+            argFn(...args);
         }
         else {
             this.clickTime++;
-            return () => this;
         }
     }
 }
