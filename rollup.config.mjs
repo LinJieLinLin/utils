@@ -43,4 +43,27 @@ export default [
       }),
     ],
   },
+  {
+    input: './src/index.ts',
+    output: [
+      {
+        file: outputPath + '/es5/index.umd.js',
+        name: 'ljFn',
+        format: 'umd',
+      },
+      {
+        file: outputPath + '/es5/index.cjs',
+        format: 'cjs',
+      },
+    ],
+    plugins: [
+      typescript({
+        compilerOptions: {
+          outDir: outputPath,
+          module: 'es2015',
+          target: 'es2015',
+        },
+      }),
+    ],
+  },
 ]

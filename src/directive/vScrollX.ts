@@ -93,12 +93,12 @@ const beforeUnmount = function (el: HTMLElement) {
  * @description pc滚动条鼠标左右拖拽，用于父节点
  * @example
  * // 注册1
- * import scrollX from './scrollX';
+ * import scrollX from 'lj-utils/directive/vScrollX';
  * directives: {
- *   scrollX: scrollX,
+ *   scrollX,
  * },
  * // 注册2 for <script setup>
- * import vScrollX from './scrollX';
+ * import vScrollX from 'lj-utils/directive/vScrollX';
  *
  * <view
  *     id="a"
