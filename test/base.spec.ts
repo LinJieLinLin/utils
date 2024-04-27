@@ -60,20 +60,34 @@ describe('base', () => {
     expect(fn(1000)).resolves.toBe(true)
   })
   it('safeData', function () {
-    const obj: { [key: string]: any } = { b: '', c: 0, d: { a: 1, b: 2 } }
+    const obj: { [key: string]: any } = {
+      b: '',
+      c: 0,
+      d: { a: 1, b: 2 },
+      e: false,
+    }
     const fn = j.safeData
     expect(fn(obj.a, 'a')).toBe(undefined)
     expect(fn(obj, 'a')).toBe(undefined)
+    console.log('----------------------')
+    console.log(obj)
     expect(fn(obj, 'd.a')).toBe(1)
-    expect(fn(obj, 'd.a.a', 2, 1)).toBe(2)
+    expect(fn(obj, 'd.a', 2, 1)).toBe(true)
+    expect(fn(obj, 'd.a')).toBe(2)
+    expect(fn(obj, 'd.a.a', 2, 1)).toBe(false)
     expect(fn(obj, 'a', 0)).toBe(0)
-    expect(fn(obj, 'b', 0)).toBe(0)
+    expect(fn(obj, 'b', 0)).toBe('')
+    expect(fn(obj, 'c', false)).toBe(0)
     expect(fn(obj, 'b')).toBe('')
     expect(fn(obj, 'c')).toBe(0)
-    expect(fn(obj, 'c', '')).toBe('')
-    expect(fn(obj, 'a', 'a', true)).toBe('a')
+    expect(fn(obj, 'c', '')).toBe(0)
+    expect(fn(obj, 'a', 'a', true)).toBe(true)
+    expect(fn(obj, 'c.a.a.a', '1', true)).toBe(false)
+    expect(fn(obj, 'c.a.a.a', '2', true)).toBe(false)
     const safe = j.safe
-    expect(safe({ a: { b: { c: { d: 1, e: 2 } } } }, 'a.b.c.d', 1)).toBe(1)
+    const objS = { a: { b: { c: { d: 1, e: 2 } } }, aa: null }
+    expect(safe(objS, 'a.b.c.d', 1)).toBe(1)
+    expect(safe(objS, 'aa')).toBe(null)
   })
   it('setUrlParams', function () {
     const fn = j.setUrlParams

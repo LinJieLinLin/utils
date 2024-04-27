@@ -40,7 +40,7 @@
     "setPackage": "node --experimental-json-modules --no-warnings setPackage.js",
     "b": "rm -rf build/* && rollup -c && cp -rf ./static/* ./build && cp -rf *.md ./build/ && node setMetaData && npm run setPackage &&sed -i -r 's/index.ts/index.js/g' ./build/package.json",
     "test": "jest",
-    "testWatch": "jest ./test/class/Throttle.spec.ts --watch --reporters=\"default\" ",
+    "testWatch": "jest ./test/base.spec.ts --watch --reporters=\"default\" ",
     "doc": "rm -rf dist/*&&jsdoc -c jsdoc.json && cp static/baidu.js dist/lj-utils/scripts/baidu.js && cp -r ./build/* dist/lj-utils/",
     "build": "npm run b && npm run doc && jest",
     "runDoc": "npm run doc && cd dist && http-server -d dist -p 1000 -c-1 -o",

@@ -368,49 +368,22 @@ export const safe = function safe<
   argCheck: K,
   argValue?: ValueOf<T, K>,
   argSetValueForce?: Bool
-): ValueOf<T, K> | undefined | string {
-  if (!argData) {
-    return argValue
-  }
-  if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
-    console.warn('argCheck请传入string当前为:' + argCheck)
-    return ''
-  }
-  const temKey = argCheck.toString().split('.')
-  const temLen = temKey.length
-  if (temLen > 1) {
-    for (let i = 0; i < temLen - 1; i++) {
-      if (typeof argData[temKey[i]] !== 'object') {
-        if (argSetValueForce) {
-          console.warn('safeData setValue err：', argData, 'index:', i)
-        }
-        return argValue
-      }
-      argData = argData[temKey[i]] || {}
-    }
-  }
-  if (argSetValueForce) {
-    ;(argData as AnyObject)[temKey[temLen - 1]] = argValue
-  }
-  if (typeof argValue === 'undefined') {
-    return argData[temKey[temLen - 1]]
-  } else {
-    return argData[temKey[temLen - 1]] || argValue
-  }
+): ValueOf<T, K> | undefined | string | boolean {
+  return safeData(argData, argCheck, argValue, argSetValueForce)
 }
 /**
  * @function
  * @description 数据安全访问
  * @param  {any} argData  [原始数据]
  * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
- * @param  {any} argValue [如果数据有误，返回的值，选填]
- * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue]
+ * @param  {any} argValue [如果数据为undefined/null,返回argValue，选填]
+ * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue,强制赋值时只返回true/false]
  * @returns {any}
  */
 export const safeData = (
   argData: any,
   argCheck: string,
-  argValue?: any,
+  argValue: any = undefined,
   argSetValueForce?: Bool
 ): any => {
   if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
@@ -426,8 +399,15 @@ export const safeData = (
     for (let i = 0; i < temLen - 1; i++) {
       if (typeof argData[temKey[i]] !== 'object') {
         if (argSetValueForce) {
-          console.warn('safeData setValue err：', argData, 'index:', i)
+          console.warn(
+            'safeData setValue err，data:',
+            argData,
+            'no key:',
+            argCheck
+          )
+          return false
         } else {
+          console.warn('noData return argValue', i)
           return argValue
         }
       }
@@ -436,11 +416,12 @@ export const safeData = (
   }
   if (argSetValueForce) {
     argData[temKey[temLen - 1]] = argValue
+    return true
   }
   if (typeof argValue === 'undefined') {
     return argData[temKey[temLen - 1]]
   } else {
-    return argData[temKey[temLen - 1]] || argValue
+    return argData[temKey[temLen - 1]] ?? argValue
   }
 }
 
