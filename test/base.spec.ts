@@ -69,8 +69,6 @@ describe('base', () => {
     const fn = j.safeData
     expect(fn(obj.a, 'a')).toBe(undefined)
     expect(fn(obj, 'a')).toBe(undefined)
-    console.log('----------------------')
-    console.log(obj)
     expect(fn(obj, 'd.a')).toBe(1)
     expect(fn(obj, 'd.a', 2, 1)).toBe(true)
     expect(fn(obj, 'd.a')).toBe(2)
