@@ -585,6 +585,8 @@ export const randomInt = (min: number = 0, max: number = 100): number => {
  * @function
  * @description 设置env参数，一般在main.js中调用
  * @param  {AnyObject} env 要设置的值
+ * @example
+ * setEnv(import.meta.env)
  */
 export const setEnv = (env: AnyObject) => {
   ENV = env
@@ -629,14 +631,17 @@ export const getObj = (
   isDeepCopy?: Bool
 ): AnyObject => {
   let res: AnyObject = safeData(DATA_OBJECT, key, {})
-  if (argData) {
-    res = Object.assign(res, argData)
-  }
-  if (!isDeepCopy) {
+  if (typeof res !== 'object') {
+    console.warn('DATA_OBJECT.' + key + ' is not a object')
     return res
-  } else {
-    return JSON.parse(JSON.stringify(res))
   }
+  if (isDeepCopy) {
+    res = deepCopy(res)
+  }
+  if (argData) {
+    Object.assign(res, argData)
+  }
+  return res
 }
 
 /**
@@ -729,7 +734,7 @@ export const deepCopy = (obj: any, hash = new WeakMap()): any => {
  * ```
  */
 export const requestDeviceMotionPermission = () => {
-  if (typeof (DeviceMotionEvent as any).requestPermission === 'function') {
+  if (typeof (DeviceMotionEvent as any)?.requestPermission === 'function') {
     return (DeviceMotionEvent as any)
       .requestPermission()
       .then((permissionState: string) => {
@@ -792,23 +797,19 @@ export const autoPlayAudio = (
  * debouncedHello('Hello from 2');
  * ```
  */
-export const debounce = function (func: Function, delay: number) {
-  let timeoutIdMap = new Map<string, any>()
-  return function (...args: any[]) {
-    // @ts-ignore
-    const context = this
-    const key = JSON.stringify(args)
-
-    clearTimeout(timeoutIdMap.get(key))
-
-    const timeoutId = setTimeout(() => {
-      func.apply(context, args)
-      timeoutIdMap.delete(key)
+export const debounce = <T extends (...args: any) => any>(
+  fn: T,
+  delay: number = 300,
+  ...extra: any[]
+) => {
+  let timer: ReturnType<typeof setTimeout>
+  return function (this: any, ...args: Parameters<T>) {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn.apply(this, [...args, ...extra])
     }, delay)
-    timeoutIdMap.set(key, timeoutId)
   }
 }
-
 /**
  * @function
  * @description 添加事件绑定

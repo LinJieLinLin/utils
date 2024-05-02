@@ -14,20 +14,16 @@ describe('Throttle', () => {
       runCount++
       return typeof arg
     }
-    expect(tr.clickTime).toBe(0)
     tr.throttle(fn, 1000, 1, 2, 3)
     tr.throttle(fn, 1000, 1, 2, 3)
     tr.throttle(fn, 1000, 1, 2, 3)
-    expect(tr.clickTime).toBe(2)
     expect(runCount).toBe(1)
     await sleep(1010)
     tr.throttle(fn, 1000, 1, 2, 3)
     tr.throttle(fn)
-    expect(tr.clickTime).toBe(1)
     expect(runCount).toBe(2)
     await sleep(1010)
     tr.throttle(fn, 1000, 1, 2, 3)
-    expect(tr.clickTime).toBe(0)
     expect(runCount).toBe(3)
   })
 })

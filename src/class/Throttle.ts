@@ -9,7 +9,6 @@
  */
 export class Throttle {
   #trTime = 0
-  clickTime = 0
   /**
    * @function
    * @description 函数节流，触发一次后，再间隔n毫秒后才会被触发
@@ -25,10 +24,7 @@ export class Throttle {
   ): void {
     if (argWait - (Date.now() - this.#trTime) <= 0) {
       this.#trTime = Date.now()
-      this.clickTime = 0
       argFn(...args)
-    } else {
-      this.clickTime++
     }
   }
 }

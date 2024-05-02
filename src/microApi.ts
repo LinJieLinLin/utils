@@ -636,73 +636,78 @@ export const downloadImgs = async (
   argImgList: unknown,
   argIsLocal: Bool = false
 ): Promise<any> => {
-  let isAuth = true
-  let res = null
-  let imgList: string[] = []
-  if (argImgList && typeof argImgList === 'string') {
-    imgList = [argImgList]
-  }
-  imgList = argImgList as string[]
-  if (!imgList.length) {
-    console.error('参数有误！')
-    return Promise.reject(false)
-  }
-  L.loading(1)
-  await checkSetting('writePhotosAlbum').catch((err) => {
-    console.error('writePhotosAlbum error:', err)
-    isAuth = false
-    L.loading()
-  })
-  // 拒绝授权处理
-  if (!isAuth) {
-    res = await P('showModal', {
-      title: '提示',
-      content: '需要您授权保存相册',
-      showCancel: false,
-      async success() {
-        const res = await P('openSetting')
-        if (res.authSetting['scope.writePhotosAlbum']) {
-          app.showModal({
-            title: '提示',
-            content: '已获得权限，请重新操作！',
-            showCancel: false,
-          })
-          return true
-        } else {
-          app.showModal({
-            title: '提示',
-            content: '未获得权限，将无法保存到相册哦~',
-            showCancel: false,
-          })
-          return false
-        }
-      },
-    })
-  }
-  for (const img of imgList) {
-    let tempFilePath = img
-    if (!argIsLocal) {
-      res = await P('downloadFile', {
-        url: img,
-      })
-      tempFilePath = res.tempFilePath
+  try {
+    let isAuth = true
+    let res = null
+    let imgList: string[] = []
+    if (argImgList && typeof argImgList === 'string') {
+      imgList = [argImgList]
     }
-    let saveFail = false
-    await P('saveImageToPhotosAlbum', {
-      filePath: tempFilePath,
-    }).catch((err) => {
-      saveFail = true
-      console.error('saveImageToPhotosAlbum error:', err)
-    })
-    if (saveFail) {
-      L.loading()
-      toast('保存到相册失败，请重试！')
+    imgList = argImgList as string[]
+    if (!imgList.length) {
+      console.error('参数有误！')
       return Promise.reject(false)
     }
+    L.loading(1)
+    await checkSetting('writePhotosAlbum').catch((err) => {
+      console.error('writePhotosAlbum error:', err)
+      isAuth = false
+      L.loading()
+    })
+    // 拒绝授权处理
+    if (!isAuth) {
+      res = await P('showModal', {
+        title: '提示',
+        content: '需要您授权保存相册',
+        showCancel: false,
+        async success() {
+          const res = await P('openSetting')
+          if (res.authSetting['scope.writePhotosAlbum']) {
+            app.showModal({
+              title: '提示',
+              content: '已获得权限，请重新操作！',
+              showCancel: false,
+            })
+            return true
+          } else {
+            app.showModal({
+              title: '提示',
+              content: '未获得权限，将无法保存到相册哦~',
+              showCancel: false,
+            })
+            return false
+          }
+        },
+      })
+    }
+    for (const img of imgList) {
+      let tempFilePath = img
+      if (!argIsLocal) {
+        res = await P('downloadFile', {
+          url: img,
+        })
+        tempFilePath = res.tempFilePath
+      }
+      let saveFail = false
+      await P('saveImageToPhotosAlbum', {
+        filePath: tempFilePath,
+      }).catch((err) => {
+        saveFail = true
+        console.error('saveImageToPhotosAlbum error:', err)
+      })
+      if (saveFail) {
+        L.loading()
+        toast('保存到相册失败，请重试！')
+        return Promise.reject(false)
+      }
+    }
+    L.loading()
+    toast('下载完成！')
+    return Promise.resolve(true)
+  } catch (e) {
+    console.log(e)
+    return Promise.reject(false)
   }
-  L.loading()
-  toast('下载完成！')
-  return Promise.resolve(true)
 }
 /**
  * @function
@@ -863,7 +868,6 @@ export const uploadImgs = async (
   }
   return Promise.resolve(tempFilePaths)
 }
-
 /**
  * @function
  * @description 检测浏览器状态，系统状态 *
