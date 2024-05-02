@@ -441,46 +441,19 @@
      * @returns {any}
      */
     const safe = function safe(argData, argCheck, argValue, argSetValueForce) {
-        if (!argData) {
-            return argValue;
-        }
-        if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
-            console.warn('argCheck请传入string当前为:' + argCheck);
-            return '';
-        }
-        const temKey = argCheck.toString().split('.');
-        const temLen = temKey.length;
-        if (temLen > 1) {
-            for (let i = 0; i < temLen - 1; i++) {
-                if (typeof argData[temKey[i]] !== 'object') {
-                    if (argSetValueForce) {
-                        console.warn('safeData setValue err：', argData, 'index:', i);
-                    }
-                    return argValue;
-                }
-                argData = argData[temKey[i]] || {};
-            }
-        }
-        if (argSetValueForce) {
-            argData[temKey[temLen - 1]] = argValue;
-        }
-        if (typeof argValue === 'undefined') {
-            return argData[temKey[temLen - 1]];
-        }
-        else {
-            return argData[temKey[temLen - 1]] || argValue;
-        }
+        return safeData(argData, argCheck, argValue, argSetValueForce);
     };
     /**
      * @function
      * @description 数据安全访问
      * @param  {any} argData  [原始数据]
      * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
-     * @param  {any} argValue [如果数据有误，返回的值，选填]
-     * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue]
+     * @param  {any} argValue [如果数据为undefined/null,返回argValue，选填]
+     * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue,强制赋值时只返回true/false]
      * @returns {any}
      */
-    const safeData = (argData, argCheck, argValue, argSetValueForce) => {
+    const safeData = (argData, argCheck, argValue = undefined, argSetValueForce) => {
+        var _a;
         if (typeof argCheck !== 'string' && typeof argCheck !== 'number') {
             console.warn('argCheck请传入string当前为:' + argCheck);
             return '';
@@ -494,9 +467,11 @@
             for (let i = 0; i < temLen - 1; i++) {
                 if (typeof argData[temKey[i]] !== 'object') {
                     if (argSetValueForce) {
-                        console.warn('safeData setValue err：', argData, 'index:', i);
+                        console.warn('safeData setValue err，data:', argData, 'no key:', argCheck);
+                        return false;
                     }
                     else {
+                        console.warn('noData return argValue', i);
                         return argValue;
                     }
                 }
@@ -505,12 +480,13 @@
         }
         if (argSetValueForce) {
             argData[temKey[temLen - 1]] = argValue;
+            return true;
         }
         if (typeof argValue === 'undefined') {
             return argData[temKey[temLen - 1]];
         }
         else {
-            return argData[temKey[temLen - 1]] || argValue;
+            return (_a = argData[temKey[temLen - 1]]) !== null && _a !== void 0 ? _a : argValue;
         }
     };
     /**
@@ -665,6 +641,8 @@
      * @function
      * @description 设置env参数，一般在main.js中调用
      * @param  {AnyObject} env 要设置的值
+     * @example
+     * setEnv(import.meta.env)
      */
     const setEnv = (env) => {
         ENV = env;
@@ -704,15 +682,17 @@
      */
     const getObj = (key, argData, isDeepCopy) => {
         let res = safeData(DATA_OBJECT, key, {});
-        if (argData) {
-            res = Object.assign(res, argData);
-        }
-        if (!isDeepCopy) {
+        if (typeof res !== 'object') {
+            console.warn('DATA_OBJECT.' + key + ' is not a object');
             return res;
         }
-        else {
-            return JSON.parse(JSON.stringify(res));
+        if (isDeepCopy) {
+            res = deepCopy(res);
         }
+        if (argData) {
+            Object.assign(res, argData);
+        }
+        return res;
     };
     /**
      * @function
@@ -802,7 +782,7 @@
      * ```
      */
     const requestDeviceMotionPermission = () => {
-        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+        if (typeof (DeviceMotionEvent === null || DeviceMotionEvent === void 0 ? void 0 : DeviceMotionEvent.requestPermission) === 'function') {
             return DeviceMotionEvent
                 .requestPermission()
                 .then((permissionState) => {
@@ -843,10 +823,11 @@
         return audio;
     };
     /**
-     * @desc Debounce function to limit the rate of function calls.
-     * @param {Function} func - The function to be debounced
-     * @param {number} delay - The delay in milliseconds
-     * @return {Function} The debounced function
+     * @function
+     * @description 函数防抖，用于限制函数调用的频率。
+     * @param {Function} func - 要进行防抖的函数
+     * @param {number} delay - 延迟时间，单位毫秒
+     * @return {Function} 返回防抖后的函数
      * @example
      * ```
      * const debouncedHello = debounce(sayHello, 1000);
@@ -854,18 +835,41 @@
      * debouncedHello('Hello from 2');
      * ```
      */
-    const debounce = function (func, delay) {
-        let timeoutIdMap = new Map();
+    const debounce = (fn, delay = 300, ...extra) => {
+        let timer;
         return function (...args) {
-            // @ts-ignore
-            const context = this;
-            const key = JSON.stringify(args);
-            clearTimeout(timeoutIdMap.get(key));
-            const timeoutId = setTimeout(() => {
-                func.apply(context, args);
-                timeoutIdMap.delete(key);
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                fn.call(this, ...args, ...extra);
             }, delay);
-            timeoutIdMap.set(key, timeoutId);
+        };
+    };
+    /**
+     * @function
+     * @description 节流函数:该函数用于限制函数的执行频率，使其在指定的时间间隔内最多执行一次
+     * @param {Function} fn - 要节流的函数。
+     * @param {number} [delay=300] - 函数执行之间的延迟时间（毫秒）。默认为 300 毫秒。
+     * @param {...any} extra - 可选的额外参数，传递给节流函数的原始调用。
+     * @returns {Function} 返回一个新的函数，该函数具有节流行为。
+     * @example
+     * ```
+     * const sayHelloFn = (a: string,b:any) => {
+     *   console.log(a,b);
+     * }
+     * const throttleHello = throttle(sayHelloFn, 300,'extra info);
+     * throttleHello('Hello from 1');
+     * throttleHello('Hello from 2');
+     * // Hello from 1 extra info
+     * ```
+     */
+    const throttle = (fn, delay = 300, ...extra) => {
+        let temTime = 0;
+        return function (...args) {
+            const now = Date.now();
+            if (now - temTime > delay) {
+                temTime = now;
+                fn.call(this, ...args, ...extra);
+            }
         };
     };
     /**
@@ -1799,6 +1803,7 @@
     exports.sleep = sleep;
     exports.string10to62 = string10to62;
     exports.string62to10 = string62to10;
+    exports.throttle = throttle;
     exports.toFixed = toFixed;
     exports.toHump = toHump;
     exports.toLine = toLine;

@@ -9,7 +9,6 @@
  */
 export declare class Throttle {
     #private;
-    clickTime: number;
     /**
      * @function
      * @description 函数节流，触发一次后，再间隔n毫秒后才会被触发

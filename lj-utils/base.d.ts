@@ -136,14 +136,14 @@ type ValueOf<T extends Record<string, any>, K> = K extends `${infer I}.${infer R
  * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue]
  * @returns {any}
  */
-export declare const safe: <T extends Record<string, any>, K extends DotField<T, KeyOf<T, keyof T>>>(argData: T, argCheck: K, argValue?: ValueOf<T, K> | undefined, argSetValueForce?: Bool) => string | ValueOf<T, K> | undefined;
+export declare const safe: <T extends Record<string, any>, K extends DotField<T, KeyOf<T, keyof T>>>(argData: T, argCheck: K, argValue?: ValueOf<T, K> | undefined, argSetValueForce?: Bool) => string | boolean | ValueOf<T, K> | undefined;
 /**
  * @function
  * @description 数据安全访问
  * @param  {any} argData  [原始数据]
  * @param  {string} argCheck [要返回的数据，用'.'连接，数组用'.+数字表示']
- * @param  {any} argValue [如果数据有误，返回的值，选填]
- * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue]
+ * @param  {any} argValue [如果数据为undefined/null,返回argValue，选填]
+ * @param  {boolean|0|1} argSetValueForce [是否强制赋值argValue,强制赋值时只返回true/false]
  * @returns {any}
  */
 export declare const safeData: (argData: any, argCheck: string, argValue?: any, argSetValueForce?: Bool) => any;
@@ -197,6 +197,8 @@ export declare const randomInt: (min?: number, max?: number) => number;
  * @function
  * @description 设置env参数，一般在main.js中调用
  * @param  {AnyObject} env 要设置的值
+ * @example
+ * setEnv(import.meta.env)
  */
 export declare const setEnv: (env: AnyObject) => void;
 /**
@@ -267,10 +269,11 @@ export declare const requestDeviceMotionPermission: () => any;
  */
 export declare const autoPlayAudio: (audioUrl: string, isWeixin: boolean) => HTMLAudioElement;
 /**
- * @desc Debounce function to limit the rate of function calls.
- * @param {Function} func - The function to be debounced
- * @param {number} delay - The delay in milliseconds
- * @return {Function} The debounced function
+ * @function
+ * @description 函数防抖，用于限制函数调用的频率。
+ * @param {Function} func - 要进行防抖的函数
+ * @param {number} delay - 延迟时间，单位毫秒
+ * @return {Function} 返回防抖后的函数
  * @example
  * ```
  * const debouncedHello = debounce(sayHello, 1000);
@@ -278,7 +281,26 @@ export declare const autoPlayAudio: (audioUrl: string, isWeixin: boolean) => HTM
  * debouncedHello('Hello from 2');
  * ```
  */
-export declare const debounce: (func: Function, delay: number) => (...args: any[]) => void;
+export declare const debounce: <T extends (...args: any) => any>(fn: T, delay?: number, ...extra: any[]) => (this: any, ...args: Parameters<T>) => void;
+/**
+ * @function
+ * @description 节流函数:该函数用于限制函数的执行频率，使其在指定的时间间隔内最多执行一次
+ * @param {Function} fn - 要节流的函数。
+ * @param {number} [delay=300] - 函数执行之间的延迟时间（毫秒）。默认为 300 毫秒。
+ * @param {...any} extra - 可选的额外参数，传递给节流函数的原始调用。
+ * @returns {Function} 返回一个新的函数，该函数具有节流行为。
+ * @example
+ * ```
+ * const sayHelloFn = (a: string,b:any) => {
+ *   console.log(a,b);
+ * }
+ * const throttleHello = throttle(sayHelloFn, 300,'extra info);
+ * throttleHello('Hello from 1');
+ * throttleHello('Hello from 2');
+ * // Hello from 1 extra info
+ * ```
+ */
+export declare const throttle: <T extends (...args: any) => any>(fn: T, delay?: number, ...extra: any[]) => (this: any, ...args: Parameters<T>) => void;
 /**
  * @function
  * @description 添加事件绑定

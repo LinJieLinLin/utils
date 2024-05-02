@@ -5,7 +5,7 @@
  * @date 2022-05-11 22:07:43
  * @example
  * const db = new Debounce()
- * db.debounce(fn,500,params1,params*)
+ * db.debounce(fn,300,params1,params*)
  */
 class Debounce {
     #timer;
@@ -13,11 +13,11 @@ class Debounce {
      * @function
      * @description 函数抖动，在等待n毫秒无点击后触发
      * @param  {function} argFn 回调函数
-     * @param  {number} argWait 等待时间,默认0.5秒
+     * @param  {number} argWait 等待时间,默认0.3秒
      * @param  {any} args ...arg 回调函数的参数
      * @returns {function}
      */
-    debounce(argFn, argWait = 500, ...args) {
+    debounce(argFn, argWait = 300, ...args) {
         if (this.#timer) {
             clearTimeout(this.#timer);
         }
