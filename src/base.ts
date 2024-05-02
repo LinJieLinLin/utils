@@ -818,6 +818,16 @@ export const debounce = <T extends (...args: any) => any>(
  * @param {number} [delay=300] - 函数执行之间的延迟时间（毫秒）。默认为 300 毫秒。
  * @param {...any} extra - 可选的额外参数，传递给节流函数的原始调用。
  * @returns {Function} 返回一个新的函数，该函数具有节流行为。
+ * @example
+ * ```
+ * const sayHelloFn = (a: string,b:any) => {
+ *   console.log(a,b);
+ * }
+ * const throttleHello = throttle(sayHelloFn, 300,'extra info);
+ * throttleHello('Hello from 1');
+ * throttleHello('Hello from 2');
+ * // Hello from 1 extra info
+ * ```
  */
 
 export const throttle = <T extends (...args: any) => any>(
