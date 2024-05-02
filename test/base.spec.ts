@@ -217,14 +217,16 @@ describe('base', () => {
     expect(j.getObj('a')?.b).toBe(2)
   })
   it('setLog', function () {
-    // @ts-ignore
-    globalThis.DeviceMotionEvent = undefined
-    j.setLog(1)
-    j.setLog(2)
-    j.setLog(3)
-    j.setLog(4)
-    j.setLog(5, { error: 0 })
-    j.requestDeviceMotionPermission()
+    setTimeout(function () {
+      // @ts-ignore
+      globalThis.DeviceMotionEvent = undefined
+      j.setLog(1)
+      j.setLog(2)
+      j.setLog(3)
+      j.setLog(4)
+      j.setLog(5, { error: 0 })
+      j.requestDeviceMotionPermission()
+    }, 3000)
   })
   it('debounce', async () => {
     let runCount = 0
@@ -245,5 +247,43 @@ describe('base', () => {
     await j.sleep(301)
     dbFn(3, 4)
     expect(runCount).toBe(1)
+  })
+  it('throttle', async function () {
+    let runCount = 0
+    let argList: any[] = []
+    const fn = (...arg: any[]) => {
+      runCount++
+      argList = arg
+      // console.log('-------------------')
+      // console.log(runCount, arg)
+      return typeof arg
+    }
+    const trFn = j.throttle(fn, 1000, 1, 2, 3)
+    trFn(4)
+    trFn(5)
+    expect(runCount).toBe(1)
+    expect(argList).toStrictEqual([4, 1, 2, 3])
+    const trFn1 = j.throttle(fn)
+    trFn1(1)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    await j.sleep(303)
+    trFn1(2)
+    expect(runCount).toBe(3)
+    expect(argList).toStrictEqual([2])
+    await j.sleep(304)
+    trFn1(3)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    trFn1(4)
+    expect(runCount).toBe(4)
+    expect(argList).toStrictEqual([3])
   })
 })

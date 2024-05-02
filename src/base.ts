@@ -786,10 +786,11 @@ export const autoPlayAudio = (
 }
 
 /**
- * @desc Debounce function to limit the rate of function calls.
- * @param {Function} func - The function to be debounced
- * @param {number} delay - The delay in milliseconds
- * @return {Function} The debounced function
+ * @function
+ * @description 函数防抖，用于限制函数调用的频率。
+ * @param {Function} func - 要进行防抖的函数
+ * @param {number} delay - 延迟时间，单位毫秒
+ * @return {Function} 返回防抖后的函数
  * @example
  * ```
  * const debouncedHello = debounce(sayHello, 1000);
@@ -806,8 +807,31 @@ export const debounce = <T extends (...args: any) => any>(
   return function (this: any, ...args: Parameters<T>) {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      fn.apply(this, [...args, ...extra])
+      fn.call(this, ...args, ...extra)
     }, delay)
+  }
+}
+/**
+ * @function
+ * @description 节流函数:该函数用于限制函数的执行频率，使其在指定的时间间隔内最多执行一次
+ * @param {Function} fn - 要节流的函数。
+ * @param {number} [delay=300] - 函数执行之间的延迟时间（毫秒）。默认为 300 毫秒。
+ * @param {...any} extra - 可选的额外参数，传递给节流函数的原始调用。
+ * @returns {Function} 返回一个新的函数，该函数具有节流行为。
+ */
+
+export const throttle = <T extends (...args: any) => any>(
+  fn: T,
+  delay: number = 300,
+  ...extra: any[]
+) => {
+  let temTime: number = 0
+  return function (this: any, ...args: Parameters<T>) {
+    const now = Date.now()
+    if (now - temTime > delay) {
+      temTime = now
+      fn.call(this, ...args, ...extra)
+    }
   }
 }
 /**
