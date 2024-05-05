@@ -1,8 +1,9 @@
 /**
  * @description resolver for unplugin-auto-import
  */
+const fnList = ['']
 export const ljResolver = () => {
-  let hooks: any = []
+  const hooks: any[] = fnList
   return (name: string) => {
     if (!hooks.includes(name)) return
     return {
@@ -11,4 +12,3 @@ export const ljResolver = () => {
     }
   }
 }
-export default ljResolver

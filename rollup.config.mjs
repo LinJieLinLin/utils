@@ -44,6 +44,23 @@ export default [
     ],
   },
   {
+    input: './src/resolver.ts',
+    output: [
+      {
+        file: outputPath + '/resolver.js',
+        name: 'ljResolver',
+        format: 'umd',
+      },
+    ],
+    plugins: [
+      typescript({
+        compilerOptions: {
+          outDir: outputPath,
+        },
+      }),
+    ],
+  },
+  {
     input: './src/index.ts',
     output: [
       {
