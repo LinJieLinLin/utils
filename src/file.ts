@@ -16,16 +16,17 @@ import { safeData } from './base'
  * @example
  * blobToBase64(blob).then(base64 => console.log(base64));
  */
-export const blobToBase64 = async (argBlob: Blob): Promise<any> => {
-  // eslint-disable-next-line no-undef
-  const fileReader = new FileReader()
-  fileReader.readAsDataURL(argBlob)
-  fileReader.onload = (e) => {
-    return Promise.resolve(e && e.target && e.target.result)
-  }
-  fileReader.onerror = () => {
-    return Promise.reject(new Error('文件流异常'))
-  }
+export const blobToBase64 = async (argBlob: Blob): Promise<string> => {
+  return new Promise(function (resolve, reject) {
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(argBlob)
+    fileReader.onload = (e) => {
+      return resolve(e?.target?.result as string)
+    }
+    fileReader.onerror = () => {
+      return reject(new Error('文件流异常'))
+    }
+  })
 }
 /**
  * @function blobUrlToFile
