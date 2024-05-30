@@ -767,7 +767,7 @@ export const uploadImgs = async (
         })
       }
       const getBase64Image = async (argData: any) => {
-        if (argData && argData.img) {
+        if (argData && !argData.img) {
           return { path: null, file: null }
         }
         console.debug('canvas compress start')
