@@ -18,7 +18,9 @@ describe('file', () => {
   })
   it('blobToBase64', async function () {
     const fn = j.blobToBase64
-    expect(await fn(new Blob(['1']))).toBe(undefined)
+    expect(await fn(new Blob(['1']))).toBe(
+      'data:application/octet-stream;base64,MQ=='
+    )
   })
   it('blobUrlToFileMock', async function () {
     const fn = j.blobUrlToFile
