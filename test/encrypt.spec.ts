@@ -39,7 +39,7 @@ describe('encrypt', () => {
     expect(j.deAes(j.enAes('china'))).toBe('china')
     expect(j.decode(j.encode('china', 'aes'), 'aes')).toBe('china')
     let temEncode = j.enAes('china')
-    expect(fn('key', 'key123')).toBe(undefined)
+    expect(fn('key')).toBe(undefined)
     expect(j.deAes(temEncode)).not.toBe('china')
   })
 })

@@ -1,3 +1,10 @@
+// https://www.typescriptlang.org/docs/handbook/utility-types.html#awaitedtype
+
+import { DeepReadonly } from './types'
+
+// Awaited<T> - 从类型 T 中递归去除 Promise，获取返回类型
+type AwaitedDemo = Awaited<Promise<Promise<number>>>
+
 // Partial<T> - 将类型 T 的所有属性设置为可选。
 type PartialDemo = Partial<{ name: string; age: number }>
 
@@ -105,5 +112,15 @@ type T11 = Capitalize<'hello'>
 type UncapitalizeDemo = Uncapitalize<string>
 type T12 = Uncapitalize<'Hello'>
 // type T12 = 'hello'
+
+// 自定义映射类型
+const obj = {
+  outer: {
+    inner: 'hello',
+  },
+}
+const deepReadonlyObj: DeepReadonly<typeof obj> = obj
+// deepReadonlyObj.outer.inner = 'world'
+// deepReadonlyObj.outer = 'world'
 
 export default {}

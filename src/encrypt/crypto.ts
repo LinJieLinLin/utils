@@ -4,19 +4,18 @@
  * @date 2022-05-11 22:07:43
  * @description 需安装crypto-js依赖，小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
  */
-import CryptoJS from 'crypto-js'
-
+import Utf8 from 'crypto-js/enc-utf8'
+import AES from 'crypto-js/aes'
+import Base64 from 'crypto-js/enc-base64'
+import MD5 from 'crypto-js/md5'
 let key = 'by'
-let iv = CryptoJS.enc.Utf8.parse('linj')
 /**
  * @function
  * @description aes初始化,选定aes加密码方式后，先执行初始化
  * @param {string} argKey 密钥
- * @param {string} argIv 密钥偏移量
  */
-export function aesInit(argKey: string, argIv: string) {
+export function aesInit(argKey: string) {
   key = argKey //密钥
-  iv = CryptoJS.enc.Utf8.parse(argIv) // 十六进制数作为密钥偏移量
 }
 
 /**
@@ -26,11 +25,7 @@ export function aesInit(argKey: string, argIv: string) {
  * @returns {string} 已加密内容
  */
 export const enAes = (word: string | number): string =>
-  CryptoJS.AES.encrypt(word.toString(), key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  }).toString()
+  AES.encrypt(word.toString(), key).toString()
 /**
  * @function
  * @description aes解密
@@ -39,11 +34,7 @@ export const enAes = (word: string | number): string =>
  */
 export const deAes = (word: string): string => {
   try {
-    return CryptoJS.AES.decrypt(word, key, {
-      iv: iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-    }).toString(CryptoJS.enc.Utf8)
+    return AES.decrypt(word, key).toString(Utf8)
   } catch (error) {
     console.error(error)
     return ''
@@ -57,7 +48,7 @@ export const deAes = (word: string): string => {
  * @returns {string} 已加密内容
  */
 export const md5 = (argData: string | CryptoJS.lib.WordArray): string =>
-  CryptoJS.MD5(argData).toString()
+  MD5(argData).toString()
 /**
  * @function
  * @description base64 加密
@@ -66,8 +57,8 @@ export const md5 = (argData: string | CryptoJS.lib.WordArray): string =>
  */
 export const enBase64 = (argData: string | number): string => {
   argData = argData.toString() || ''
-  let wordArray = CryptoJS.enc.Utf8.parse(argData)
-  let base64 = CryptoJS.enc.Base64.stringify(wordArray)
+  let wordArray = Utf8.parse(argData)
+  let base64 = Base64.stringify(wordArray)
   return base64
 }
 /**
@@ -78,8 +69,8 @@ export const enBase64 = (argData: string | number): string => {
  */
 export const deBase64 = (argData: string): string => {
   argData = argData || ''
-  let wordArray = CryptoJS.enc.Base64.parse(argData)
-  let base64 = wordArray.toString(CryptoJS.enc.Utf8)
+  let wordArray = Base64.parse(argData)
+  let base64 = wordArray.toString(Utf8)
   return base64
 }
 
