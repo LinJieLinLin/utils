@@ -2,8 +2,9 @@
 
 <!-- [![forks](https://img.shields.io/github/forks/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils) -->
 <!-- [![issues](https://img.shields.io/github/issues/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils/issues) -->
+<!-- <img src="" alt="bundle size"> -->
 
-[![stars](https://img.shields.io/github/stars/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils) [![Website](https://img.shields.io/badge/ljUtils-up-blue?style=flat-square)](https://linjielinlin.github.io/utils/lj-utils/index.html) [![release](https://img.shields.io/github/v/release/LinJieLinLin/utils?style=flat-square)](https://github.com/LinJieLinLin/utils/releases) [![license](https://img.shields.io/github/license/LinJieLinLin/utils?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License)
+[![minzipped](https://badgen.net/bundlephobia/minzip/lj-utils?label=minzipped)](https://bundlephobia.com/package/lj-utils) [![stars](https://img.shields.io/github/stars/LinJieLinLin/utils?style=flat-square&logo=GitHub)](https://github.com/LinJieLinLin/utils) [![Website](https://img.shields.io/badge/ljUtils-up-blue?style=flat-square)](https://linjielinlin.github.io/utils/lj-utils/index.html) [![release](https://img.shields.io/github/v/release/LinJieLinLin/utils?style=flat-square)](https://github.com/LinJieLinLin/utils/releases) [![license](https://img.shields.io/github/license/LinJieLinLin/utils?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License) [![tree](https://badgen.net/bundlephobia/tree-shaking/lj-utils?label=tree-shaking)](https://bundlephobia.com/package/lj-utils)
 
 ## 介绍
 

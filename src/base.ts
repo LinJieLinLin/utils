@@ -460,7 +460,7 @@ export const setUrlParams = (argParams: any, noMark?: boolean): string => {
  */
 export const getUrlParam = (
   argName: string,
-  argUrl: string = globalThis.location.search || ''
+  argUrl: string = globalThis.location.search || globalThis.location.hash
 ): string => {
   let result = argUrl.match(new RegExp('[?&]' + argName + '=([^&]+)', 'i'))
   if (!result) {
