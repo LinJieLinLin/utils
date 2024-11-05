@@ -725,7 +725,7 @@ const uploadImgs = async (argOptions = {
                 });
             }
             const getBase64Image = async (argData) => {
-                if (argData && argData.img) {
+                if (argData && !argData.img) {
                     return { path: null, file: null };
                 }
                 console.debug('canvas compress start');

@@ -13,7 +13,7 @@
  * @example
  * blobToBase64(blob).then(base64 => console.log(base64));
  */
-export declare const blobToBase64: (argBlob: Blob) => Promise<any>;
+export declare const blobToBase64: (argBlob: Blob) => Promise<string>;
 /**
  * @function blobUrlToFile
  * @description 将blobUrl转换为File对象

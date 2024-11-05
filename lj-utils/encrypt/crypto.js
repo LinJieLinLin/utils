@@ -1,4 +1,7 @@
-import CryptoJS from 'crypto-js';
+import Utf8 from 'crypto-js/enc-utf8';
+import AES from 'crypto-js/aes';
+import Base64 from 'crypto-js/enc-base64';
+import MD5 from 'crypto-js/md5';
 
 /**
  * @module
@@ -7,16 +10,13 @@ import CryptoJS from 'crypto-js';
  * @description 需安装crypto-js依赖，小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
  */
 let key = 'by';
-let iv = CryptoJS.enc.Utf8.parse('linj');
 /**
  * @function
  * @description aes初始化,选定aes加密码方式后，先执行初始化
  * @param {string} argKey 密钥
- * @param {string} argIv 密钥偏移量
  */
-function aesInit(argKey, argIv) {
+function aesInit(argKey) {
     key = argKey; //密钥
-    iv = CryptoJS.enc.Utf8.parse(argIv); // 十六进制数作为密钥偏移量
 }
 /**
  * @function
@@ -24,11 +24,7 @@ function aesInit(argKey, argIv) {
  * @param {string | number} word 待加密内容
  * @returns {string} 已加密内容
  */
-const enAes = (word) => CryptoJS.AES.encrypt(word.toString(), key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-}).toString();
+const enAes = (word) => AES.encrypt(word.toString(), key).toString();
 /**
  * @function
  * @description aes解密
@@ -37,11 +33,7 @@ const enAes = (word) => CryptoJS.AES.encrypt(word.toString(), key, {
  */
 const deAes = (word) => {
     try {
-        return CryptoJS.AES.decrypt(word, key, {
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7,
-        }).toString(CryptoJS.enc.Utf8);
+        return AES.decrypt(word, key).toString(Utf8);
     }
     catch (error) {
         console.error(error);
@@ -54,7 +46,7 @@ const deAes = (word) => {
  * @param {string | CryptoJS.lib.WordArray} argData 待加密内容
  * @returns {string} 已加密内容
  */
-const md5 = (argData) => CryptoJS.MD5(argData).toString();
+const md5 = (argData) => MD5(argData).toString();
 /**
  * @function
  * @description base64 加密
@@ -63,8 +55,8 @@ const md5 = (argData) => CryptoJS.MD5(argData).toString();
  */
 const enBase64 = (argData) => {
     argData = argData.toString() || '';
-    let wordArray = CryptoJS.enc.Utf8.parse(argData);
-    let base64 = CryptoJS.enc.Base64.stringify(wordArray);
+    let wordArray = Utf8.parse(argData);
+    let base64 = Base64.stringify(wordArray);
     return base64;
 };
 /**
@@ -75,8 +67,8 @@ const enBase64 = (argData) => {
  */
 const deBase64 = (argData) => {
     argData = argData || '';
-    let wordArray = CryptoJS.enc.Base64.parse(argData);
-    let base64 = wordArray.toString(CryptoJS.enc.Utf8);
+    let wordArray = Base64.parse(argData);
+    let base64 = wordArray.toString(Utf8);
     return base64;
 };
 /**

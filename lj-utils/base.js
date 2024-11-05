@@ -379,7 +379,7 @@ const setUrlParams = (argParams, noMark) => {
  * @param {string} argUrl url数据
  * @returns {string}
  */
-const getUrlParam = (argName, argUrl = globalThis.location.search || '') => {
+const getUrlParam = (argName, argUrl = globalThis.location.search || globalThis.location.hash) => {
     let result = argUrl.match(new RegExp('[?&]' + argName + '=([^&]+)', 'i'));
     if (!result) {
         return '';

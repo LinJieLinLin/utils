@@ -1,17 +1,10 @@
-/**
- * @module
- * @author linjielinlin 993353454@qq.com
- * @date 2022-05-11 22:07:43
- * @description 需安装crypto-js依赖，小程序引用crypto-js比较大，如果只是base64的转换，引用base64.js即可
- */
-import CryptoJS from 'crypto-js';
+/// <reference types="crypto-js" />
 /**
  * @function
  * @description aes初始化,选定aes加密码方式后，先执行初始化
  * @param {string} argKey 密钥
- * @param {string} argIv 密钥偏移量
  */
-export declare function aesInit(argKey: string, argIv: string): void;
+export declare function aesInit(argKey: string): void;
 /**
  * @function
  * @description aes加密

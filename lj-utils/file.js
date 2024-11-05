@@ -16,15 +16,16 @@ import { safeData } from './base.js';
  * blobToBase64(blob).then(base64 => console.log(base64));
  */
 const blobToBase64 = async (argBlob) => {
-    // eslint-disable-next-line no-undef
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(argBlob);
-    fileReader.onload = (e) => {
-        return Promise.resolve(e && e.target && e.target.result);
-    };
-    fileReader.onerror = () => {
-        return Promise.reject(new Error('文件流异常'));
-    };
+    return new Promise(function (resolve, reject) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(argBlob);
+        fileReader.onload = (e) => {
+            return resolve(e?.target?.result);
+        };
+        fileReader.onerror = () => {
+            return reject(new Error('文件流异常'));
+        };
+    });
 };
 /**
  * @function blobUrlToFile

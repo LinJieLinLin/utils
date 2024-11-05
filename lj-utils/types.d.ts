@@ -3,7 +3,13 @@
  * @date 2022-05-11 22:07:43
  * @description no
  */
-export declare interface UniCloudConfig {
+/**
+ * @description 深度递归设置只读
+ */
+export type DeepReadonly<T> = {
+    readonly [P in keyof T]: DeepReadonly<T[P]>;
+};
+export interface UniCloudConfig {
     /**aliyun、tencent*/
     provider: string;
     /**服务空间ID*/
@@ -11,10 +17,10 @@ export declare interface UniCloudConfig {
     clientSecret?: string;
     endpoint?: string;
 }
-export declare interface AnyFn {
+export interface AnyFn {
     (...arg: any[]): any;
 }
-export declare interface AppConfig extends AnyObject {
+export interface AppConfig extends AnyObject {
     /**localstorage数据是否加密 */
     localEncrypt?: boolean;
     /**uniCloud配置 */
@@ -26,7 +32,7 @@ export declare interface AppConfig extends AnyObject {
     /** 全局请求url */
     baseUrl?: string;
 }
-export declare interface Info {
+export interface Info {
     ua: string;
     platform: string;
     isMobile: boolean;
@@ -45,16 +51,16 @@ export declare interface Info {
     /**判断支付宝环境 */
     isAlipay: boolean;
 }
-export declare interface AnyObject {
-    [key: string]: any;
+export interface AnyObject {
+    [key: string | symbol | number]: any;
 }
-export declare interface StringObject {
+export interface StringObject {
     [key: string]: string;
 }
 /**boolean 1 0类型，用于判断 true|false*/
-export declare type Bool = boolean | 1 | 0;
+export type Bool = boolean | 1 | 0;
 /**https://uniapp.dcloud.io/api/request/network-file.html#uploadfile */
-export declare interface UploadFile {
+export interface UploadFile {
     /**服务器 url */
     url: string;
     /**需要上传的文件列表。使用 files 时，filePath 和 name 不生效。 */
